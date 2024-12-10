@@ -11,16 +11,19 @@
     <header class="header">
         <h1>Short Stories for Kids</h1>
     </header>
-
-    <!-- Menu -->
-    <nav>
-        <ul>
-            <li><a href="{{ url_for('page1') }}">Story Selection</a></li>
-            <li><a href="{{ url_for('page2') }}">Botón 2</a></li>
-            <li><a href="{{ url_for('page3') }}">Botón 3</a></li>
-            <li><a href="{{ url_for('page4') }}">Login</a></li>
-        </ul>
-    </nav>
+    <!-- Button line -->
+    <section class="button-line">
+        <nav>
+            <ul>
+        <a href="{{ url_for('home') }}"><button>Home</button></a>
+        <a href="{{ url_for('index') }}"><button>Story selection</button></a>
+        <a href="{{ url_for('page1') }}"><button>Botón 1</button></a>
+        <a href="{{ url_for('page2') }}"><button>Botón 2</button></a>
+        <a href="{{ url_for('page3') }}"><button>About us</button></a>
+        <a href="{{ url_for('page4') }}"><button>Login</button></a>
+            </ul>
+        </nav>
+    </section>
 
     <!-- Main Content -->
     <main>
