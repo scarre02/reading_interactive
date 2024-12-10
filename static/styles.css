@@ -1,0 +1,86 @@
+/* General Styles */
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+}
+
+.header {
+    text-align: center;
+    padding: 20px;
+    background-color: #e74c3c;
+    color: white;
+}
+
+.button-line {
+    text-align: center;
+    margin: 20px 0;
+}
+
+.button-line button {
+    margin: 5px;
+    padding: 10px 20px;
+    font-size: 16px;
+}
+
+.content {
+    display: flex;
+    justify-content: space-between;
+    align-items: stretch; /* Asegura que ambos cuadros tengan la misma altura */
+    align-items: flex-start;
+    padding: 20px;
+    gap: 20px;
+}
+
+.box {
+    padding: 20px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    border-radius: 10px;
+    background-color: #f9f9f9;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+/* Cuadro de selección por edad más pequeño */
+.box.left {
+    flex: 0 0 30%; /* Tamaño fijo al 30% del contenedor */
+    gap: 10px; /* Espacio entre los botones */
+    align-items: center; /* Centra los botones horizontalmente */
+}
+
+.box.left button {
+    padding: 10px 15px; /* Ajusta el tamaño de los botones */
+    font-size: 16px; /* Tamaño de texto cómodo */
+    border: 1px solid #ccc; /* Opcional: bordes visibles */
+    border-radius: 5px; /* Esquinas redondeadas */
+    background-color: #f0f0f0; /* Color de fondo */
+    cursor: pointer;
+}
+
+.box.left button:hover {
+    background-color: #ddd; /* Efecto al pasar el cursor */
+}
+/* Cuadro de imagen más grande */
+.box.right {
+    flex: 0 0 65%; /* Mismo tamaño que el cuadro izquierdo */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: auto;
+}
+
+.box.right img {
+    width: 80%; /* Asegura que la imagen ocupe todo el ancho del cuadro */
+    max-height: 300px; /* Limita la altura máxima de la imagen a 300px */
+    object-fit: contain; /* Ajusta la imagen sin deformarla */
+    border-radius: 10px;
+}
+
+.footer {
+    text-align: center;
+    padding: 20px;
+    background-color: #f4f4f4;
+    color: white;
+    margin-top: 20px;
+}

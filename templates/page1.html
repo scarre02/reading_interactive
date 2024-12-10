@@ -1,0 +1,21 @@
+{% extends "base.html" %}
+
+{% block title %}Home - Short Stories{% endblock %}
+
+{% block content %}
+<section>
+    <div class="content">
+        <!-- Cuadro de selección por edad -->
+        <div class="box left">
+            <h2>Selecciona la edad</h2>
+            <button>3-5 años</button>
+            <button>6-8 años</button>
+            <button>9-12 años</button>
+        </div>
+        <!-- Cuadro con imagen -->
+        <div class="box right">
+            <img src="{{ url_for('static', filename='peter_rabbit.jpg') }}" alt="Imagen ilustrativa">
+        </div>
+    </div>
+</section>
+{% endblock %}

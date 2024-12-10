@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}My Web App{% endblock %}</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <h1>Short Stories for Kids</h1>
+    </header>
+
+    <!-- Menu -->
+    <nav>
+        <ul>
+            <li><a href="{{ url_for('page1') }}">Story Selection</a></li>
+            <li><a href="{{ url_for('page2') }}">Botón 2</a></li>
+            <li><a href="{{ url_for('page3') }}">Botón 3</a></li>
+            <li><a href="{{ url_for('page4') }}">Login</a></li>
+        </ul>
+    </nav>
+
+    <!-- Main Content -->
+    <main>
+        {% block content %}
+        <!-- Este contenido será reemplazado en las plantillas específicas -->
+        {% endblock %}
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <p>&copy; 2024 My Simple Web Page</p>
+    </footer>
+</body>
+</html>
