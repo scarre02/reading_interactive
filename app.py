@@ -43,6 +43,10 @@ def get_cuento_by_id(id):
 def index():
     return render_template("index.html")
 
+@app.route("/home")
+def home():
+    return render_template("home.html")
+
 @app.route("/process_speech", methods=["POST"])
 def process_speech():
     data = request.get_json()
@@ -54,6 +58,10 @@ def process_speech():
         return jsonify({"correct": True})
     else:
         return jsonify({"correct": False})
+
+@app.route('/Signup')
+def Signup():
+    return render_template('Signup.html')
     
 @app.route('/page1')
 def page1():
@@ -75,6 +83,16 @@ def page4():
 def story_rabbit():
     cuento = get_cuento_by_id(1)
     return render_template('story_rabbit.html', cuento=cuento)
+
+@app.route('/lion')
+def lion():
+    cuento = get_cuento_by_id(2)
+    return render_template('lion.html', cuento=cuento)
+
+@app.route('/tortoise_and_hare')
+def tortoise_and_hare():
+    cuento = get_cuento_by_id(3)
+    return render_template('tortoise_and_hare.html', cuento=cuento)
 
 
 if __name__ == "__main__":
