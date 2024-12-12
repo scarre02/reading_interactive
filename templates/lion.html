@@ -1,18 +1,14 @@
-{% extends "base.html" %}
 
-{% block title %}Home - Short Stories{% endblock %}
-
-{% block content %}
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Story selection - Petter Rabbit</title>
+    <title>Story selection - El leoncito valiente</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
 </head>
 <body>
-    <h1>Petter rabbit</h1>
+    <h1>Lion</h1>
     <a href="/"><button>Volver a la página principal</button></a>
     <h1>{{ cuento["titulo"] }}</h1>
             <div id="story">{{ cuento["contenido"] | safe }}</div>
@@ -53,4 +49,3 @@
             </section>
 </body>
 </html>
-{% endblock %}

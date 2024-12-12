@@ -1,52 +1,35 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Reading interactive</title>
-    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
-</head>
+{% extends "base.html" %}
+
+{% block title %}index - Short Stories{% endblock %}
+
+{% block content %}
+
 <body>
-    <!-- Header -->
-        <header class="header">
-            <h1>Short stories for Kids</h1>
-        </header>
-    <!-- Button line -->
-    <section class="button-line">
-        <nav>
-            <ul>
-        <a href="{{ url_for('index') }}"><button>Story selection</button></a>
-        <a href="{{ url_for('page1') }}"><button>Botón 1</button></a>
-        <a href="{{ url_for('page2') }}"><button>Botón 2</button></a>
-        <a href="{{ url_for('page3') }}"><button>Botón 3</button></a>
-        <a href="{{ url_for('page4') }}"><button>Login</button></a>
-            </ul>
-        </nav>
-    </section>
-    <!-- Sección Central -->
+    <!-- Central section -->
     <div class="content">
-        <!-- Cuadro de selección por edad -->
-        <div class="box left">
-            <h2>Selecciona la edad</h2>
-            <button>3-5 años</button>
-            <button>6-8 años</button>
-            <button>9-12 años</button>
-        </div>
-        <!-- Cuadro con imagen -->
-        <div class="box right">
-            <a href="{{ url_for('story_rabbit') }}">
-                <img src="{{ url_for('static', filename='peter_rabbit.jpg') }}" alt="Imagen ilustrativa">
-            </a>            
+        <!-- Image container with 3 blocks per row -->
+        <div class="image-container">
+            <div class="image-block">
+                <a href="{{ url_for('story_rabbit') }}">
+                    <img src="{{ url_for('static', filename='peter_rabbit.jpg') }}" alt="Peter Rabbit">
+                </a>
+                <h3>Peter Rabbit</h3>
+            </div>
+            <div class="image-block">
+                <a href="{{ url_for('lion') }}">
+                    <img src="{{ url_for('static', filename='lion.jpg') }}" alt="Lion">
+                </a>
+                <h3>Lion</h3>
+            </div>
+            <div class="image-block">
+                <a href="{{ url_for('tortoise_and_hare') }}">
+                    <img src="{{ url_for('static', filename='tortoise and hare.jpg') }}" alt="Tortoise and Hare">
+                </a>
+                <h3>Tortoise and Hare</h3>
+            </div>           
         </div>
     </div>
-    </section>
-    
-        <!-- Footer -->
-        <footer class="footer">
-            <p>&copy; 2024 My Simple Web Page</p>
-        </footer>
-   
-
-   
 </body>
 </html>
+{% endblock %}
+

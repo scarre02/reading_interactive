@@ -1,8 +1,4 @@
-{% extends "base.html" %}
 
-{% block title %}Home - Short Stories{% endblock %}
-
-{% block content %}
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -12,7 +8,7 @@
     <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
 </head>
 <body>
-    <h1>Petter rabbit</h1>
+    <h1>The tortoise and the hare story</h1>
     <a href="/"><button>Volver a la página principal</button></a>
     <h1>{{ cuento["titulo"] }}</h1>
             <div id="story">{{ cuento["contenido"] | safe }}</div>
@@ -53,4 +49,3 @@
             </section>
 </body>
 </html>
-{% endblock %}

@@ -1,86 +1,210 @@
 /* General Styles */
 body {
+    background-image: url('/static/pattern-4145097_1280.webp'); /* path to the background image*/
+    background-size: cover; /* Ensure the image covers the entire screen */
+    background-position: center; /* Center the image */
+    background-repeat: no-repeat; /* Prevent the image from repeating */
+    
+    
     font-family: Arial, sans-serif;
     margin: 0;
     padding: 0;
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
 }
 
-.header {
-    text-align: center;
-    padding: 20px;
-    background-color: #e74c3c;
-    color: white;
+header {
+    position: relative; /* Sets the position of the header to "relative" */
+    background-color: #D2B48C; /* Sets the background color of the header */
+    color: rgba(105, 74, 2, 0.857); /* Sets the text color of the content inside the header to white. */
+    text-align: center; /* Centers the text horizontally inside the header. */
+    padding: 20px; /* Adds space inside all four sides (top, right, bottom, and left) of the header content. */
 }
 
-.button-line {
-    text-align: center;
-    margin: 20px 0;
+.signup-btn {
+    position: absolute; /* Sets the position to "absolute" */
+    top: 50%; /* Positions the button 50% from the top of its container */
+    right: 20px; /* Moves the button 20px away from the right edge of its container */
+    transform: translateY(-50%); /* Offsets the element centering it vertically relative to its container. */
+    background-color:  rgba(105, 74, 2, 0.857); /* Sets the background color of the button */
+    color: white; /* Sets the text color of the button to white. */
+    border: none; /* Removes the border from the button. */
+    padding: 10px 20px; /* Adds 10px of vertical padding (top & bottom) and 20px of horizontal padding (left & right) 
+    to increase the clickable area of the button. */
+    border-radius: 5px; /* Rounds the corners of the button with a radius of 5px. */
+    font-size: 16px; /* Sets the font size of the button text to 16px. */
+    text-decoration: none;
+    cursor: pointer; /* Changes the cursor to a pointer (hand icon) when hovering 
+    over the button, indicating it is clickable. */
 }
 
-.button-line button {
-    margin: 5px;
-    padding: 10px 20px;
-    font-size: 16px;
+.signup-btn:hover {
+    background-color: #c0392b; /* Change the color when hovering the mouse */
+}
+
+/* Button container */
+.button-container {
+    display: flex; /* /* Uses Flexbox layout */
+    justify-content: center; /* Centers the buttons horizontally within the container */
+    align-items: center; /* Centers the buttons vertically within the container */
+    gap: 20px; /* Creates a 20px space (gap) between each button */
+    flex-wrap: wrap; /* Allows the buttons to wrap onto a new row if they don't fit in a single line */
+    max-width: 90%; /* Limits the container's width to 90% of the available width, making it responsive to screen size. */
+    margin: 0 auto; /* Centers the container horizontally */
+    padding: 10px; /* Adds 10px of padding (space) inside the container */
+}
+
+
+/* Style for links that look like buttons */
+.nav-button {
+    display: inline-block; /* Makes the link behave like a button */
+    padding: 15px 30px; /* Size of the button */
+    background-color: #D2B48C; /* Sets the background color of the button to a light brown */
+    color: white; /* Sets the text color to white */
+    text-decoration: none; /* Removes the default underline from the link */
+    border-radius: 5px; /* Rounds the corners of the button  */
+    font-size: 16px; /* Sets the font size of the button text */
+    text-align: center; /* Centers the text */
+    transition: background-color 0.3s ease; /* Adds a smooth animation effect when the background color changes */
+}
+
+/* Hover effect for the .nav-button */
+.nav-button:hover {
+    background-color: #D2B48C; /* Changes the background color of the button when the mouse over it */
+}
+
+/* Main content styles */
+.main-content {
+    flex: 1; /* Uses flexbox to align child elements */
+    display: flex;
+    justify-content: center; /* Centra el contenido horizontally within the container */
+    align-items: center; /* Centers the child elements vertically within the container */
+    height: calc(100vh - 100px); /* Sets the height of the container to fill the full viewport height */
+    height: calc(100vh - 100px); /* Repeats the height calculation for redundancy, but only one of these is necessary */
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
 }
 
 .content {
-    display: flex;
-    justify-content: space-between;
-    align-items: stretch; /* Asegura que ambos cuadros tengan la misma altura */
-    align-items: flex-start;
+    width: 100%;
     padding: 20px;
-    gap: 20px;
+    display: flex;
+    justify-content: center;
 }
 
-.box {
-    padding: 20px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-    border-radius: 10px;
-    background-color: #f9f9f9;
+.main-container {
+    width: 100%;
+    max-width: 1200px;
+    background-color: #fff6d0;
+    padding: 40px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    margin: 0 auto;
+    display: flex;
+    justify-content: center;
+}
+.image-container {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 20px;
+    justify-content: center;
+}
+.image-block {
+    text-align: center;
+}
+
+.image-block img {
+    width: 100%;
+    height: auto;
+    border-radius: 8px;
+}
+
+.image-block h3 {
+    margin-top: 10px;
+    font-size: 1rem;
+}
+
+@media (max-width: 768px) {
+    .image-container {
+        grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+    }
+}
+
+@media (max-width: 480px) {
+    .image-container {
+        grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
+    }
+}
+
+.image-container img {
+    width: calc(40% - 20px); /* /* Sets the width of the image to 40% of its container minus the gap space */
+    max-width: 600px; /* Limits the maximum width of the image to prevent it from becoming too large on larger screens */
+    height: auto; /* Ensures the image maintains its original aspect ratio and scales its height automatically */
+    object-fit: cover; /* Ensures the image covers its container's dimensions while maintaining its aspect ratio, cropping if necessary */
+    border: 2px solid #ddd; /* Adds a 2px solid border with a light gray color */
+    border-radius: 5px; /* Rounds the corners of the image */
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Adds a shadow under the image to give it a modern look */
+}
+
+.image-container img:hover {
+    transform: scale(1.1); /* Zoom effect on hover */
+}
+
+.login-container {
     display: flex;
     flex-direction: column;
-    justify-content: center;
+    align-items: center; /* Centers the buttons horizontally */
+    gap: 20px; /* Space between the buttons */
 }
 
-/* Cuadro de selección por edad más pequeño */
-.box.left {
-    flex: 0 0 30%; /* Tamaño fijo al 30% del contenedor */
-    gap: 10px; /* Espacio entre los botones */
-    align-items: center; /* Centra los botones horizontalmente */
-}
-
-.box.left button {
-    padding: 10px 15px; /* Ajusta el tamaño de los botones */
-    font-size: 16px; /* Tamaño de texto cómodo */
-    border: 1px solid #ccc; /* Opcional: bordes visibles */
-    border-radius: 5px; /* Esquinas redondeadas */
-    background-color: #f0f0f0; /* Color de fondo */
-    cursor: pointer;
-}
-
-.box.left button:hover {
-    background-color: #ddd; /* Efecto al pasar el cursor */
-}
-/* Cuadro de imagen más grande */
-.box.right {
-    flex: 0 0 65%; /* Mismo tamaño que el cuadro izquierdo */
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    height: auto;
-}
-
-.box.right img {
-    width: 80%; /* Asegura que la imagen ocupe todo el ancho del cuadro */
-    max-height: 300px; /* Limita la altura máxima de la imagen a 300px */
-    object-fit: contain; /* Ajusta la imagen sin deformarla */
-    border-radius: 10px;
-}
-
-.footer {
-    text-align: center;
-    padding: 20px;
-    background-color: #f4f4f4;
+.login-btn {
+    background-color: #D2B48C;
     color: white;
-    margin-top: 20px;
+    border: none;
+    padding: 15px 30px;
+    border-radius: 5px;
+    font-size: 16px;
+    cursor: pointer;
+    width: 200px; /* Fixed size for uniformity */
+    text-align: center;
+    transition: background-color 0.3s ease; /* efecto suave en el cambio de color */
+
+}
+
+.login-btn:hover {
+    background-color: #A0522D;
+}
+
+/* Footer styles */
+footer {
+    text-align: center;
+    background-color: #f4f4f4;
+    color: black;
+    padding: 15px;
+}
+
+/* Responsives Styles Para que tu sitio web se vea bien en dispositivos móviles */
+
+@media (max-width: 768px) {
+    .image-container {
+        flex-direction: column; /* Places the images in a single column */
+        align-items: center;
+    }
+
+    .image-container img {
+        width: 80%; /* Increases the size of images on small screens */
+    }
+
+    .main-content {
+        padding: 10px; /* Reduces the padding on small screens */
+    }
+
+    .login-btn {
+        width: 100%; /* Makes the button take up 100% of the width on small screens */
+        padding: 12px 20px;
+    }
 }

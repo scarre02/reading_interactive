@@ -4,31 +4,31 @@ import random
 
 app = Flask(__name__)
 
-# Configuración de la conexión a MySQL
+# Configuration of the MySQL connection
 db_config = {
-    'host': 'localhost',     # Cambia según tu configuración
-    'user': 'root',    # Cambia 'tu_usuario' por tu usuario MySQL
-    'password': '1234', # Cambia 'tu_contraseña' por tu contraseña MySQL
-    'database': 'cuentos_interactivos'
+    'host': 'localhost',     # Change according to your configuration
+    'user': 'root',    # Replace 'your_user' with your MySQL username
+    'password': '1234', # Replace 'your_password' with your MySQL password"
+    'database': 'interactive_stories'
 }
 def get_cuento_by_id(id):
-    # Conectar a la base de datos
+    # Connect to the database
     conn = mysql.connector.connect(**db_config)
     cursor = conn.cursor(dictionary=True)
 
-    # Seleccionar un cuento by id
+    # Select a story by id
     cursor.execute("SELECT * FROM cuentos WHERE id = %s", (id,))
 
-    cuento = cursor.fetchone()  # Devuelve una fila como diccionario
+    cuento = cursor.fetchone()  # Returns a row as a dictionary
     conn.close()
 
-    # Seleccionar 5 palabras aleatorias del contenido del cuento
+    # Select 5 random words from the story content
     if cuento:
-        contenido = cuento['contenido']  # El contenido del cuento
-        palabras = contenido.split()  # Dividir en palabras
-        palabras_aleatorias = random.sample(palabras, min(len(palabras), 1))  # Seleccionar hasta 5 palabras
+        contenido = cuento['contenido']  # The content of the story
+        palabras = contenido.split()  # Split into words
+        palabras_aleatorias = random.sample(palabras, min(len(palabras), 1))  # Select up to 5 random words
 
-        # Resaltar las palabras seleccionadas en el contenido
+        # Highlight the selected words in the content
         contenido_resaltado = contenido
         for palabra in palabras_aleatorias:
             contenido_resaltado = contenido_resaltado.replace(
@@ -53,7 +53,7 @@ def process_speech():
     spoken_word = data.get("word", "").strip().lower()
     palabras_correctas = data.get("correct_words", [])
 
-    # Compara la palabra pronunciada con las palabras correctas
+    # Compare the spoken word with the correct words
     if spoken_word in palabras_correctas:
         return jsonify({"correct": True})
     else:
@@ -78,6 +78,10 @@ def page3():
 @app.route('/page4')
 def page4():
     return render_template('page4.html')
+
+@app.route("/loggin")
+def loggin():
+    return render_template("loggin.html")
 
 @app.route('/story_rabbit')
 def story_rabbit():

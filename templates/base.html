@@ -7,29 +7,39 @@
     <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
 </head>
 <body>
+    <body class="{{ 'index' if request.endpoint == 'index' else '' }}"></body>
     <!-- Header -->
     <header class="header">
         <h1>Short Stories for Kids</h1>
+        <a href="{{ url_for('Signup') }}"><button class="signup-btn">Sign Up</button></a>
     </header>
+
     <!-- Button line -->
     <section class="button-line">
         <nav>
-            <ul>
-        <a href="{{ url_for('home') }}"><button>Home</button></a>
-        <a href="{{ url_for('index') }}"><button>Story selection</button></a>
-        <a href="{{ url_for('page1') }}"><button>Botón 1</button></a>
-        <a href="{{ url_for('page2') }}"><button>Botón 2</button></a>
-        <a href="{{ url_for('page3') }}"><button>About us</button></a>
-        <a href="{{ url_for('page4') }}"><button>Login</button></a>
-            </ul>
+            <div class="button-container">
+                <a href="{{ url_for('index') }}"><button>Story selection</button></a>
+                <a href="{{ url_for('page1') }}"><button>Botón 1</button></a>
+                <a href="{{ url_for('page2') }}"><button>Botón 2</button></a>
+                <a href="{{ url_for('page3') }}"><button>About us</button></a>
+                <a href="{{ url_for('page4') }}"><button>Login</button></a>
+                <a href="{{ url_for('loggin') }}"><button>loggin</button></a>
+            </div>
         </nav>
     </section>
 
     <!-- Main Content -->
     <main>
-        {% block content %}
-        <!-- Este contenido será reemplazado en las plantillas específicas -->
-        {% endblock %}
+        <div class="main-container">
+            {% block content %}
+            <!-- Este contenido será reemplazado en las plantillas específicas -->
+            {% endblock %}
+        </div>
+        <!-- Sección "landmark" siempre visible -->
+        <section class="landmark">
+            <h2>Contenido destacado</h2>
+            <p>Este contenido estará fijo en el centro de la pantalla.</p>
+        </section>
     </main>
 
     <!-- Footer -->
