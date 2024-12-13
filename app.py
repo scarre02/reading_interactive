@@ -105,6 +105,7 @@ def tortoise_and_hare():
 def the_brave_little_fox():
     story = get_cuento_by_id(4)
     return render_template('the_brave_little_fox.html', story=story)
+
 @app.route('/favicon.ico')
 def favicon():
     return '', 204  # 204 = No Content
