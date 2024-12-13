@@ -135,11 +135,11 @@ header {
 }
 
 .text-container{
-    width: 300px; /* Ajusta el ancho del contenedor */
-    white-space: nowrap; /* Mantiene el texto en una sola línea */
-    overflow: hidden; /* Oculta cualquier parte del texto que se desborde */
-    text-overflow: ellipsis; /* Muestra "..." si el texto se corta */
-    border: 1px solid #ccc; /* Solo para ver los bordes del contenedor */
+    width: 300px; /* Adjusts the container width */
+    white-space: nowrap; /* Keeps the text on a single line */
+    overflow: hidden; /* Hides any part of the text that overflows */
+    text-overflow: ellipsis; /* Displays "..." if the text is truncated */
+    border: 1px solid #ccc; /* Only to view the container borders */
 }
 
 
