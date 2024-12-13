@@ -12,6 +12,7 @@
     <header class="header">
         <h1>Short Stories for Kids</h1>
         <a href="{{ url_for('Signup') }}"><button class="signup-btn">Sign Up</button></a>
+        
     </header>
 
     <!-- Button line -->
@@ -33,27 +34,25 @@
     <main>
         <div class="main-container">
             {% block content %}
-            <!-- Este contenido será reemplazado en las plantillas específicas -->
+            <!-- This content will be replaced in the specific templates -->
             {% endblock %}
         </div>
-        
 
-        
         <!-- Special section only for stories pages -->
-        {% if request.endpoint in ['story_rabbit', 'lion', 'tortoise_and_hare'] %}
+        {% if request.endpoint in ['story_rabbit', 'lion', 'tortoise_and_hare', 'the_brave_little_fox'] %}
         <div class="main-container ">
             <!-- Title -->
-            <div id="story" class="story-content">{{ cuento["contenido"] | safe }}</div>
+            <div id="story" class="story-content">{{ story["contenido"] | safe }}</div>
             <!-- Button to start speech recognition -->
-            <button onclick="startSpeechRecognition()">Speak</button>
+            <button onclick="startSpeechRecognition()" style="font-size: 18px; padding: 10px 20px; width: 150px; height: 50px;">Speak</button>
             <!-- Result area for the spoken word -->
             <div id="result"></div>
             <script>
-                const correctWords = {{ cuento["palabras"] | tojson }}; // Palabras correctas desde el backend
+                const correctWords = {{ story["palabras"] | tojson }}; // Correct words from the backend
         
                 function startSpeechRecognition() {
                     const recognition = new (window.SpeechRecognition || window.webkitSpeechRecognition)();
-                    recognition.lang = 'es-ES'; // Configura el idioma a español
+                    recognition.lang = 'en-US'; // Set the language to English
                     recognition.start();
         
                     recognition.onresult = function (event) {
@@ -79,7 +78,15 @@
                     };
                 }
             </script>
-            
+            <style>
+                .highlight {
+                    background-color: red; 
+                    color: white; 
+                    font-weight: bold;
+                    padding: 2px 4px;
+                    border-radius: 3px;
+                }
+            </style>
         </div>
         {% endif %}
     </main>

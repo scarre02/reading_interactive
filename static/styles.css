@@ -21,6 +21,15 @@ header {
     text-align: center; /* Centers the text horizontally inside the header. */
     padding: 20px; /* Adds space inside all four sides (top, right, bottom, and left) of the header content. */
 }
+.header h1 {
+    font-family:'Amatic SC', cursive;
+    font-size: 4rem; /* Tamaño grande del texto */
+    font-weight: bold; /* Negrita para el título */
+    text-align: center; /* Centrar el título */
+    margin: 0; /* Eliminar márgenes superiores e inferiores */
+    padding: 30px; /* Espaciado interno */
+    color: rgba(105, 74, 2, 0.857); /* Cambiar el color si lo deseas */
+}
 
 .signup-btn {
     position: absolute; /* Sets the position to "absolute" */
@@ -59,12 +68,12 @@ header {
 /* Style for links that look like buttons */
 .nav-button {
     display: inline-block; /* Makes the link behave like a button */
-    padding: 15px 30px; /* Size of the button */
+    padding: 20px 30px; /* Size of the button */
     background-color: #D2B48C; /* Sets the background color of the button to a light brown */
     color: white; /* Sets the text color to white */
     text-decoration: none; /* Removes the default underline from the link */
     border-radius: 5px; /* Rounds the corners of the button  */
-    font-size: 16px; /* Sets the font size of the button text */
+    font-size: 20px; /* Sets the font size of the button text */
     text-align: center; /* Centers the text */
     transition: background-color 0.3s ease; /* Adds a smooth animation effect when the background color changes */
 }
@@ -236,3 +245,5 @@ footer {
         padding: 12px 20px;
     }
 }
+
+

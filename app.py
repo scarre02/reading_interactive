@@ -1,6 +1,7 @@
 from flask import Flask, render_template, request, jsonify
 import mysql.connector
 import random
+import re
 
 app = Flask(__name__)
 
@@ -19,23 +20,25 @@ def get_cuento_by_id(id):
     # Select a story by id
     cursor.execute("SELECT * FROM stories WHERE id = %s", (id,))
 
-    cuento = cursor.fetchone()  # Returns a row as a dictionary
+    story = cursor.fetchone()  # Returns a row as a dictionary
     conn.close()
 
     # Select 5 random words from the story content
-    if cuento:
-        contenido = cuento['contenido']  # The content of the story
+    if story:
+        
+        contenido = story['contenido']  # The content of the story
         palabras = contenido.split()  # Split into words
         palabras_aleatorias = random.sample(palabras, min(len(palabras), 1))  # Select up to 5 random words
 
         # Highlight the selected words in the content
         contenido_resaltado = contenido
         for palabra in palabras_aleatorias:
-            contenido_resaltado = contenido_resaltado.replace(
-                palabra, f'<span class="highlight">{palabra}</span>', 1
-            )
+            contenido_resaltado = re.sub(rf'\b{re.escape(palabra)}\b', 
+                                 f'<span class="highlight">{palabra}</span>', 
+                                 contenido_resaltado, 
+                                 count=1)
 
-        return {"id": cuento['id'], "titulo": cuento['titulo'], "contenido": contenido_resaltado, "palabras": palabras_aleatorias}
+        return {"id": story['id'], "titulo": story['titulo'], "contenido": contenido_resaltado, "palabras": palabras_aleatorias}
     return None
 
 
@@ -85,18 +88,26 @@ def loggin():
 
 @app.route('/story_rabbit')
 def story_rabbit():
-    cuento = get_cuento_by_id(1)
-    return render_template('story_rabbit.html', cuento=cuento)
+    story = get_cuento_by_id(1)
+    return render_template('story_rabbit.html', story=story)
 
 @app.route('/lion')
 def lion():
-    cuento = get_cuento_by_id(2)
-    return render_template('lion.html', cuento=cuento)
+    story = get_cuento_by_id(2)
+    return render_template('lion.html', story=story)
 
 @app.route('/tortoise_and_hare')
 def tortoise_and_hare():
-    cuento = get_cuento_by_id(3)
-    return render_template('tortoise_and_hare.html', cuento=cuento)
+    story = get_cuento_by_id(3)
+    return render_template('tortoise_and_hare.html', story=story)
+
+@app.route('/the_brave_little_fox')
+def the_brave_little_fox():
+    story = get_cuento_by_id(4)
+    return render_template('the_brave_little_fox.html', story=story)
+@app.route('/favicon.ico')
+def favicon():
+    return '', 204  # 204 = No Content
 
 
 if __name__ == "__main__":
