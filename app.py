@@ -17,7 +17,7 @@ def get_cuento_by_id(id):
     cursor = conn.cursor(dictionary=True)
 
     # Select a story by id
-    cursor.execute("SELECT * FROM cuentos WHERE id = %s", (id,))
+    cursor.execute("SELECT * FROM stories WHERE id = %s", (id,))
 
     cuento = cursor.fetchone()  # Returns a row as a dictionary
     conn.close()

@@ -15,14 +15,15 @@
     </header>
 
     <!-- Button line -->
+    <a href="/"><button>Return to the main page</button></a>
     <section class="button-line">
         <nav>
             <div class="button-container">
                 <a href="{{ url_for('index') }}"><button>Story selection</button></a>
                 <a href="{{ url_for('page1') }}"><button>Botón 1</button></a>
                 <a href="{{ url_for('page2') }}"><button>Botón 2</button></a>
-                <a href="{{ url_for('page3') }}"><button>About us</button></a>
-                <a href="{{ url_for('page4') }}"><button>Login</button></a>
+                <a href="{{ url_for('page3') }}"><button>Recommended books</button></a>
+                <a href="{{ url_for('page4') }}"><button>About us</button></a>
                 <a href="{{ url_for('loggin') }}"><button>loggin</button></a>
             </div>
         </nav>
@@ -35,16 +36,58 @@
             <!-- Este contenido será reemplazado en las plantillas específicas -->
             {% endblock %}
         </div>
-        <!-- Sección "landmark" siempre visible -->
-        <section class="landmark">
-            <h2>Contenido destacado</h2>
-            <p>Este contenido estará fijo en el centro de la pantalla.</p>
-        </section>
+        
+
+        
+        <!-- Special section only for stories pages -->
+        {% if request.endpoint in ['story_rabbit', 'lion', 'tortoise_and_hare'] %}
+        <div class="main-container ">
+            <!-- Title -->
+            <div id="story" class="story-content">{{ cuento["contenido"] | safe }}</div>
+            <!-- Button to start speech recognition -->
+            <button onclick="startSpeechRecognition()">Speak</button>
+            <!-- Result area for the spoken word -->
+            <div id="result"></div>
+            <script>
+                const correctWords = {{ cuento["palabras"] | tojson }}; // Palabras correctas desde el backend
+        
+                function startSpeechRecognition() {
+                    const recognition = new (window.SpeechRecognition || window.webkitSpeechRecognition)();
+                    recognition.lang = 'es-ES'; // Configura el idioma a español
+                    recognition.start();
+        
+                    recognition.onresult = function (event) {
+                        const spokenWord = event.results[0][0].transcript;
+                        document.getElementById("result").innerHTML = "Palabra pronunciada: <strong>" + spokenWord + "</strong>";
+                        fetch("/process_speech", {
+                            method: "POST",
+                            headers: { "Content-Type": "application/json" },
+                            body: JSON.stringify({ word: spokenWord, correct_words: correctWords })
+                        })
+                        .then(response => response.json())
+                        .then(data => {
+                            if (data.correct) {
+                                alert("¡Correcto! La palabra es: " + spokenWord);
+                            } else {
+                                alert("Intenta de nuevo. La palabra correcta no es " + spokenWord);
+                            }
+                        });
+                    };
+        
+                    recognition.onerror = function () {
+                        alert("Error al reconocer la voz. Por favor, intenta nuevamente.");
+                    };
+                }
+            </script>
+            
+        </div>
+        {% endif %}
     </main>
 
+    
     <!-- Footer -->
     <footer class="footer">
-        <p>&copy; 2024 My Simple Web Page</p>
+        <p>&copy; 2024, Reading Interactive, Silvina Carrera - Birkbeck, University of London. All Rights Reserved</p>
     </footer>
 </body>
 </html>

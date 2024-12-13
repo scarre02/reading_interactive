@@ -74,16 +74,24 @@ header {
     background-color: #D2B48C; /* Changes the background color of the button when the mouse over it */
 }
 
-/* Main content styles */
+/* Main content styles for story pages */
 .main-content {
     flex: 1; /* Uses flexbox to align child elements */
     display: flex;
-    justify-content: center; /* Centra el contenido horizontally within the container */
+    justify-content: center; /* Centers the content horizontally within the container */
     align-items: center; /* Centers the child elements vertically within the container */
     height: calc(100vh - 100px); /* Sets the height of the container to fill the full viewport height */
     height: calc(100vh - 100px); /* Repeats the height calculation for redundancy, but only one of these is necessary */
 }
-
+.story-content {
+    font-size: 1rem;
+    line-height: 1.6; 
+    color: #494040; 
+    padding: 20px; 
+    border-radius: 10px; 
+    max-width: 600px; 
+    overflow: auto; 
+}
 * {
     margin: 0;
     padding: 0;
@@ -105,6 +113,9 @@ header {
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
     margin: 0 auto;
     display: flex;
+    flex-direction: column; /* Stacks child elements vertically */
+    align-items: center; /* Centers children horizontally */
+    gap: 20px; /* Space between child elements */
     justify-content: center;
 }
 .image-container {
@@ -113,6 +124,16 @@ header {
     gap: 20px;
     justify-content: center;
 }
+
+.text-container{
+    width: 300px; /* Ajusta el ancho del contenedor */
+    white-space: nowrap; /* Mantiene el texto en una sola línea */
+    overflow: hidden; /* Oculta cualquier parte del texto que se desborde */
+    text-overflow: ellipsis; /* Muestra "..." si el texto se corta */
+    border: 1px solid #ccc; /* Solo para ver los bordes del contenedor */
+}
+
+
 .image-block {
     text-align: center;
 }
@@ -171,7 +192,7 @@ header {
     cursor: pointer;
     width: 200px; /* Fixed size for uniformity */
     text-align: center;
-    transition: background-color 0.3s ease; /* efecto suave en el cambio de color */
+    transition: background-color 0.3s ease; /* Smooth effect on color change */
 
 }
 
@@ -186,6 +207,13 @@ footer {
     color: black;
     padding: 15px;
 }
+
+/* images in story pages */
+.small-image {
+    width: 200px; /* Adjusts the width */
+    height: auto; /* Maintains the natural proportion of the image */
+}
+
 
 /* Responsives Styles Para que tu sitio web se vea bien en dispositivos móviles */
 
