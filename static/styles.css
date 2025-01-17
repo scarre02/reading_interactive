@@ -171,7 +171,7 @@ header {
 }
 
 .image-container img {
-    width: calc(40% - 20px); /* /* Sets the width of the image to 40% of its container minus the gap space */
+    width: calc(80% - 20px); /* /* Sets the width of the image to 40% of its container minus the gap space */
     max-width: 600px; /* Limits the maximum width of the image to prevent it from becoming too large on larger screens */
     height: auto; /* Ensures the image maintains its original aspect ratio and scales its height automatically */
     object-fit: cover; /* Ensures the image covers its container's dimensions while maintaining its aspect ratio, cropping if necessary */

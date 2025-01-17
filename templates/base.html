@@ -42,7 +42,7 @@
         {% if request.endpoint in ['story_rabbit', 'lion', 'tortoise_and_hare', 'the_brave_little_fox'] %}
         <div class="main-container ">
             <!-- Title -->
-            <div id="story" class="story-content">{{ story["contenido"] | safe }}</div>
+      
             <!-- Button to start speech recognition -->
             <button onclick="startSpeechRecognition()" style="font-size: 18px; padding: 10px 20px; width: 150px; height: 50px;">Speak</button>
             <!-- Result area for the spoken word -->
@@ -52,7 +52,13 @@
         
                 function startSpeechRecognition() {
                     const recognition = new (window.SpeechRecognition || window.webkitSpeechRecognition)();
+                    const grammar = '#JSGF V1.0; grammar test; public <keyword> = The | cat ;';
+                    const speechRecognitionList = new SpeechGrammarList();
+                    speechRecognitionList.addFromString(grammar, 1);
                     recognition.lang = 'en-US'; // Set the language to English
+                    recognition.grammars = speechRecognitionList;
+                    recognition.interimResults = false;
+                    recognition.continuous = false;
                     recognition.start();
         
                     recognition.onresult = function (event) {

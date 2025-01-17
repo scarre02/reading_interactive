@@ -1,17 +1,17 @@
 {% extends "base.html" %}
 
-{% block title %}Tortoise_and_hare - Short Stories{% endblock %}
+{% block title %}The Tortoise and the Hare - Short Stories{% endblock %}
 
 {% block content %}
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Story selection - Tortoise and hare</title>
+    <title>Story selection - The Tortoise and the Hare</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
 </head>
 <body>
-    <h1>{{ cuento["titulo"] }}</h1>
-    <img src="{{ url_for('static', filename='tortoise and hare.jpg') }}" alt="Tortoise and hare" class="small-image">
+    <h1>{{ story["titulo"] }}</h1>
+    <img src="{{ url_for('static', filename='tortoise and hare.JPG') }}" alt="Tortoise and hare" class="small-image">
            
 </body>
 </html>
