@@ -46,7 +46,7 @@ def get_cuento_by_id(id):
             rf'\b{re.escape(palabra)}\b',
             f'<span class="highlight">{palabra}</span>',
             contenido_resaltado,
-            count=1
+            
         )
 
     # Save the keywords in the session
@@ -77,44 +77,39 @@ def process_speech():
     data = request.get_json()
     spoken_word = re.sub(r'[^a-zA-ZáéíóúüñÑ\s]', '', data.get("word", "").strip().lower())
 
-
-    # Retrieve the random words and the words that have already been spoken from the session
+    # Recuperar las palabras aleatorias y las ya pronunciadas desde la sesión
     palabras_correctas = session.get('palabras_aleatorias', [])
     palabras_pronunciadas = session.get('palabras_pronunciadas', [])
 
-    # If there are no random words, start the game
+    # Si no hay palabras aleatorias, inicializamos el juego
     if not palabras_correctas:
         return jsonify({
             "correct": False,
-            "message": "No words to process",
+            "message": "No hay palabras para procesar",
             "correct_count": len(palabras_pronunciadas),
             "total": 5,
-            "correct_words": palabras_pronunciadas
+            "correct_words": palabras_pronunciadas,
+            "next_word": None
         })
 
-    # If the spoken word is correct and has not been said before
+    # Si la palabra dicha es correcta y no ha sido dicha antes
     if any(re.sub(r'[^a-zA-ZáéíóúüñÑ\s]', '', spoken_word) == palabra.lower() for palabra in palabras_correctas):
         palabras_pronunciadas.append(spoken_word)
         session['palabras_pronunciadas'] = palabras_pronunciadas
 
-        # If the 5 correct words have already been completed
+        # Si ya se han completado las 5 palabras correctas
         if len(palabras_pronunciadas) >= 5:
             return jsonify({
                 "correct": True,
                 "correct_count": len(palabras_pronunciadas),
                 "total": 5,
                 "correct_words": palabras_pronunciadas,
-                "next_word": None  # Game completed
+                "next_word": None  # Juego completado
             })
 
-        # Select a new random word that has not been used
+        # Seleccionar una nueva palabra aleatoria que no haya sido usada
         restantes = set(palabras_correctas) - set(palabras_pronunciadas)
         nueva_palabra = random.choice(list(restantes)) if restantes else None
-        if nueva_palabra:
-            session['palabras_correctas'] = palabras_correctas  # Make sure to keep the correct words
-            session['palabras_pronunciadas'] = palabras_pronunciadas  # Keep the spoken ones
-        else:
-            nueva_palabra = None  # There are no more words left
 
         return jsonify({
             "correct": True,
@@ -124,13 +119,15 @@ def process_speech():
             "next_word": nueva_palabra
         })
 
-    # If the word is incorrect
+    # Si la palabra es incorrecta
     return jsonify({
         "correct": False,
         "correct_count": len(palabras_pronunciadas),
         "total": 5,
-        "correct_words": palabras_pronunciadas
+        "correct_words": palabras_pronunciadas,
+        "next_word": current_word if palabras_correctas else None  # Mantén la palabra actual
     })
+
 
 
 @app.route('/story_rabbit')
@@ -161,9 +158,10 @@ def page3():
 def page4():
     return render_template('page4.html')
 
-@app.route("/loggin")
-def loggin():
-    return render_template("loggin.html")
+@app.route("/login")
+def login():
+    return render_template("login.html")
+
 
 @app.route('/lion')
 def lion():
