@@ -1,17 +1,21 @@
 {% extends "base.html" %}
 
-{% block title %}Lion - Short Stories{% endblock %}
+{% block title %}{{ story.title }} - Short Stories{% endblock %}
 
 {% block content %}
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Story selection - Lion</title>
-    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
-</head>
-<body>
-    <h1>{{ story["titulo"] }}</h1>
-    <img src="{{ url_for('static', filename='lion.jpg') }}" alt="Lion" class="small-image">
-</body>
-</html>
+
+    <h1>{{ story.title }}</h1>
+    <img src="{{ url_for('static', filename='lion.jpg') }}" alt="peter_rabbit" class="small-image">
+    
+    <!-- Show the content with the highlighted keywords -->
+    <div id="story-content">
+        {{ story.content | safe }}
+    </div>
+
+    <h2>Keywords:</h2>
+    <ul>
+        {% for keyword in story.palabras %}
+            <li>{{ keyword }}</li>
+        {% endfor %}
+    </ul>
 {% endblock %}

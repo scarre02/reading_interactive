@@ -15,42 +15,43 @@ body {
 }
 
 header {
-    position: relative; /* Sets the position of the header to "relative" */
-    background-color: #D2B48C; /* Sets the background color of the header */
-    color: rgba(105, 74, 2, 0.857); /* Sets the text color of the content inside the header to white. */
-    text-align: center; /* Centers the text horizontally inside the header. */
-    padding: 20px; /* Adds space inside all four sides (top, right, bottom, and left) of the header content. */
+    display: flex; /* Activa Flexbox */
+    justify-content: space-between; /* Espacia los elementos al máximo entre sí */
+    align-items: center; /* Alinea verticalmente los elementos al centro */
+    background-color: #D2B48C;
+    color: #654a02;
+    padding: 20px 40px; /* Ajusta el padding según sea necesario */
 }
+
 .header h1 {
-    font-family:'Amatic SC', cursive;
-    font-size: 4rem; /* Tamaño grande del texto */
-    font-weight: bold; /* Negrita para el título */
-    text-align: center; /* Centrar el título */
-    margin: 0; /* Eliminar márgenes superiores e inferiores */
-    padding: 30px; /* Espaciado interno */
-    color: rgba(105, 74, 2, 0.857); /* Cambiar el color si lo deseas */
+    font-family: 'Amatic SC', cursive;
+    font-size: 4rem;
+    font-weight: bold;
+    margin: 0; /* Elimina márgenes */
+    padding: 0; /* Elimina padding */
+    color:#654a02;
 }
 
-.signup-btn {
-    position: absolute; /* Sets the position to "absolute" */
-    top: 50%; /* Positions the button 50% from the top of its container */
-    right: 20px; /* Moves the button 20px away from the right edge of its container */
-    transform: translateY(-50%); /* Offsets the element centering it vertically relative to its container. */
-    background-color:  rgba(105, 74, 2, 0.857); /* Sets the background color of the button */
-    color: white; /* Sets the text color of the button to white. */
-    border: none; /* Removes the border from the button. */
-    padding: 10px 20px; /* Adds 10px of vertical padding (top & bottom) and 20px of horizontal padding (left & right) 
-    to increase the clickable area of the button. */
-    border-radius: 5px; /* Rounds the corners of the button with a radius of 5px. */
-    font-size: 16px; /* Sets the font size of the button text to 16px. */
+/* Estilos específicos para los botones del encabezado */
+.header-buttons {
+    display: flex;
+    flex-direction: column; /* Organiza los botones en una columna */
+    align-items: center;    /* Centra los botones horizontalmente */
+    gap: 10px;              /* Espacio entre los botones */
+    margin-top: 20px;       /* Espacio superior opcional */
+}
+
+.header-buttons .btn {
+    width: 150px; /* Ajusta el ancho según tus necesidades */
+    text-align: center;
+    padding: 10px 20px;
+    border-radius: 5px;
     text-decoration: none;
-    cursor: pointer; /* Changes the cursor to a pointer (hand icon) when hovering 
-    over the button, indicating it is clickable. */
+    font-size: 16px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
 }
 
-.signup-btn:hover {
-    background-color: #c0392b; /* Change the color when hovering the mouse */
-}
 
 /* Button container */
 .button-container {
@@ -64,24 +65,6 @@ header {
     padding: 10px; /* Adds 10px of padding (space) inside the container */
 }
 
-
-/* Style for links that look like buttons */
-.nav-button {
-    display: inline-block; /* Makes the link behave like a button */
-    padding: 20px 30px; /* Size of the button */
-    background-color: #D2B48C; /* Sets the background color of the button to a light brown */
-    color: white; /* Sets the text color to white */
-    text-decoration: none; /* Removes the default underline from the link */
-    border-radius: 5px; /* Rounds the corners of the button  */
-    font-size: 20px; /* Sets the font size of the button text */
-    text-align: center; /* Centers the text */
-    transition: background-color 0.3s ease; /* Adds a smooth animation effect when the background color changes */
-}
-
-/* Hover effect for the .nav-button */
-.nav-button:hover {
-    background-color: #D2B48C; /* Changes the background color of the button when the mouse over it */
-}
 
 /* Main content styles for story pages */
 .main-content {
@@ -139,7 +122,7 @@ header {
     white-space: nowrap; /* Keeps the text on a single line */
     overflow: hidden; /* Hides any part of the text that overflows */
     text-overflow: ellipsis; /* Displays "..." if the text is truncated */
-    border: 1px solid #ccc; /* Only to view the container borders */
+    border: 1px solid #ccc; /* O */
 }
 
 
@@ -171,7 +154,7 @@ header {
 }
 
 .image-container img {
-    width: calc(80% - 20px); /* /* Sets the width of the image to 40% of its container minus the gap space */
+    width: calc(40% - 20px); /* /* Sets the width of the image to 40% of its container minus the gap space */
     max-width: 600px; /* Limits the maximum width of the image to prevent it from becoming too large on larger screens */
     height: auto; /* Ensures the image maintains its original aspect ratio and scales its height automatically */
     object-fit: cover; /* Ensures the image covers its container's dimensions while maintaining its aspect ratio, cropping if necessary */
@@ -191,22 +174,49 @@ header {
     gap: 20px; /* Space between the buttons */
 }
 
-.login-btn {
-    background-color: #D2B48C;
+/* Clase común para todos los botones */
+.btn {
+    background-color: #654a02; /* Mismo color que .signup-btn y .login-btn */
     color: white;
-    border: none;
-    padding: 15px 30px;
+    padding: 10px 20px;
+    border: none; /* Elimina bordes predeterminados */
     border-radius: 5px;
+    text-decoration: none;
     font-size: 16px;
     cursor: pointer;
-    width: 200px; /* Fixed size for uniformity */
+    transition: background-color 0.3s ease;
+    display: inline-block;
     text-align: center;
-    transition: background-color 0.3s ease; /* Smooth effect on color change */
-
 }
 
-.login-btn:hover {
-    background-color: #A0522D;
+
+/* New Styles for Return to Main Page Button */
+.return-main {
+    width: 100%;
+    padding: 20px 40px; /* Matches the header's horizontal padding */
+    box-sizing: border-box; /* Ensures padding doesn't affect the width */
+    text-align: left; /* Aligns the content to the left */
+}
+
+.return-main .btn {
+    background-color: #654a02; /* Colour background */
+    color: white; /* White text */
+    transition: transform 0.2s;
+}
+
+.return-main .btn:hover {
+    background-color: #c0392b; /* Colour hover */
+    transform: scale(1.05);
+}
+
+
+
+
+/* Efecto hover para todos los botones */
+.btn:hover {
+    background-color: #c0392b; /* Same colour hover than .signup-btn y .login-btn */
+    transition: transform 0.2s;
+    transform: scale(1.05);
 }
 
 /* Footer styles */
@@ -246,4 +256,15 @@ footer {
     }
 }
 
+.input-fields {
+    display: block; /* Muestra los campos de entrada por defecto */
+    
+    visibility: visible;
+    opacity: 1;
 
+}
+
+.input-group {
+    display: block; /* Muestra los campos de entrada por defecto */
+    margin-top: 20px;
+}

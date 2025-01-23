@@ -6,26 +6,30 @@
     <title>{% block title %}My Web App{% endblock %}</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
 </head>
-<body>
-    <body class="{{ 'index' if request.endpoint == 'index' else '' }}"></body>
+<body class="{{ 'index' if request.endpoint == 'index' else '' }}">
     <!-- Header -->
     <header class="header">
         <h1>Short Stories for Kids</h1>
-        <a href="{{ url_for('Signup') }}"><button class="signup-btn">Sign Up</button></a>
-        
+        <div class="button-container header-buttons">
+            <a href="{{ url_for('Signup') }}" class="btn signup-btn">Sign Up</a>
+            <a href="{{ url_for('login') }}" class="btn login-btn">Loggin</a>
+        </div>
     </header>
 
+    <!-- Return to main page button -->
+    <div class="return-main">
+        <a href="{{ url_for('index') }}" class="btn">Return to the main page</a>
+     </div>
+
     <!-- Button line -->
-    <a href="/"><button>Return to the main page</button></a>
     <section class="button-line">
         <nav>
             <div class="button-container">
-                <a href="{{ url_for('index') }}"><button>Story selection</button></a>
-                <a href="{{ url_for('page1') }}"><button>Botón 1</button></a>
-                <a href="{{ url_for('page2') }}"><button>Botón 2</button></a>
-                <a href="{{ url_for('page3') }}"><button>Recommended books</button></a>
-                <a href="{{ url_for('page4') }}"><button>About us</button></a>
-                <a href="{{ url_for('loggin') }}"><button>loggin</button></a>
+                <a href="{{ url_for('index') }}"class="btn">Story selection</a>
+                <a href="{{ url_for('fairy_tales') }}"class="btn">Fairy Tales</a>
+                <a href="{{ url_for('animal_fables') }}"class="btn">Animal Fables</a>
+                <a href="{{ url_for('stories_to_spark_the_imagination') }}"class="btn">Stories to spark the imagination</a>
+                <a href="{{ url_for('page4') }}"class="btn">About us</a>
             </div>
         </nav>
     </section>
@@ -39,51 +43,72 @@
         </div>
 
         <!-- Special section only for stories pages -->
-        {% if request.endpoint in ['story_rabbit', 'lion', 'tortoise_and_hare', 'the_brave_little_fox'] %}
+        {% if request.endpoint in ['story_rabbit', 'the_brave_lion', 'tortoise_and_hare', 'the_brave_little_fox'] %}
         <div class="main-container ">
             <!-- Title -->
       
             <!-- Button to start speech recognition -->
-            <button onclick="startSpeechRecognition()" style="font-size: 18px; padding: 10px 20px; width: 150px; height: 50px;">Speak</button>
+            <button id="start-recognition" onclick="startSpeechRecognition()" style="font-size: 18px; padding: 10px 20px; width: 150px; height: 50px;">Speak</button>
             <!-- Result area for the spoken word -->
             <div id="result"></div>
             <script>
-                const correctWords = {{ story["palabras"] | tojson }}; // Correct words from the backend
-        
+                // Palabras correctas proporcionadas por el servidor
+                const correctWords = {{ story["palabras"] | tojson }}; 
+            
                 function startSpeechRecognition() {
-                    const recognition = new (window.SpeechRecognition || window.webkitSpeechRecognition)();
-                    const grammar = '#JSGF V1.0; grammar test; public <keyword> = The | cat ;';
-                    const speechRecognitionList = new SpeechGrammarList();
-                    speechRecognitionList.addFromString(grammar, 1);
-                    recognition.lang = 'en-US'; // Set the language to English
-                    recognition.grammars = speechRecognitionList;
-                    recognition.interimResults = false;
-                    recognition.continuous = false;
+                    // Verifica si el navegador soporta SpeechRecognition
+                    const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+                    if (!SpeechRecognition) {
+                        alert("Tu navegador no soporta la API de reconocimiento de voz. Por favor, usa Google Chrome.");
+                        return;
+                    }
+            
+                    const recognition = new SpeechRecognition();
+                    recognition.lang = 'es-ES'; // Cambia a español si lo necesitas
+                    recognition.interimResults = false; // Solo resultados finales
+                    recognition.maxAlternatives = 1; // Una alternativa
+            
+                    // Inicia el reconocimiento de voz
                     recognition.start();
-        
+                    console.log("Reconocimiento de voz iniciado...");
+            
+                    // Maneja los resultados del reconocimiento
                     recognition.onresult = function (event) {
                         const spokenWord = event.results[0][0].transcript;
-                        document.getElementById("result").innerHTML = "Palabra pronunciada: <strong>" + spokenWord + "</strong>";
+                        document.getElementById("result").innerHTML = `Palabra pronunciada: <strong>${spokenWord}</strong>`;
+            
+                        // Enviar la palabra hablada al servidor para verificarla
                         fetch("/process_speech", {
                             method: "POST",
                             headers: { "Content-Type": "application/json" },
-                            body: JSON.stringify({ word: spokenWord, correct_words: correctWords })
+                            body: JSON.stringify({ word: spokenWord })
                         })
                         .then(response => response.json())
                         .then(data => {
                             if (data.correct) {
-                                alert("¡Correcto! La palabra es: " + spokenWord);
+                                alert(`¡Correcto! La palabra es: ${spokenWord}`);
                             } else {
-                                alert("Intenta de nuevo. La palabra correcta no es " + spokenWord);
+                                alert(`Incorrecto. La palabra no es ${spokenWord}. Intenta de nuevo.`);
                             }
+                        })
+                        .catch(error => {
+                            console.error("Error al procesar la palabra:", error);
+                            alert("Hubo un error al procesar tu palabra. Intenta nuevamente.");
                         });
                     };
-        
-                    recognition.onerror = function () {
-                        alert("Error al reconocer la voz. Por favor, intenta nuevamente.");
+            
+                    // Maneja errores en el reconocimiento
+                    recognition.onerror = function (event) {
+                        console.error("Error en el reconocimiento de voz:", event.error);
+                        alert(`Error al reconocer la voz: ${event.error}`);
+                    };
+            
+                    recognition.onend = function () {
+                        console.log("Reconocimiento de voz finalizado.");
                     };
                 }
             </script>
+            
             <style>
                 .highlight {
                     background-color: red; 
@@ -102,5 +127,6 @@
     <footer class="footer">
         <p>&copy; 2024, Reading Interactive, Silvina Carrera - Birkbeck, University of London. All Rights Reserved</p>
     </footer>
+    <script src="static/scripts.js"></script>
 </body>
 </html>

@@ -3,26 +3,86 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>{% block title %}My Web App{% endblock %}</title>
+    <title>Sign Up</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+    
+    <style>
+        /* Asegúrate de que los campos ocultos estén configurados correctamente */
+        .input-group {
+            display: none; /* Oculta inicialmente los campos de entrada */
+            margin-top: 20px;
+        }
+
+        .input-group.visible {
+            display: block; /* Muestra los campos de entrada cuando tienen la clase 'visible' */
+        }
+    </style>
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            // Selecciona todos los botones con la clase 'btn'
+            const buttons = document.querySelectorAll('.login-container .btn');
+
+            // Agrega un evento click a cada botón
+            buttons.forEach(button => {
+                button.addEventListener('click', function () {
+                    const fieldId = this.id.replace('btn-', 'group-'); // Obtén el ID del campo correspondiente
+                    const fieldGroup = document.getElementById(fieldId); // Encuentra el grupo de entrada
+
+                    if (fieldGroup) {
+                        // Alterna la clase 'visible' para mostrar/ocultar el campo
+                        fieldGroup.classList.toggle('visible');
+                    }
+                });
+            });
+        });
+    </script>
 </head>
 <body>
     <!-- Header -->
     <header class="header">
         <h1>Short Stories for Kids</h1>
     </header>
-    <a href="{{ url_for('index') }}"><button>Return to the main page</button></a>
+
+    <!-- Return to main page button -->
+    <div class="return-main">
+        <a href="{{ url_for('index') }}" class="btn">Return to the main page</a>
+    </div>
 
     <!-- Main Content -->
     <main class="main-content">
         <section class="login-container">
-            <button class="login-btn">Name</button>
-            <button class="login-btn">telephone</button>
-            <button class="login-btn">Address</button>
-            <button class="login-btn">Age</button>
+            <form action="{{ url_for('Signup') }}" method="post" id="signup-form">
 
-            <a href="{{ url_for('index') }}"><button>ENTER</button></a>
+                <!-- Campos de entrada ocultos -->
+                <div class="input-fields">
+                    <div class="input-group visible" id="group-name">
+                        <label for="name">Name:</label>
+                        <input type="text" id="name" name="name" required>
+                    </div>
 
+                    <div class="input-group visible" id="group-email">
+                        <label for="email">Email address:</label>
+                        <input type="email" id="email" name="email" required>
+                    </div>
+
+                    <div class="input-group visible" id="group-dob">
+                        <label for="dob">Date of birth:</label>
+                        <input type="date" id="dob" name="dob" required>
+                    </div>
+
+                    <div class="input-group visible" id="group-terms">
+                        <label for="terms">
+                            <input type="checkbox" id="terms" name="terms" required>
+                            Accept terms and conditions
+                        </label>
+                    </div>
+                </div>
+
+                <div class="form-actions">
+                    <button type="submit">Sign Up</button>
+                </div>
+
+            </form>
         </section>
     </main>
 
@@ -30,5 +90,7 @@
     <footer class="footer">
         <p>&copy; 2024 My Simple Web Page</p>
     </footer>
+    <script src="{{ url_for('static', filename='scripts.js') }}"></script>
+
 </body>
 </html>

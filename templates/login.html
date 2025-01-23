@@ -3,26 +3,28 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>{% block title %}My Web App{% endblock %}</title>
+    <title>{% block title %}login to user - Short Stories for Kids community{% endblock %}</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
 </head>
 <body>
     <!-- Header -->
     <header class="header">
         <h1>Short Stories for Kids</h1>
-        <a href="{{ url_for('Signup') }}"><button class="signup-btn">Sign Up</button></a>
     </header>
+    <!-- Return to main page button -->
+    <div class="return-main">
+        <a href="{{ url_for('index') }}" class="btn">Return to the main page</a>
+    </div>
 
     <!-- Main Content -->
     <main class="main-content">
         <section class="login-container">
-            <button class="login-btn">User</button>
-            <button class="login-btn">Password</button>
+            <button class="btn" id="btn-user">User</button>
+            <button class="btn" id="btn-password">Password</button>
 
             <a href="{{ url_for('index') }}"><button>ENTER</button></a>
             <a href="Signup" class="create-account">CREATE AN ACCOUNT</a>
 
-            
         </section>
     </main>
 

@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Prueba de reconocimiento de voz</title>
+</head>
+<body>
+  <button id="start">Iniciar reconocimiento</button>
+  <p id="output"></p>
+  <script>
+    const button = document.getElementById('start');
+    const output = document.getElementById('output');
+
+    button.addEventListener('click', () => {
+      const recognition = new webkitSpeechRecognition();
+      recognition.lang = 'es-ES';
+      recognition.onresult = (event) => {
+        output.textContent = `Dijiste: ${event.results[0][0].transcript}`;
+      };
+      recognition.onerror = (event) => {
+        output.textContent = `Error: ${event.error}`;
+      };
+      recognition.start();
+    });
+  </script>
+</body>
+</html>
