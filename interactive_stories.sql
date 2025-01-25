@@ -5,7 +5,8 @@ USE interactive_stories;
 CREATE TABLE stories (
     id INT AUTO_INCREMENT PRIMARY KEY,
     title VARCHAR(255) NOT NULL,
-    content TEXT NOT NULL
+    content TEXT NOT NULL,
+    image varchar(45) NOT NULL
 );
 
 CREATE TABLE keywords (
@@ -53,7 +54,7 @@ CREATE TABLE story_keywords (
     FOREIGN KEY (keyword_id) REFERENCES keywords(id)
 );
 
-INSERT INTO stories (title, content) VALUES
+INSERT INTO stories (title, content, image) VALUES
 ('The Tale of Petter Rabbit', 'Once upon a time , there were four little rabbits named Flopsy, Mopsy, Cotton-tail, and Peter. They lived with their mother in a cozy burrow under the roots of a big fir tree.
 One morning, Mrs. Rabbit said, "You may go into the fields or down the lane, but don’t go into Mr. McGregor’s garden. Your father had an accident there, and I don’t want the same to happen to you."
 Flopsy, Mopsy, and Cotton-tail were good little bunnies. They went to gather blackberries. But Peter, who was a bit more adventurous, ran straight to Mr. McGregor’s garden.
@@ -65,7 +66,7 @@ At last, Peter found a way out—a small hole in the garden fence. He wriggled t
 When Peter reached the burrow, he was so tired that he flopped down on the soft sand floor. His mother shook her head when she saw him. "Peter, where is your jacket and shoes?" she asked.
 That evening, while Flopsy, Mopsy, and Cotton-tail enjoyed bread and blackberries, Peter had to go to bed early with chamomile tea, which he didn’t like at all.
 Peter learned a lesson that day about listening to his mother and staying out of trouble—at least for a little while! 
-The End.');
+The End.', 'petter_rabbit.jpg');
 
 INSERT INTO stories (title, content) VALUES
 ('The Brave Lion', 'Once upon a time, in a vast and sunny savannah, there lived a young lion named Leo. 

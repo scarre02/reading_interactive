@@ -268,3 +268,11 @@ footer {
     display: block; /* Muestra los campos de entrada por defecto */
     margin-top: 20px;
 }
+
+.highlight {
+    background-color: rgb(255, 0, 0); /* Puedes cambiar el color según prefieras */
+    color: black;
+    font-weight: bold;
+    padding: 2px 4px;
+    border-radius: 3px;
+}
