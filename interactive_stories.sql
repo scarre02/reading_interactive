@@ -15,6 +15,8 @@ CREATE TABLE keywords (
 );
 
 
+
+
 CREATE TABLE `history` (
   `id_history` int NOT NULL AUTO_INCREMENT,
   `users_id_user` int NOT NULL,
@@ -68,7 +70,7 @@ That evening, while Flopsy, Mopsy, and Cotton-tail enjoyed bread and blackberrie
 Peter learned a lesson that day about listening to his mother and staying out of trouble—at least for a little while! 
 The End.', 'petter_rabbit.jpg');
 
-INSERT INTO stories (title, content) VALUES
+INSERT INTO stories (title, content, image) VALUES
 ('The Brave Lion', 'Once upon a time, in a vast and sunny savannah, there lived a young lion named Leo. 
 Although Leo was smaller than most lions his age, he was known for his kind heart and strong sense of courage.
 Every morning, Leo would trot around the savannah, greeting the zebras, antelopes, and even the wary gazelles with a friendly roar. While the other lions spent their time dozing in the shade, Leo loved exploring and helping any animal in need.
@@ -78,7 +80,7 @@ Inside the cave, the animals huddled together until the storm passed. Afterward,
 From that day on, all the animals respected Leo. They knew that being truly brave wasn\'t about being big or loud—it was about being willing to help others and face your fears. And so, Leo earned the proud title of The Brave Lion, reminding everyone that the greatest strength comes from a caring heart.'
 );
 
-INSERT INTO stories (title, content) VALUES
+INSERT INTO stories (title, content, image) VALUES
 ('The Tortoise and the Hare', 'Once upon a time in a lush green forest, all the animals gathered to watch a race. The Hare, known for his incredible speed, was very confident about winning. The Tortoise, on the other hand, was slow and steady, often seen taking his time to move.
 As the race began, the Hare dashed off quickly, leaving the Tortoise far behind. Feeling certain of his victory, the Hare decided to take a nap under a shady tree, thinking he had plenty of time to finish the race later.
 Meanwhile, the Tortoise kept moving forward, one slow step at a time. He didn’t stop or slow down, maintaining his steady pace throughout the journey.
@@ -86,7 +88,7 @@ When the Hare finally woke up, he saw the Tortoise nearing the finish line. Pani
 All the animals cheered for the Tortoise, celebrating his perseverance and determination. The Hare felt ashamed for underestimating his opponent and learned a valuable lesson about humility and consistency.
 Moral of the Story: "Slow and steady wins the race."');
 
-INSERT INTO stories (title, content) VALUES
+INSERT INTO stories (title, content, image) VALUES
 ('The Brave Little Fox', 'Once upon a time, in the heart of a quiet forest, there lived a little fox named Finn. Finn was smaller than all the other foxes, but what he lacked in size, he made up for in courage and kindness.
 While most foxes spent their days playing in the meadow, Finn loved to explore the deeper parts of the forest. The trees there were taller, the sounds were louder, and the shadows danced like magic.
 One day, while Finn was chasing fireflies, he heard a soft cry. \"Help! Help!\" it called. He followed the sound and found a baby bird stuck on the ground. Its wing was hurt, and it couldn\'t fly. \"Don\'t worry,\" said Finn, his golden eyes full of determination. \"I\'ll help you.\" He gently picked up the little bird and carried it on his back. The bird was scared at first, but Finn spoke to it softly. \"I know a safe place for you,\" he said. 
@@ -95,7 +97,7 @@ The next day, all the forest animals gathered around Finn. They had heard of his
 From that day on, Finn was no longer seen as the smallest fox. He was known as the bravest little fox in the forest. And whenever anyone needed help, they knew exactly who to call.
 Moral of the story: Being small doesn\'t mean you can\'t do big things. Courage and kindness make you truly strong.');
 
-INSERT INTO stories (title, content) VALUES
+INSERT INTO stories (title, content, image) VALUES
 ('The Lion and the Mouse','Once upon a time in a dense jungle, a mighty lion ruled as the king of the animals. One sunny afternoon, as the lion was taking a nap under the shade of a large tree, a little mouse happened to run over his paw. Startled, the lion awoke and trapped the mouse with his massive paw.
 "Please let me go," squeaked the mouse. "I didn''t mean to disturb you. If you spare my life, I promise I''ll help you someday."
 The lion laughed at the idea of such a tiny creature helping him but, amused by the mouse''s courage, decided to release him.
@@ -125,39 +127,41 @@ INSERT INTO keywords (keyword) VALUES
 
 -- Supongamos que los keyword_ids son 1, 2, 3, 4 y 5
 INSERT INTO story_keywords (story_id, keyword_id) VALUES
-(1, 1),  -- Relación entre historia 1 y palabra clave 1
-(1, 2),  -- Relación entre historia 1 y palabra clave 2
-(1, 3),  -- Relación entre historia 1 y palabra clave 3
-(1, 4),  -- Relación entre historia 1 y palabra clave 4
-(1, 5);  -- Relación entre historia 1 y palabra clave 5
+(1, 1),  -- Relationship between story 1 and keyword 1
+(1, 2),  -- Relationship between story 1 and keyword 2
+(1, 3),  -- Relationship between story 1 and keyword 3
+(1, 4),  -- Relationship between story 1 and keyword 4
+(1, 5);  -- Relationship between story 1 and keyword 5
+
 
 INSERT INTO story_keywords (story_id, keyword_id) VALUES
-(2, 6),  -- Relación entre historia 2 y palabra clave 1
-(2, 7),  -- Relación entre historia 2 y palabra clave 2
-(2, 8),  -- Relación entre historia 2 y palabra clave 3
-(2, 9),  -- Relación entre historia 2 y palabra clave 4
-(2, 10);  -- Relación entre historia 2 y palabra clave 5
+(2, 6),  -- Relationship between story 2 and keyword 1
+(2, 7),  -- Relationship between story 2 and keyword 2
+(2, 8),  -- Relationship between story 2 and keyword 3
+(2, 9),  -- Relationship between story 2 and keyword 4
+(2, 10);  -- Relationship between story 2 and keyword 5
 
 INSERT INTO story_keywords (story_id, keyword_id) VALUES
-(3, 11),  -- Relación entre historia 2 y palabra clave 1
-(3, 12),  -- Relación entre historia 2 y palabra clave 2
-(3, 13),  -- Relación entre historia 2 y palabra clave 3
-(3, 14),  -- Relación entre historia 2 y palabra clave 4
-(3, 15);  -- Relación entre historia 2 y palabra clave 5
+(3, 11),  -- Relationship between story 3 and keyword 1
+(3, 12),  -- Relationship between story 3 and keyword 2
+(3, 13),  -- Relationship between story 3 and keyword 3
+(3, 14),  -- Relationship between story 3 and keyword 4
+(3, 15);  -- Relationship between story 3 and keyword 5
 
 INSERT INTO story_keywords (story_id, keyword_id) VALUES
-(4, 16),  -- Relación entre historia 2 y palabra clave 1
-(4, 17),  -- Relación entre historia 2 y palabra clave 2
-(4, 18),  -- Relación entre historia 2 y palabra clave 3
-(4, 19),  -- Relación entre historia 2 y palabra clave 4
-(4, 20);  -- Relación entre historia 2 y palabra clave 5
+(4, 16),  -- Relationship between story 4 and keyword 1
+(4, 17),  -- Relationship between story 4 and keyword 2
+(4, 18),  -- Relationship between story 4 and keyword 3
+(4, 19),  -- Relationship between story 4 and keyword 4
+(4, 20);  -- Relationship between story 4 and keyword 5
 
 INSERT INTO story_keywords (story_id, keyword_id) VALUES
-(5, 21),  -- Relación entre historia 2 y palabra clave 1
-(5, 22),  -- Relación entre historia 2 y palabra clave 2
-(5, 23),  -- Relación entre historia 2 y palabra clave 3
-(5, 24),  -- Relación entre historia 2 y palabra clave 4
-(5, 25);  -- Relación entre historia 2 y palabra clave 5
+(5, 21),  -- Relationship between story 5 and keyword 1
+(5, 22),  -- Relationship between story 5 and keyword 2
+(5, 23),  -- Relationship between story 5 and keyword 3
+(5, 24),  -- Relationship between story 5 and keyword 4
+(5, 25);  -- Relationship between story 5 and keyword 5
+
 
 
 

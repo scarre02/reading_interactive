@@ -270,9 +270,10 @@ footer {
 }
 
 .highlight {
-    background-color: rgb(255, 0, 0); /* Puedes cambiar el color según prefieras */
-    color: black;
-    font-weight: bold;
-    padding: 2px 4px;
-    border-radius: 3px;
+    color: rgb(0, 0, 0);
+    background-color: rgb(252, 115, 41); /* Puedes agregar más estilos según necesites */
+}
+.keyword {
+    color: red !important;
+    font-weight: bold !important;
 }

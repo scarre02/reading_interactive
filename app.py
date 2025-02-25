@@ -2,38 +2,38 @@ from flask import Flask, render_template, request, jsonify, session, redirect, u
 import mysql.connector
 import random
 import re
-import json  # Para manejar JSON en Python
+import json  # To handle JSON in Python
 import logging
 
 app = Flask(__name__)
 app.secret_key = 'your_secret_key'
 
-# Configuración de la conexión MySQL
+# MySQL Connection Configuration
 db_config = {
-    'host': 'localhost',     # Cambia según tu configuración
-    'user': 'root',          # Cambia según tu usuario de MySQL
-    'password': '1234',      # Cambia según tu contraseña de MySQL
+    'host': 'localhost',     # Change according to your setup
+    'user': 'root',          # Change according to your MySQL user
+    'password': '1234',      # Change according to your MySQL password
     'database': 'interactive_stories'
 }
 
-# Configurar logging
+# Configure logging
 logging.basicConfig(level=logging.DEBUG)
 
-def get_cuento_by_id(id):
+def get_story_by_id(id):
     conn = None
     cursor = None
     try:
         conn = mysql.connector.connect(**db_config)
         cursor = conn.cursor(dictionary=True)
 
-        # Seleccionar un cuento por ID
+        # Select a story by ID
         cursor.execute("SELECT * FROM stories WHERE id = %s", (id,))
         story = cursor.fetchone()
         if not story:
             logging.warning(f"Story with ID {id} not found.")
             return None
 
-        # Obtener las palabras clave asociadas
+        # Obtain the associated keywords
         cursor.execute('''
             SELECT k.keyword
             FROM keywords k
@@ -42,32 +42,36 @@ def get_cuento_by_id(id):
         ''', (id,))
         keywords = [row['keyword'] for row in cursor.fetchall()]
 
-        # No resaltar palabras clave en el contenido inicialmente
+        # Do not highlight keywords in the content initially
         content = story['content']
-        contenido_resaltado = content
-        # Envolver cada palabra clave con un span único
-        for index, palabra in enumerate(keywords):
-            contenido_resaltado = re.sub(
-                rf'\b{re.escape(palabra)}\b',
-                f'<span class="keyword" data-index="{index}">{palabra}</span>',
-                contenido_resaltado,
+        highlighted_content = content
+        # Verify if there are actually keywords
+        if keywords:
+            logging.debug(f"Keywords found for story {id}: {keywords}")
+
+        # Wrap each keyword with a unique span
+        for index, word in enumerate(keywords):
+            highlighted_content = re.sub(
+                rf'\b{re.escape(word)}\b',
+                f'<span class="keyword" data-index="{index}">{word}</span>',
+                highlighted_content,
                 flags=re.IGNORECASE
             )
 
-        # Guardar palabras en la sesión
-        session['palabras_aleatorias'] = keywords
-        if 'palabras_pronunciadas' not in session:
-            session['palabras_pronunciadas'] = []  # Inicializar como vacío
+        # Save words in the session
+        session['random_words'] = keywords
+        if 'pronounced_words' not in session:
+            session['pronounced_words'] = []  # Initialize as empty
 
         return {
             "id": story['id'],
             "title": story['title'],
             "image": story['image'],
-            "content": contenido_resaltado,
-            "palabras": keywords if keywords else []
+            "content": highlighted_content,
+            "words": keywords if keywords else []
         }
     except mysql.connector.Error as err:
-        logging.error(f"Error al conectar a la base de datos: {err}")
+        logging.error(f"Error connecting to the database: {err}")
         return None
     finally:
         if cursor:
@@ -77,83 +81,83 @@ def get_cuento_by_id(id):
 
 @app.route("/process_speech", methods=["POST"])
 def process_speech():
-    # Inicializar variables de sesión si no existen
-    if 'palabras_pronunciadas' not in session:
-        session['palabras_pronunciadas'] = []
+    # Initialize session variables if they do not exist
+    if 'pronounced_words' not in session:
+        session['pronounced_words'] = []
 
     data = request.get_json()
     spoken_word = re.sub(r'[^a-zA-ZáéíóúüñÑ\s]', '', data.get("word", "").strip().lower())
 
-    logging.debug(f"Palabra hablada recibida: {spoken_word}")
+    logging.debug(f"Spoken word received: {spoken_word}")
 
-    # Verificar si 'palabras_aleatorias' existe en la sesión
-    if 'palabras_aleatorias' not in session:
-        logging.warning("No hay 'palabras_aleatorias' en la sesión.")
+    # Check if 'random words' exists in the session
+    if 'random words' not in session:
+        logging.warning("There are no 'random words' in the session.")
         return jsonify({
             "correct": False,
-            "message": "No hay palabras para procesar. Por favor, carga una historia primero.",
-            "correct_count": len(session['palabras_pronunciadas']),
+            "message": "There are no words to process. Please load a story first.",
+            "correct_count": len(session['pronounced_words']),
             "total": 0,
-            "correct_words": session['palabras_pronunciadas'],
+            "correct_words": session['pronounced_words'],
             "next_word": None
         })
 
-    palabras_correctas = session['palabras_aleatorias']
-    palabras_pronunciadas = session['palabras_pronunciadas']
+    correct_words = session['random_words']
+    pronounced_words = session['pronounced_words']
 
-    logging.debug(f"Palabras correctas: {palabras_correctas}")
-    logging.debug(f"Palabras pronunciadas: {palabras_pronunciadas}")
+    logging.debug(f"Correct words: {correct_words}")
+    logging.debug(f"Pronounced words: {pronounced_words}")
 
-    if not palabras_correctas:
-        logging.warning("No hay palabras correctas para procesar.")
+    if not correct_words:
+        logging.warning("There are no correct words to process.")
         return jsonify({
             "correct": False,
-            "message": "No hay palabras para procesar",
-            "correct_count": len(palabras_pronunciadas),
+            "message": "There are no words to process.",
+            "correct_count": len(pronounced_words),
             "total": 0,
-            "correct_words": palabras_pronunciadas,
+            "correct_words": pronounced_words,
             "next_word": None
         })
 
-    palabras_correctas_lower = [palabra.lower() for palabra in palabras_correctas]
-    if spoken_word in palabras_correctas_lower:
-        logging.info(f"La palabra '{spoken_word}' es correcta.")
-        if spoken_word not in palabras_pronunciadas:
-            palabras_pronunciadas.append(spoken_word)
-            session['palabras_pronunciadas'] = palabras_pronunciadas
-            logging.debug(f"Palabras pronunciadas actualizadas: {palabras_pronunciadas}")
+    correct_words_in_lowercase = [word.lower() for word in correct_words]
+    if spoken_word in correct_words_in_lowercase:
+        logging.info(f"The word '{spoken_word}' is correct.")
+        if spoken_word not in pronounced_words:
+            pronounced_words.append(spoken_word)
+            session['pronounced_words'] = pronounced_words
+            logging.debug(f"Pronounced words updated: {pronounced_words}")
 
-        if len(palabras_pronunciadas) >= len(palabras_correctas_lower):
-            logging.info("Se han pronunciado todas las palabras correctamente.")
+        if len(pronounced_words) >= len(correct_words_in_lowercase):
+            logging.info("All words have been pronounced correctly.")
             return jsonify({
                 "correct": True,
-                "correct_count": len(palabras_pronunciadas),
-                "total": len(palabras_correctas_lower),
-                "correct_words": palabras_pronunciadas,
+                "correct_count": len(pronounced_words),
+                "total": len(correct_words_in_lowercase),
+                "correct_words": pronounced_words,
                 "next_word": None
             })
 
-        restantes = set(palabras_correctas_lower) - set(palabras_pronunciadas)
-        nueva_palabra = random.choice(list(restantes)) if restantes else None
-        logging.debug(f"Siguiente palabra a pronunciar: {nueva_palabra}")
+        restantes = set(correct_words_in_lowercase) - set(pronounced_words)
+        new_word = random.choice(list(restantes)) if restantes else None
+        logging.debug(f"Next word to pronounce: {new_word}")
 
         return jsonify({
             "correct": True,
-            "correct_count": len(palabras_pronunciadas),
-            "total": len(palabras_correctas_lower),
-            "correct_words": palabras_pronunciadas,
-            "next_word": nueva_palabra,
-            "highlight_word": nueva_palabra
+            "correct_count": len(pronounced_words),
+            "total": len(correct_words_in_lowercase),
+            "correct_words": pronounced_words,
+            "next_word": new_word,
+            "highlight_word": new_word
         })
 
-    current_word = palabras_correctas_lower[len(palabras_pronunciadas)] if len(palabras_pronunciadas) < len(palabras_correctas_lower) else None
-    logging.info(f"La palabra '{spoken_word}' es incorrecta. Siguiente palabra: {current_word}")
+    current_word = correct_words_in_lowercase[len(pronounced_words)] if len(pronounced_words) < len(correct_words_in_lowercase) else None
+    logging.info(f"The word '{spoken_word}' is incorrect. Next word: {current_word}")
 
     return jsonify({
         "correct": False,
-        "correct_count": len(palabras_pronunciadas),
-        "total": len(palabras_correctas_lower),
-        "correct_words": palabras_pronunciadas,
+        "correct_count": len(pronounced_words),
+        "total": len(correct_words_in_lowercase),
+        "correct_words": pronounced_words,
         "next_word": current_word
     })
 
@@ -166,14 +170,14 @@ def Signup():
         terms = request.form.get('terms')
 
         if not all([name, email, dob, terms]):
-            return render_template('Signup.html', error="Por favor completa todos los campos.")
+            return render_template('Signup.html', error="Please complete all the fields.")
 
         email_regex = r'^[\w\.-]+@[\w\.-]+\.\w+$'
         if not re.match(email_regex, email):
-            return render_template('Signup.html', error="Por favor, ingresa un correo electrónico válido.")
+            return render_template('Signup.html', error="Please, enter a valid email address.")
 
         if terms != 'on':
-            return render_template('Signup.html', error="Debes aceptar los términos y condiciones.")
+            return render_template('Signup.html', error="You must accept the terms and conditions.")
 
         try:
             conn = mysql.connector.connect(**db_config)
@@ -184,8 +188,8 @@ def Signup():
             """, (name, email, dob, True))
             conn.commit()
         except mysql.connector.Error as err:
-            logging.error(f"Error al registrar usuario: {err}")
-            return render_template('Signup.html', error=f"Error al registrar: {err}")
+            logging.error(f"Error registering user: {err}")
+            return render_template('Signup.html', error=f"Error registering: {err}")
         finally:
             if cursor:
                 cursor.close()
@@ -195,17 +199,18 @@ def Signup():
         return redirect(url_for('index'))
     return render_template('Signup.html')
 
-# Ruta dinámica para manejar todas las historias
-@app.route('/story/<int:story_id>')
-def story_detail(story_id):
-    story = get_cuento_by_id(story_id)
-    if not story:
-        return render_template('404.html'), 404  # Asegúrate de tener una plantilla 404.html amigable
-    return render_template('story.html', story=story)
+
 
 @app.route("/")
 def index():
     return render_template("index.html")
+
+@app.route('/story/<int:story_id>')
+def story(story_id):
+    story_data = get_story_by_id(story_id)
+    if not story_data:
+        return render_template('404.html'), 404
+    return render_template('story.html', story=story_data)
 
 @app.route("/login")
 def login():
@@ -227,14 +232,6 @@ def stories_to_spark_the_imagination():
 def page4():
     return render_template('page4.html')
 
-
-
-@app.route('/story/<int:story_id>')
-def story(story_id):
-    story_data = get_cuento_by_id(story_id)
-    if not story_data:
-        return render_template('404.html'), 404
-    return render_template('story.html', story=story_data)
 
 
 

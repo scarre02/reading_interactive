@@ -1,34 +1,96 @@
-<!-- story_rabbit.html -->
+<!-- story.html -->
 
 {% extends "base.html" %}
 
 {% block title %}{{ story.title }} - Short Stories{% endblock %}
 
 {% block content %}
-
+ <!-- It comes from the database -->
 <h1>{{ story.title }}</h1>
 <img src="{{ url_for('static', filename=story.image) }}" class="small-image">
+
 <div id="story-content">
     {{ story.content | safe }}
 </div>
+
 <h2>Keywords:</h2>
-<ul>
-    {% for keyword in story.palabras %}
+<ul id="keyword-list">
+    {% for keyword in story.words %}
         <li>{{ keyword }}</li>
     {% endfor %}
 </ul>
-<h2>Palabra actual:</h2>
-<p id="current-word">Cargando...</p>
 
+<h2>Word to Pronounce:</h2>
+<p id="current-word" style="visibility: hidden;">Press "Speak" to start</p>
+
+<h2>Word Recognized:</h2>
 <p id="recognized-word"></p>
 
 <h2>Progress:</h2>
 <p>Correct words pronunciated: <span id="correct-count">0</span></p>
 <ul id="correct-words-list"></ul>
+
 <div class="main-container ">
-      
     <!-- Button to start speech recognition -->
     <button id="start-recognition" onclick="startSpeechRecognition()" style="font-size: 18px; padding: 10px 20px; width: 150px; height: 50px;">Speak</button>
-        
 </div>
+
+<script>
+    let firstWordShown = false;
+
+function startSpeechRecognition() {
+    // Show the first word only if it has not been shown yet
+    if (!firstWordShown) {
+        const keywordList = document.querySelectorAll("#keyword-list li");
+        if (keywordList.length > 0) {
+            document.getElementById("current-word").innerText = keywordList[0].innerText;
+            document.getElementById("current-word").style.visibility = "visible";
+            firstWordShown = true;
+        }
+    }
+
+    const recognition = new (window.SpeechRecognition || window.webkitSpeechRecognition)();
+    recognition.lang = "en-US";
+    recognition.start();
+
+    recognition.onresult = function (event) {
+        let spokenWord = event.results[0][0].transcript.trim().toLowerCase();
+        document.getElementById("recognized-word").innerText = `Recognized: ${spokenWord}`;
+
+        let currentWord = document.getElementById("current-word").innerText.toLowerCase();
+
+        if (spokenWord === currentWord) {
+            alert(`✅ Correct! You said: ${spokenWord}`);
+            
+            // Add the word to the list of correct ones
+            let correctWordsList = document.getElementById("correct-words-list");
+            let newItem = document.createElement("li");
+            newItem.innerText = spokenWord;
+            correctWordsList.appendChild(newItem);
+
+            // Increase the counter
+            let correctCount = document.getElementById("correct-count");
+            correctCount.innerText = parseInt(correctCount.innerText) + 1;
+
+            // Obtain the next keyword
+            let remainingWords = Array.from(document.querySelectorAll("#keyword-list li"))
+                                       .map(li => li.innerText.toLowerCase())
+                                       .filter(word => !Array.from(correctWordsList.children).map(li => li.innerText).includes(word));
+
+            if (remainingWords.length > 0) {
+                document.getElementById("current-word").innerText = remainingWords[0];
+            } else {
+                document.getElementById("current-word").innerText = "All words completed!";
+            }
+        } else {
+            alert(`❌ Incorrect! Try again.`);
+        }
+    };
+
+    recognition.onerror = function (event) {
+        alert("Speech recognition error: " + event.error);
+    };
+}
+</script>
+
 {% endblock %}
