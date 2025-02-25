@@ -84,6 +84,8 @@ def process_speech():
     # Initialize session variables if they do not exist
     if 'pronounced_words' not in session:
         session['pronounced_words'] = []
+    if 'incorrect_words' not in session:
+        session['incorrect_words'] = []
 
     data = request.get_json()
     spoken_word = re.sub(r'[^a-zA-ZáéíóúüñÑ\s]', '', data.get("word", "").strip().lower())
@@ -91,12 +93,13 @@ def process_speech():
     logging.debug(f"Spoken word received: {spoken_word}")
 
     # Check if 'random words' exists in the session
-    if 'random words' not in session:
+    if 'random_words' not in session:
         logging.warning("There are no 'random words' in the session.")
         return jsonify({
             "correct": False,
             "message": "There are no words to process. Please load a story first.",
             "correct_count": len(session['pronounced_words']),
+            "incorrect_count": len(session['incorrect_words']),
             "total": 0,
             "correct_words": session['pronounced_words'],
             "next_word": None
@@ -104,9 +107,12 @@ def process_speech():
 
     correct_words = session['random_words']
     pronounced_words = session['pronounced_words']
+    incorrect_words = session['incorrect_words']
 
     logging.debug(f"Correct words: {correct_words}")
     logging.debug(f"Pronounced words: {pronounced_words}")
+    logging.debug(f"Palabras incorrectas: {incorrect_words}")
+    
 
     if not correct_words:
         logging.warning("There are no correct words to process.")
@@ -114,6 +120,7 @@ def process_speech():
             "correct": False,
             "message": "There are no words to process.",
             "correct_count": len(pronounced_words),
+            "incorrect_count": len(incorrect_words),
             "total": 0,
             "correct_words": pronounced_words,
             "next_word": None
@@ -132,34 +139,43 @@ def process_speech():
             return jsonify({
                 "correct": True,
                 "correct_count": len(pronounced_words),
+                "incorrect_count": len(incorrect_words),
                 "total": len(correct_words_in_lowercase),
                 "correct_words": pronounced_words,
                 "next_word": None
             })
 
-        restantes = set(correct_words_in_lowercase) - set(pronounced_words)
-        new_word = random.choice(list(restantes)) if restantes else None
+        remaining_words = set(correct_words_in_lowercase) - set(pronounced_words)
+        new_word = random.choice(list(remaining_words)) if remaining_words else None
         logging.debug(f"Next word to pronounce: {new_word}")
 
         return jsonify({
             "correct": True,
             "correct_count": len(pronounced_words),
+            "incorrect_count": len(incorrect_words),
             "total": len(correct_words_in_lowercase),
             "correct_words": pronounced_words,
             "next_word": new_word,
             "highlight_word": new_word
         })
+    
+    else:
+        # The word is incorrect: adding it to the list of incorrect words
+        logging.info(f"The word '{spoken_word}' is incorrect.")
+        incorrect_words.append(spoken_word)
+        session['incorrect_words'] = incorrect_words
 
-    current_word = correct_words_in_lowercase[len(pronounced_words)] if len(pronounced_words) < len(correct_words_in_lowercase) else None
-    logging.info(f"The word '{spoken_word}' is incorrect. Next word: {current_word}")
+        current_word = correct_words_in_lowercase[len(pronounced_words)] if len(pronounced_words) < len(correct_words_in_lowercase) else None
+        logging.info(f"The word '{spoken_word}' is incorrect. Next word: {current_word}")
 
-    return jsonify({
-        "correct": False,
-        "correct_count": len(pronounced_words),
-        "total": len(correct_words_in_lowercase),
-        "correct_words": pronounced_words,
-        "next_word": current_word
-    })
+        return jsonify({
+            "correct": False,
+            "correct_count": len(pronounced_words),
+            "incorrect_count": len(incorrect_words),
+            "total": len(correct_words_in_lowercase),
+            "correct_words": pronounced_words,
+            "next_word": current_word
+        })
 
 @app.route('/Signup', methods=['GET', 'POST'])
 def Signup():
@@ -232,6 +248,9 @@ def stories_to_spark_the_imagination():
 def page4():
     return render_template('page4.html')
 
+@app.route('/feedback')
+def feedback():
+    return render_template('feedback.html')
 
 
 
