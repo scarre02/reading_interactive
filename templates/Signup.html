@@ -7,29 +7,29 @@
     <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
     
     <style>
-        /* Asegúrate de que los campos ocultos estén configurados correctamente */
+        /* Make sure the hidden fields are set up correctly. */
         .input-group {
-            display: none; /* Oculta inicialmente los campos de entrada */
+            display: none; /* Initially hide the input fields */
             margin-top: 20px;
         }
 
         .input-group.visible {
-            display: block; /* Muestra los campos de entrada cuando tienen la clase 'visible' */
+            display: block; /* Show the input fields when they have the class 'visible' */
         }
     </style>
     <script>
         document.addEventListener('DOMContentLoaded', function () {
-            // Selecciona todos los botones con la clase 'btn'
+            // Select all buttons with the class 'btn'
             const buttons = document.querySelectorAll('.login-container .btn');
 
-            // Agrega un evento click a cada botón
+            // Add a click event to each button
             buttons.forEach(button => {
                 button.addEventListener('click', function () {
-                    const fieldId = this.id.replace('btn-', 'group-'); // Obtén el ID del campo correspondiente
-                    const fieldGroup = document.getElementById(fieldId); // Encuentra el grupo de entrada
+                    const fieldId = this.id.replace('btn-', 'group-'); // Get the ID of the corresponding field
+                    const fieldGroup = document.getElementById(fieldId); // Find the input group
 
                     if (fieldGroup) {
-                        // Alterna la clase 'visible' para mostrar/ocultar el campo
+                        // Toggle the 'visible' class to show/hide the field
                         fieldGroup.classList.toggle('visible');
                     }
                 });
@@ -53,7 +53,7 @@
         <section class="login-container">
             <form action="{{ url_for('Signup') }}" method="post" id="signup-form">
 
-                <!-- Campos de entrada ocultos -->
+                <!-- Hidden input fields -->
                 <div class="input-fields">
                     <div class="input-group visible" id="group-name">
                         <label for="name">Name:</label>
