@@ -29,6 +29,7 @@
 <p>Incorrect words pronounced: <span id="incorrect-count">0</span></p>
 <ul id="correct-words-list"></ul>
 
+
 <div class="main-container">
     <!-- Button to start speech recognition -->
     <button id="start-recognition" onclick="startSpeechRecognition()" style="font-size: 18px; padding: 10px 20px; width: 150px; height: 50px;">Speak</button>
@@ -36,14 +37,42 @@
 
 <script>
     let firstWordShown = false;
+    let wordIndexMap = []; // Stores word-index mapping
+
+    // Extract words from span tags and store in wordIndexMap
+    function initializeWordIndexMap() {
+        const spanElements = document.querySelectorAll("span[data-index]");
+        wordIndexMap = Array.from(spanElements).map(span => ({
+            word: span.innerText.toLowerCase().trim(),
+            index: parseInt(span.getAttribute("data-index")),
+            element: span // Store reference to the actual span element
+        }));
+        wordIndexMap.sort((a, b) => a.index - b.index); // Sort by index for correct order
+    }
+
+    function highlightCurrentWord(index) {
+        // Remove existing highlights
+        document.querySelectorAll("span.highlight-word").forEach(span => {
+            span.classList.remove("highlight-word");
+        });
+
+        // Highlight the current word's span
+        let currentSpan = document.querySelector(`span[data-index='${index}']`);
+        if (currentSpan) {
+            currentSpan.classList.add("highlight-word");
+        }
+    }
 
     function startSpeechRecognition() {
-        // Show the first word only if it has not been shown yet.
         if (!firstWordShown) {
-            const keywordList = document.querySelectorAll("#keyword-list li");
-            if (keywordList.length > 0) {
-                document.getElementById("current-word").innerText = keywordList[0].innerText;
+            initializeWordIndexMap(); // Ensure words are indexed before starting
+            
+            if (wordIndexMap.length > 0) {
+                let firstWord = wordIndexMap[0];
+                document.getElementById("current-word").innerText = firstWord.word;
+                document.getElementById("current-word").setAttribute("data-index", firstWord.index);
                 document.getElementById("current-word").style.visibility = "visible";
+                highlightCurrentWord(firstWord.index);
                 firstWordShown = true;
             }
         }
@@ -57,39 +86,36 @@
             document.getElementById("recognized-word").innerText = `Recognized: ${spokenWord}`;
 
             let currentWord = document.getElementById("current-word").innerText.toLowerCase();
+            let currentIndex = parseInt(document.getElementById("current-word").getAttribute("data-index"));
 
             if (spokenWord === currentWord) {
                 alert(`✅ Correct! You said: ${spokenWord}`);
-                
-                // Add the word to the list of correct ones.
+
+                // Add the word to the correct list
                 let correctWordsList = document.getElementById("correct-words-list");
                 let newItem = document.createElement("li");
                 newItem.innerText = spokenWord;
                 correctWordsList.appendChild(newItem);
 
-                // Increase the correct answer counter.
+                // Update the correct counter
                 let correctCount = document.getElementById("correct-count");
                 correctCount.innerText = parseInt(correctCount.innerText) + 1;
 
-                // Get the next word to pronounce.
-                let keywordList = Array.from(document.querySelectorAll("#keyword-list li")).map(li => li.innerText.toLowerCase());
-                let pronouncedList = Array.from(correctWordsList.children).map(li => li.innerText);
-                let remainingWords = keywordList.filter(word => !pronouncedList.includes(word));
-
-                if (remainingWords.length > 0) {
-                    document.getElementById("current-word").innerText = remainingWords[0];
+                // Find the next word in sequence
+                let nextWord = wordIndexMap.find(wordObj => wordObj.index > currentIndex);
+                if (nextWord) {
+                    document.getElementById("current-word").innerText = nextWord.word;
+                    document.getElementById("current-word").setAttribute("data-index", nextWord.index);
+                    highlightCurrentWord(nextWord.index);
                 } else {
-                    // All words have been pronounced correctly
                     document.getElementById("current-word").innerText = "All words have been pronounced correctly.";
                     
-                    // Redirect to the feedback page
                     setTimeout(() => {
                         window.location.href = "/feedback";  
-                    }, 1000); // Wait 1 second before redirecting.
+                    }, 1000);
                 }
             } else {
                 alert(`❌ Incorrect! Try again.`);
-                // Increase the incorrect answer counter.
                 let incorrectCount = document.getElementById("incorrect-count");
                 incorrectCount.innerText = parseInt(incorrectCount.innerText) + 1;
             }
@@ -100,5 +126,6 @@
         };
     }
 </script>
+
 
 {% endblock %}

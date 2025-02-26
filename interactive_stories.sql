@@ -107,6 +107,89 @@ Hearing the lion''s cries, the little mouse remembered his promise. He scurried 
 "You were right," the lion said gratefully, "even the smallest of creatures can be of great help."
 Moral of the Story: No act of kindness, no matter how small, is ever wasted. Even the smallest friends can prove to be the greatest allies.'
 );
+DESCRIBE stories;
+
+
+INSERT INTO stories (title, content, image) VALUES 
+('Little Red Hen Story', 
+'Once upon a time, in a barnyard lived a Little Red Hen. She spent almost all her time walking around the barnyard, scratching everywhere for worms. She dearly loved fat and delicious worms and felt they were absolutely necessary for the health of her chicks. Whenever she found a worm, she would call “Chuck-chuck-chuck!” to her chicks.
+
+A cat used to nap lazily at the barn door, not even bothering to scare the rat who ran here and there. There also lived a pig who used to stay in the pigsty and did not care what happened, as long as he could eat and grow fat.
+
+One day the Little Red Hen found a wheat seed. She bit the seed gently, thinking it was a worm, but it resembled a worm in no way! Carrying it around the barn, the Little Red Hen made many inquiries about what it might be. She discovered that it was a wheat seed and that, if planted, the seed would grow up, and when ripe, it could be made into flour that could be used to make bread.
+
+But the seed had to be planted first. So, she thought of the Pig, Cat, and Rat for help and called out to them –
+
+“Who will plant the Seed?”
+
+“Not I,” said the Pig,  
+“Not I,” said the Cat,  
+“Not I,” said the Rat.  
+
+“Well, I will then,” said the Little Red Hen.  
+
+After some months, the wheat grew taller and ready for harvest. So she ran about calling –  
+
+“Who will cut the wheat?”  
+
+“Not I,” said the Pig,  
+“Not I,” said the Cat,  
+“Not I,” said the Rat.  
+
+“Well, I will then,” said the Little Red Hen.  
+
+She proceeded to cut off all of the big plants of wheat.  
+
+Now was the time to thresh the wheat. In a very hopeful tone, she again called out, “Who will thresh the wheat?”  
+
+“Not I,” said the Pig,  
+“Not I,” said the Cat,  
+“Not I,” said the Rat.  
+
+“Well, I will, then.” said the Little Red Hen.  
+
+After threshing the wheat, she again called out for help -  
+
+“Who will help to carry the wheat to the mill to be ground?”  
+
+“Not I,” said the Pig,  
+“Not I,” said the Cat,  
+“Not I,” said the Rat.  
+
+“Well, I will then,” said the Little Red Hen.  
+
+Carrying the sack of wheat, she trudged off to the mill. There she got the wheat ground into white flour.  
+
+Now that the wheat was ground, it had to be made into bread.  
+
+Still confident that the Pig, Cat and Rat would surely help, she sang out, “Who will make the bread?”  
+
+“Not I,” said the Pig,  
+“Not I,” said the Cat,  
+“Not I,” said the Rat.  
+
+Alas, all the hopes of the Little Red Hen were dashed.  
+
+So, the Little Red Hen said again, “I will then”.  
+
+She went and put on an apron, set the dough, brought out the moulding board and the baking tins, moulded the bread, divided it into loaves, and put them into the oven to bake.  
+
+After some time, a delicious odour was in the air. The Little Red Hen pulled lovely brown loaves from the oven that were baked to perfection.  
+
+Out of habit, the Little Red Hen called out –  
+
+“Who will eat the bread?”  
+
+“I will,” said the Pig,  
+“I will,” said the Cat,  
+“I will,” said the Rat.  
+
+But this time, the Little Red Hen replied –  
+
+“No, you won''t. I will.”  
+
+The Little Red Hen called her chicks and ate up all the delicious bread. There was nothing left for the Pig, Cat and Rat.',  
+'little_red_hen.jpg');  
 
 
 INSERT INTO keywords (keyword) VALUES 
@@ -123,6 +206,9 @@ INSERT INTO keywords (keyword) VALUES
 
 INSERT INTO keywords (keyword) VALUES 
 ('jungle'),('king'),('courage'),('promise'),('friends');
+
+INSERT INTO keywords (keyword) VALUES 
+('pigsty'),('discovered'),('seed'),('wheat'),('chicks');
 
 
 -- Supongamos que los keyword_ids son 1, 2, 3, 4 y 5
@@ -161,6 +247,14 @@ INSERT INTO story_keywords (story_id, keyword_id) VALUES
 (5, 23),  -- Relationship between story 5 and keyword 3
 (5, 24),  -- Relationship between story 5 and keyword 4
 (5, 25);  -- Relationship between story 5 and keyword 5
+
+INSERT INTO story_keywords (story_id, keyword_id) VALUES
+(6, 26),  -- Relationship between story 6 and keyword 1
+(6, 27),  -- Relationship between story 6 and keyword 2
+(6, 28),  -- Relationship between story 6 and keyword 3
+(6, 29),  -- Relationship between story 6 and keyword 4
+(6, 30);  -- Relationship between story 6 and keyword 5
+
 
 
 

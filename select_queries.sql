@@ -59,9 +59,10 @@ WHERE keyword IN ('lion','storm','courage','animals','heart');
 -- Obtener los IDs recién insertados
 SELECT id FROM keywords WHERE keyword IN ('time', 'rabbits', 'accident', 'carrots', 'blackberries');
 
+SELECT id, keyword FROM keywords WHERE keyword IN ('pigsty','discovered','seed','wheat','chicks');
+SELECT id, keyword FROM keywords 
+WHERE keyword IN ('pigsty', 'discovered', 'seed', 'wheat', 'chicks');
 
-
--- Supongamos que los IDs son 1, 2, 3, 4, 5
 
 -- Para reiniciar el contador autoincrement desde 1
 ALTER TABLE keywords AUTO_INCREMENT = 1;
@@ -176,3 +177,21 @@ WHERE story_id = 3 AND keyword_id = 5;
 
 SELECT * FROM story_keywords;
 SELECT * FROM keywords;
+
+
+SELECT id FROM stories WHERE title = 'The Tale of Petter Rabbit';
+SELECT id FROM stories WHERE title = 'The Brave Lion';
+SELECT id FROM stories WHERE title = 'The Tortoise and the Hare';
+SELECT id FROM stories WHERE title = 'The Brave Little Fox';
+SELECT id FROM stories WHERE title = 'The Lion and the Mouse';
+SELECT id FROM stories WHERE title = 'Little Red Hen Story';
+
+
+
+
+
+
+TRUNCATE TABLE keywords;
+SELECT id, keyword FROM keywords ORDER BY id;
+INSERT INTO keywords (keyword) VALUES ('pigsty'), ('discovered'), ('seed'), ('wheat'), ('chicks');
+

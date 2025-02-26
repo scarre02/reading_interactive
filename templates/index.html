@@ -15,32 +15,44 @@
                 </a>
                 <h3>The Tale of Peter Rabbit</h3>
             </div>
+            
             <div class="image-block">
                 <a href="{{ url_for('story', story_id=2) }}">
                     <img src="{{ url_for('static', filename='lion.jpg') }}" alt="Lion">
                 </a>
                 <h3>Lion</h3>
             </div>
+            
             <div class="image-block">
                 <a href="{{ url_for('story', story_id=3) }}">
                     <img src="{{ url_for('static', filename='TTATH.JPG') }}" alt="Tortoise and Hare">
                 </a>
                 <h3>The Tortoise and the Hare</h3>
             </div>
+            
             <div class="image-block">
                 <a href="{{ url_for('story', story_id=4) }}">
                     <img src="{{ url_for('static', filename='the_brave_little_fox.webp') }}" alt="the brave little fox">
                 </a>
                 <h3>The brave little fox</h3>
             </div>
+            
             <div class="image-block">
                 <a href="{{ url_for('story', story_id=5) }}">
                     <img src="{{ url_for('static', filename='TLATM.webp') }}" alt="The lion and the mouse">
                 </a>
-                <h3>The Lion and the Mouse</h3>      
-        </div>
+                <h3>The Lion and the Mouse</h3> 
+            </div>  
+
+            <div class="image-block">
+                <a href="{{ url_for('story', story_id=6) }}">
+                    <img src="{{ url_for('static', filename='little_red_hen.jpg') }}" alt="The little red hen story">
+                </a>
+                <h3>The little red hen story</h3> 
+            </div> 
+        </div> 
     </div>
 </body>
 </html>
-{% endblock %}
 
+{% endblock %}
