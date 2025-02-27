@@ -248,9 +248,6 @@ def stories_to_spark_the_imagination():
 def page4():
     return render_template('page4.html')
 
-@app.route('/feedback')
-def feedback():
-    return render_template('feedback.html')
 
 
 

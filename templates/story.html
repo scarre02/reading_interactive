@@ -10,29 +10,36 @@
 <div id="story-content">
     {{ story.content | safe }}
 </div>
+<!-- Contenedor flexible para Keywords, Word to Pronounce, Progress y el botón -->
+<div class="interaction-container">
+    <!-- Sección de Keywords -->
+    <div class="keywords-box">
+        <h2>Keywords:</h2>
+        <ul id="keyword-list">
+            {% for keyword in story.words %}
+                <li>{{ keyword }}</li>
+            {% endfor %}
+        </ul>
+    </div>
 
-<h2>Keywords:</h2>
-<ul id="keyword-list">
-    {% for keyword in story.words %}
-        <li>{{ keyword }}</li>
-    {% endfor %}
-</ul>
+    <!-- Sección de palabras y progreso -->
+    <div class="progress-section">
+        <h2>Word to Pronounce:</h2>
+        <p id="current-word" style="visibility: hidden;">Press "Speak" to start</p>
 
-<h2>Word to Pronounce:</h2>
-<p id="current-word" style="visibility: hidden;">Press "Speak" to start</p>
+        <h2>Word Recognized:</h2>
+        <p id="recognized-word"></p>
 
-<h2>Word Recognized:</h2>
-<p id="recognized-word"></p>
+        <h2>Progress:</h2>
+        <p>Correct words pronounced: <span id="correct-count">0</span></p>
+        <p>Incorrect words pronounced: <span id="incorrect-count">0</span></p>
+        <ul id="correct-words-list"></ul>
+    </div>
 
-<h2>Progress:</h2>
-<p>Correct words pronounced: <span id="correct-count">0</span></p>
-<p>Incorrect words pronounced: <span id="incorrect-count">0</span></p>
-<ul id="correct-words-list"></ul>
-
-
-<div class="main-container">
-    <!-- Button to start speech recognition -->
-    <button id="start-recognition" onclick="startSpeechRecognition()" style="font-size: 18px; padding: 10px 20px; width: 150px; height: 50px;">Speak</button>
+    <!-- Botón de reconocimiento de voz -->
+    <div class="button-container">
+        <button id="start-recognition" onclick="startSpeechRecognition()">Speak</button>
+    </div>
 </div>
 
 <script>

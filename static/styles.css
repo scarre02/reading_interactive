@@ -15,34 +15,34 @@ body {
 }
 
 header {
-    display: flex; /* Activa Flexbox */
-    justify-content: space-between; /* Espacia los elementos al máximo entre sí */
-    align-items: center; /* Alinea verticalmente los elementos al centro */
+    display: flex; /* Enable Flexbox */
+    justify-content: space-between; /* Space elements as far apart as possible */
+    align-items: center; /* Align elements vertically to the center */
     background-color: #D2B48C;
     color: #654a02;
-    padding: 20px 40px; /* Ajusta el padding según sea necesario */
+    padding: 20px 40px; /*Adjust padding as needed */
 }
 
 .header h1 {
     font-family: 'Amatic SC', cursive;
     font-size: 4rem;
     font-weight: bold;
-    margin: 0; /* Elimina márgenes */
-    padding: 0; /* Elimina padding */
+    margin: 0; /* Remove margins */
+    padding: 0; /* Remove padding */
     color:#654a02;
 }
 
-/* Estilos específicos para los botones del encabezado */
+/* Specific styles for header buttons. */
 .header-buttons {
     display: flex;
-    flex-direction: column; /* Organiza los botones en una columna */
-    align-items: center;    /* Centra los botones horizontalmente */
-    gap: 10px;              /* Espacio entre los botones */
-    margin-top: 20px;       /* Espacio superior opcional */
+    flex-direction: column; /* Arrange buttons in a column */
+    align-items: center;    /* Center buttons horizontally */
+    gap: 10px;              /* Space between buttons */
+    margin-top: 20px;       /* Optional top spacing */
 }
 
 .header-buttons .btn {
-    width: 150px; /* Ajusta el ancho según tus necesidades */
+    width: 150px; /* Adjust the width as needed. */
     text-align: center;
     padding: 10px 20px;
     border-radius: 5px;
@@ -154,7 +154,7 @@ header {
 }
 
 .image-container img {
-    width: calc(40% - 20px); /* /* Sets the width of the image to 40% of its container minus the gap space */
+    width: calc(70% - 10px); /* /* Sets the width of the image to 40% of its container minus the gap space */
     max-width: 600px; /* Limits the maximum width of the image to prevent it from becoming too large on larger screens */
     height: auto; /* Ensures the image maintains its original aspect ratio and scales its height automatically */
     object-fit: cover; /* Ensures the image covers its container's dimensions while maintaining its aspect ratio, cropping if necessary */
@@ -174,12 +174,12 @@ header {
     gap: 20px; /* Space between the buttons */
 }
 
-/* Clase común para todos los botones */
+/* Common class for all buttons. */
 .btn {
-    background-color: #654a02; /* Mismo color que .signup-btn y .login-btn */
+    background-color: #654a02; /* Same color as .signup-btn and .login-btn. */
     color: white;
     padding: 10px 20px;
-    border: none; /* Elimina bordes predeterminados */
+    border: none; /* Remove default borders. */
     border-radius: 5px;
     text-decoration: none;
     font-size: 16px;
@@ -257,7 +257,7 @@ footer {
 }
 
 .input-fields {
-    display: block; /* Muestra los campos de entrada por defecto */
+    display: block; /* Display the input fields by default. */
     
     visibility: visible;
     opacity: 1;
@@ -265,7 +265,7 @@ footer {
 }
 
 .input-group {
-    display: block; /* Muestra los campos de entrada por defecto */
+    display: block; /* Show the input fields by default. */
     margin-top: 20px;
 }
 
@@ -281,3 +281,57 @@ footer {
     font-weight: bold;
 }
 
+/* Contenedor principal para agrupar Keywords, progreso y botón */
+.interaction-container {
+    display: flex; /* Alinea los elementos en fila */
+    justify-content: space-between; /* Distribuye el contenido uniformemente */
+    align-items: flex-start; /* Asegura que se alineen en la parte superior */
+    gap: 30px; /* Espaciado entre elementos */
+    margin-top: 20px; /* Espaciado con el contenido del cuento */
+    flex-wrap: wrap; /* Permite que los elementos se acomoden si el espacio es pequeño */
+}
+
+/* Caja de Keywords */
+.keywords-box {
+    padding: 10px;
+    border-radius: 5px;
+    flex: 1; /* Ajusta el tamaño automáticamente */
+}
+
+/* Sección de palabras y progreso */
+.progress-section {
+    flex: 2; /* Ocupa más espacio que las keywords */
+}
+
+/* Contenedor del botón */
+.button-container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex: 1; /* Mantiene el botón en su lugar sin desbordar */
+}
+
+/* Botón de reconocimiento */
+#start-recognition {
+    font-size: 18px;
+    padding: 10px 20px;
+    width: 150px;
+    height: 50px;
+    background-color: #ffb52b;
+    color: rgb(0, 0, 0);
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background 0.3s ease;
+}
+
+#start-recognition:hover {
+    background-color: #c68306;
+}
+
+/* Ocultar los puntos de la lista */
+#keyword-list {
+    list-style-type: none;
+    padding-left: 0;
+    margin: 0;
+}
