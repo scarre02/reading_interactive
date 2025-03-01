@@ -4,13 +4,55 @@
 
 {% block content %}
 
-<body class="fairy_tales"></body>
-<section>
+<body>
+    <!-- Central section -->
     <div class="content">
-            <h1>Fairy Tales</h1>
-        
+        <!-- Image container with 3 blocks per row -->
+        <div class="image-container">
+            <div class="image-block">
+                <a href="{{ url_for('story', story_id=7) }}">
+                    <img src="{{ url_for('static', filename='story_7.webp') }}" alt="Little Red Riding Hood">
+                </a>
+                <h3>Little Red Riding Hood</h3>
+            </div>
+            
+            <div class="image-block">
+                <a href="{{ url_for('story', story_id=8) }}">
+                    <img src="{{ url_for('static', filename='story_8.webp') }}" alt="Sleeping Beauty">
+                </a>
+                <h3>Sleeping Beauty</h3>
+            </div>
+            
+            <div class="image-block">
+                <a href="{{ url_for('story', story_id=9) }}">
+                    <img src="{{ url_for('static', filename='story_9.webp') }}" alt="Jack and the Beanstalk">
+                </a>
+                <h3>Jack and the Beanstalk</h3>
+            </div>
+            
+            <div class="image-block">
+                <a href="{{ url_for('story', story_id=10) }}">
+                    <img src="{{ url_for('static', filename='story_10.webp') }}" alt="The Shepherd Boy And The Wolf ">
+                </a>
+                <h3>The Shepherd Boy And The Wolf</h3>
+            </div>
+            
+            <div class="image-block">
+                <a href="{{ url_for('story', story_id=11) }}">
+                    <img src="{{ url_for('static', filename='story_11.webp') }}" alt="Snow White and the Seven Dwarfs">
+                </a>
+                <h3>Snow White and the Seven Dwarfs</h3> 
+            </div>  
+
+            <div class="image-block">
+                <a href="{{ url_for('story', story_id=12) }}">
+                    <img src="{{ url_for('static', filename='story_12.webp') }}" alt="Cinderella">
+                </a>
+                <h3>Cinderella</h3> 
+            </div> 
+        </div> 
     </div>
-</section>
 </body>
+</html>
 
 {% endblock %}

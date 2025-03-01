@@ -30,8 +30,6 @@ CREATE TABLE category (
 
 INSERT INTO category (name_category) VALUES ('Story Selection'), ('Fairy Tales'), ('Animal Fables'), ('Stories to spark the imagination');
 
-
-
 INSERT INTO stories (id, title, content, image, category_id) VALUES
 (1, 'The Tale of Peter Rabbit', 'Once upon a time , there were four little rabbits named Flopsy, Mopsy, Cotton-tail, and Peter. They lived with their mother in a cozy burrow under the roots of a big fir tree.
 One morning, Mrs. Rabbit said, "You may go into the fields or down the lane, but don’t go into Mr. McGregor’s garden. Your father had an accident there, and I don’t want the same to happen to you."

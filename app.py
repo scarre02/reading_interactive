@@ -240,9 +240,9 @@ def fairy_tales():
 def animal_fables():
     return render_template('animal_fables.html')
 
-@app.route('/stories_to_spark_the_imagination')
-def stories_to_spark_the_imagination():
-    return render_template('stories_to_spark_the_imagination.html')
+@app.route('/bedtime_stories')
+def bedtime_stories():
+    return render_template('bedtime_stories.html')
 
 @app.route('/page4')
 def page4():

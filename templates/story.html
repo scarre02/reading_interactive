@@ -10,9 +10,9 @@
 <div id="story-content">
     {{ story.content | safe }}
 </div>
-<!-- Contenedor flexible para Keywords, Word to Pronounce, Progress y el botón -->
+<!-- Flexible container for Keywords, Word to Pronounce, Progress, and the button -->
 <div class="interaction-container">
-    <!-- Sección de Keywords -->
+    <!-- Keywords section -->
     <div class="keywords-box">
         <h2>Keywords:</h2>
         <ul id="keyword-list">
@@ -22,7 +22,7 @@
         </ul>
     </div>
 
-    <!-- Sección de palabras y progreso -->
+    <!-- Words and progress section -->
     <div class="progress-section">
         <h2>Word to Pronounce:</h2>
         <p id="current-word" style="visibility: hidden;">Press "Speak" to start</p>
@@ -36,7 +36,7 @@
         <ul id="correct-words-list"></ul>
     </div>
 
-    <!-- Botón de reconocimiento de voz -->
+    <!-- Speech recognition button -->
     <div class="button-container">
         <button id="start-recognition" onclick="startSpeechRecognition()">Speak</button>
     </div>
