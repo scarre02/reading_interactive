@@ -1,15 +1,59 @@
 {% extends "base.html" %}
 
-{% block title %}Bedtime stories - Short Stories{% endblock %}
+{% block title %}Bedtime stories- Short Stories{% endblock %}
 
 {% block content %}
 
-<body class="bedtime_stories">
-<section>
+<body>
+    <!-- Central section -->
     <div class="content">
-        <h1>Bedtime stories</h1>
+        <!-- Image container with 3 blocks per row -->
+        <div class="image-container">
+            <div class="image-block">
+                <a href="{{ url_for('story', story_id=13) }}">
+                    <img src="{{ url_for('static', filename='story_13.webp') }}" alt="The Tale of Peter Rabbit">
+                </a>
+                <h3>The Tale of Peter Rabbit</h3>
+            </div>
+            
+            <div class="image-block">
+                <a href="{{ url_for('story', story_id=14) }}">
+                    <img src="{{ url_for('static', filename='story_14.webp') }}" alt="The Brave Little Squirrel">
+                </a>
+                <h3>The Brave Little Squirrel</h3>
+            </div>
+            
+            <div class="image-block">
+                <a href="{{ url_for('story', story_id=15) }}">
+                    <img src="{{ url_for('static', filename='story_15.webp') }}" alt="Luna and the Starry Night">
+                </a>
+                <h3>Luna and the Starry Night</h3>
+            </div>
+            
+            <div class="image-block">
+                <a href="{{ url_for('story', story_id=16) }}">
+                    <img src="{{ url_for('static', filename='story_16.webp') }}" alt="The Kindness of the Little Mouse">
+                </a>
+                <h3>The Kindness of the Little Mouse</h3>
+            </div>
+            
+            <div class="image-block">
+                <a href="{{ url_for('story', story_id=17) }}">
+                    <img src="{{ url_for('static', filename='story_17.webp') }}" alt="The Adventure of the Lost Treasure">
+                </a>
+                <h3>The Adventure of the Lost Treasure</h3> 
+            </div>  
+
+            <div class="image-block">
+                <a href="{{ url_for('story', story_id=18) }}">
+                    <img src="{{ url_for('static', filename='story_18.webp') }}" alt="The Little Cloud Who Could">
+                </a>
+                <h3>The Little Cloud Who Could</h3> 
+            </div> 
+        </div> 
     </div>
-</section>
 </body>
+</html>
 
 {% endblock %}
+

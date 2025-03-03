@@ -244,9 +244,9 @@ def animal_fables():
 def bedtime_stories():
     return render_template('bedtime_stories.html')
 
-@app.route('/page4')
-def page4():
-    return render_template('page4.html')
+@app.route('/about_us')
+def about_us():
+    return render_template('about_us.html')
 
 
 

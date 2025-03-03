@@ -9,10 +9,11 @@
 <body class="{{ 'index' if request.endpoint == 'index' else '' }}">
     <!-- Header -->
     <header class="header">
-        <h1>Short Stories for Kids</h1>
+        <h1>Reading Interactive</h1>
+        <h2>Short Stories for Kids</h2>
         <div class="button-container header-buttons">
-            <a href="{{ url_for('Signup') }}" class="btn signup-btn">Sign Up</a>
-            <a href="{{ url_for('login') }}" class="btn login-btn">Loggin</a>
+            <a href="{{ url_for('Signup') }}" class="btn signup-btn">Sign up</a>
+            <a href="{{ url_for('login') }}" class="btn login-btn">Log in with Google</a>
         </div>
     </header>
 
@@ -25,11 +26,11 @@
     <section class="button-line">
         <nav>
             <div class="button-container">
-                <a href="{{ url_for('index') }}"class="btn">Story selection</a>
+                <a href="{{ url_for('index') }}"class="btn">Index</a>
                 <a href="{{ url_for('fairy_tales') }}"class="btn">Fairy tales</a>
                 <a href="{{ url_for('animal_fables') }}"class="btn">Animal fables</a>
                 <a href="{{ url_for('bedtime_stories') }}"class="btn">Bedtime stories</a>
-                <a href="{{ url_for('page4') }}"class="btn">About us</a>
+                <a href="{{ url_for('about_us') }}"class="btn">About us</a>
             </div>
         </nav>
     </section>
@@ -46,7 +47,7 @@
     
     <!-- Footer -->
     <footer class="footer">
-        <p>&copy; 2024, Reading Interactive, Silvina Carrera - Birkbeck, University of London. All Rights Reserved</p>
+        <p>&copy; 2025, Reading Interactive, Silvina Carrera - Birkbeck, University of London. All Rights Reserved</p>
     </footer>
  
 </body>

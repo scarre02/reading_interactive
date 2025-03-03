@@ -1,20 +1,59 @@
 {% extends "base.html" %}
 
-{% block title %}Animal Fables - Short Stories{% endblock %}
+{% block title %}Animal fables - Short Stories{% endblock %}
 
 {% block content %}
 
-<body class="animal_fables">
-<section>
+<body>
+    <!-- Central section -->
     <div class="content">
-      
-            <h1>Animal Fables</h1>
-  
-        <!-- Box with image -->
-       
-            <img src="{{ url_for('static', filename='peter_rabbit.jpg') }}" alt="Imagen ilustrativa">
-    </div>
+        <!-- Image container with 3 blocks per row -->
+        <div class="image-container">
+            <div class="image-block">
+                <a href="{{ url_for('story', story_id=1) }}">
+                    <img src="{{ url_for('static', filename='story_1.webp') }}" alt="The ant and the Grasshopper">
+                </a>
+                <h3>The ant and the Grasshopper</h3>
+            </div>
+            
+            <div class="image-block">
+                <a href="{{ url_for('story', story_id=2) }}">
+                    <img src="{{ url_for('static', filename='story_2.webp') }}" alt="The brave lion">
+                </a>
+                <h3>The brave lion</h3>
+            </div>
+            
+            <div class="image-block">
+                <a href="{{ url_for('story', story_id=3) }}">
+                    <img src="{{ url_for('static', filename='story_3.webp') }}" alt="Tortoise and Hare">
+                </a>
+                <h3>The tortoise and the hare</h3>
+            </div>
+            
+            <div class="image-block">
+                <a href="{{ url_for('story', story_id=4) }}">
+                    <img src="{{ url_for('static', filename='story_4.webp') }}" alt="the brave little fox">
+                </a>
+                <h3>The brave little fox</h3>
+            </div>
+            
+            <div class="image-block">
+                <a href="{{ url_for('story', story_id=5) }}">
+                    <img src="{{ url_for('static', filename='story_5.webp') }}" alt="The lion and the mouse">
+                </a>
+                <h3>The lion and the mouse</h3> 
+            </div>  
 
-</section>
+            <div class="image-block">
+                <a href="{{ url_for('story', story_id=6) }}">
+                    <img src="{{ url_for('static', filename='story_6.webp') }}" alt="The little red hen story">
+                </a>
+                <h3>The little red hen story</h3> 
+            </div> 
+        </div> 
+    </div>
 </body>
+</html>
+
 {% endblock %}
+

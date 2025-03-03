@@ -1,6 +1,5 @@
 INSERT INTO stories (id, title, content, image, category_id) VALUES
-(7, 'Little Red Riding Hood', 
-'Once upon a time there was a dear little girl who was loved by every one who looked at her, but most of all by her grandmother, and there was nothing that she would not have given to the child. Once she gave her a little cap of red velvet, which suited her so well that she would never wear anything else. So she was always called Little Red Riding Hood.<br><br>
+(7, 'Little Red Riding Hood', 'Once upon a time there was a dear little girl who was loved by every one who looked at her, but most of all by her grandmother, and there was nothing that she would not have given to the child. Once she gave her a little cap of red velvet, which suited her so well that she would never wear anything else. So she was always called Little Red Riding Hood.<br><br>
 
 One day her mother said to her, "Come, Little Red Riding Hood, here is a piece of cake and a bottle of wine. Take them to your grandmother, she is ill and weak, and they will do her good. Set out before it gets hot, and when you are going, walk nicely and quietly and do not run off the path, or you may fall and break the bottle, and then your grandmother will get nothing. And when you go into her room, don’t forget to say, good-morning, and don’t peep into every corner before you do it."<br><br>
 
@@ -77,8 +76,7 @@ Then all three were delighted. The huntsman drew off the wolf''s skin and went h
 The End.', 'story_7.webp', 2);
 
 INSERT INTO stories (id, title, content, image, category_id) VALUES
-(8, 'Sleeping Beauty', 
-'Once upon a time, in a land of magic, there lived a beautiful princess named Aurora. She was known throughout the kingdom for her kindness, grace, and her heartwarming smile. Her hair was as golden as the sun, her eyes as blue as the sky, and her laughter as sweet as a songbird''s.<br><br>
+(8, 'Sleeping Beauty', 'Once upon a time, in a land of magic, there lived a beautiful princess named Aurora. She was known throughout the kingdom for her kindness, grace, and her heartwarming smile. Her hair was as golden as the sun, her eyes as blue as the sky, and her laughter as sweet as a songbird''s.<br><br>
 
 Aurora''s story began in a grand palace, where she was born to a loving king and queen. Her arrival brought great joy to the kingdom, and the king and queen celebrated her birth with a big feast. As the kingdom rejoiced, three good fairies, Flora, Fauna, and Merryweather, gave their blessings to the little princess.<br><br>
 
@@ -105,33 +103,52 @@ And so, my dear child, that is the end of the story of Sleeping Beauty. It remin
 The End.', 'story_8.webp', 2);
 
 INSERT INTO stories (id, title, content, image, category_id) VALUES
-(9, 'Jack and the Beanstalk', 
-'Once upon a time, there was a poor boy named Jack who lived with his mother in a small cottage.<br><br>
+(9, 'Jack and the Beanstalk', 'Once upon a time, there was a poor boy named Jack who lived with his mother in a small cottage.<br><br>
+
 They had no money, and their only possession was a cow. One day, Jack''s mother told him to sell the cow at the market so they could buy food.<br><br>
+
 On the way, Jack met a mysterious old man who offered him five magic beans in exchange for the cow. Jack was curious and traded the cow for the beans. But when he got home, his mother was very angry.<br><br>
+
 "Magic beans? These are useless!" she cried and threw them out the window.<br><br>
+
 The next morning, Jack woke up and saw a giant beanstalk reaching into the sky! The beans really were magic! Excited, he decided to climb the beanstalk.<br><br>
+
 At the top, Jack found a huge castle in the clouds. He knocked on the door, and a giant''s wife opened it.<br><br>
+
 "Please, ma’am, I’m very hungry," Jack said.<br><br>
+
 The kind woman gave him some food, but suddenly, he heard loud footsteps.<br><br>
+
 "FEE-FI-FO-FUM! I smell the blood of an Englishman!"<br><br>
+
 It was the giant! The wife quickly hid Jack in a cupboard. The giant sat down, counted his gold coins, and soon fell asleep.<br><br>
+
 Jack saw his chance! He grabbed a bag of gold and ran back down the beanstalk.<br><br>
+
 Jack and his mother were happy, but soon, the gold ran out. So Jack climbed the beanstalk again. This time, he saw the giant''s golden hen, which laid eggs made of gold! While the giant was asleep, Jack took the hen and escaped.<br><br>
+
 Jack''s mother was thrilled, but Jack wanted to go one more time.<br><br>
+
 For the third time, Jack climbed the beanstalk and saw the giant''s magical harp that could sing by itself! As Jack picked it up, the harp cried,<br><br>
+
 "Master! Master! Someone is stealing me!"<br><br>
+
 The giant woke up and chased Jack.<br><br>
+
 Jack ran as fast as he could, sliding down the beanstalk. The giant followed him.<br><br>
+
 "Mother! Bring me an axe!" Jack shouted.<br><br>
+
 As soon as he reached the ground, Jack chopped down the beanstalk with all his strength.<br><br>
+
 The giant fell from the sky—and that was the end of him!<br><br>
+
 From then on, Jack and his mother lived happily ever after with the golden hen and the magic harp.<br><br>
+
 The End.', 'story_9.webp', 2);
 
 INSERT INTO stories (id, title, content, image, category_id) VALUES
-(10, 'The Shepherd Boy and The Wolf', 
-'Once upon a time, a young shepherd boy took care of his sheep near a quiet village. Every day, he sat on the hill watching his flock, but he felt bored and lonely.<br><br>
+(10, 'The Shepherd Boy and The Wolf', 'Once upon a time, a young shepherd boy took care of his sheep near a quiet village. Every day, he sat on the hill watching his flock, but he felt bored and lonely.<br><br>
 
 One day, to have some fun, he shouted, "Wolf! Wolf! Help! The wolf is attacking the sheep!"<br><br>
 
@@ -172,7 +189,6 @@ Kindness and goodness always win in the end.<br><br>
 
 The End.', 'story_11.webp', 2);
 
-
 INSERT INTO stories (id, title, content, image, category_id) VALUES
 (12, 'Cinderella', 'Once upon a time, in a faraway kingdom, there lived a kind and beautiful girl named Cinderella. She lived with her wicked stepmother and two stepsisters, who were cruel to her. They made her do all the household chores and treated her like a servant. Despite this, Cinderella remained kind and hopeful.<br><br>
 
@@ -189,24 +205,23 @@ The prince and Cinderella were married, and she lived happily ever after, free f
 The End.', 'story_12.webp', 2);
 
 
+INSERT INTO keywords (id, keyword) VALUES 
+(31, 'bottle'),(32, 'Cake'),(33, 'grandmother'),(34, 'corner'),(35, 'live');
 
-INSERT INTO keywords (keyword) VALUES 
-('bottle'),('Cake'),('grandmother'),('corner'),('slipped down');
+INSERT INTO keywords (id, keyword) VALUES 
+(36, 'palace'),(37, 'princess'),(38, 'kingdom'),(39, 'flowers'),(40, 'enchantment');
 
-INSERT INTO keywords (keyword) VALUES 
-('palace'),('princess'),('kingdom'),('flowers'),('enchantment');
+INSERT INTO keywords (id, keyword) VALUES 
+(41, 'magic'),(42, 'beanstalk'),(43, 'mother'),(44, 'beanstalk'),(45, 'golden');
 
-INSERT INTO keywords (keyword) VALUES 
-('magic'),('beanstalk'),('mother'),('beanstalk'),('golden');
+INSERT INTO keywords (id, keyword) VALUES 
+(46, 'shepherd'),(47, 'arrived'),(48, 'wolf'),(49, 'villagers'),(50, 'lesson');
 
-INSERT INTO keywords (keyword) VALUES 
-('shepherd'),('arrived'),('wolf'),('villagers'),('lesson');
+INSERT INTO keywords (id, keyword) VALUES 
+(51, 'Queen'),(52, 'furious'),(53, 'hungry'),(54, 'woman'),(55, 'castle');
 
-INSERT INTO keywords (keyword) VALUES 
-('Queen'),('furious'),('hungry'),('woman'),('castle');
-
-INSERT INTO keywords (keyword) VALUES 
-('kingdom'),('servant'),('stunning'),('slippers'),('shoe');
+INSERT INTO keywords (id, keyword) VALUES 
+(56, 'kingdom'),(57, 'servant'),(58, 'stunning'),(59, 'slippers'),(60, 'shoe');
 
 INSERT INTO story_keywords (story_id, keyword_id) VALUES
 (7, 31),  -- Relationship between story 7 and keyword 1
@@ -250,70 +265,4 @@ INSERT INTO story_keywords (story_id, keyword_id) VALUES
 (12, 59),  -- Relationship between story 12 and keyword 4
 (12, 60);  -- Relationship between story 12 and keyword 5
 
-Select * from stories;
 
-SELECT DISTINCT sk.keyword_id 
-FROM story_keywords sk
-JOIN stories s ON sk.story_id = s.id
-WHERE s.category_id = 2;
-
-SELECT s.id AS story_id, s.title, k.id AS keyword_id, k.keyword
-FROM stories s
-JOIN story_keywords sk ON s.id = sk.story_id
-JOIN keywords k ON sk.keyword_id = k.id
-ORDER BY s.id;
-
-
-DELETE FROM story_keywords
-WHERE story_id IN (7, 8, 9, 10, 11, 12);
-SELECT * FROM story_keywords
-WHERE story_id IN (7, 8, 9, 10, 11, 12);
-SELECT COUNT(*) FROM story_keywords
-WHERE story_id IN (7, 8, 9, 10, 11, 12);
-
-SELECT s.id, s.title, s.content, c.name_category 
-FROM stories s
-JOIN category c ON s.category_id = c.id_category
-WHERE s.id IN (7, 8,9, 10);
-
-SELECT sk.story_id, sk.keyword_id, k.keyword
-FROM story_keywords sk
-JOIN keywords k ON sk.keyword_id = k.id;
-
-INSERT INTO keywords (id, keyword) VALUES
-(32, 'Cake'),
-(33, 'grandmother'),
-(34, 'corner'),
-(35, 'slipped down'),
-(36, 'palace'),
-(37, 'princess'),
-(38, 'kingdom'),
-(39, 'flowers'),
-(40, 'enchantment'),
-(41, 'magic'),
-(42, 'beanstalk'),
-(43, 'mother'),
-(44, 'beanstalk'),
-(45, 'golden'),
-(46, 'shepherd'),
-(47, 'arrived'),
-(48, 'wolf'),
-(49, 'villagers'),
-(50, 'lesson'),
-(51, 'Queen'),
-(52, 'furious'),
-(53, 'hungry'),
-(54, 'woman'),
-(55, 'castle'),
-(56, 'kingdom'),
-(57, 'servant'),
-(58, 'stunning'),
-(59, 'slippers'),
-(60, 'shoe')
-ON DUPLICATE KEY UPDATE keyword = keyword;
-
-SELECT s.id AS story_id, s.title, GROUP_CONCAT(k.keyword SEPARATOR ', ') AS keywords
-FROM stories s
-LEFT JOIN story_keywords sk ON s.id = sk.story_id
-LEFT JOIN keywords k ON sk.keyword_id = k.id
-GROUP BY s.id, s.title;
