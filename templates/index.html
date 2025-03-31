@@ -3,23 +3,27 @@
 {% block title %}index - Short Stories{% endblock %}
 
 {% block content %}
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
     <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
 </head>
 <body>
-    <h1>✨ Welcome! ✨
-        At Reading Interactive , we do not collect data from minors.
 
-        
-        </h1>
+    {% if session.username %}
+        <h1>✨ ¡Welcome {{ session.username }}! ✨</h1>
+        <p>We're happy to have you here at Reading Interactive.</p>
     
+    {% else %}
+        <h1>✨ Welcome! ✨</h1>
+        <p>Welcome to a universe of infinite imagination.</p>
+        <p>Stories await you to discover new worlds and learn through play.</p>
+
+    {% endif %}
+
 </body>
 </html>
-
 {% endblock %}
+

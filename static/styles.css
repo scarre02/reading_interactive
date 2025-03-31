@@ -36,7 +36,6 @@ header {
 
 .header h1 {
     
-
     font-family: 'Almendra Display', cursive;
     font-size: 4.5rem;
     font-weight: bold;
@@ -349,4 +348,37 @@ footer {
     list-style-type: none;
     padding-left: 0;
     margin: 0;
+}
+
+.user-info {
+    font-weight: bold;
+    color: #5a3600;
+    background-color: #fff1c1;
+    padding: 10px 15px;
+    border-radius: 8px;
+    box-shadow: 2px 2px 5px rgba(0,0,0,0.1);
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.logout-btn {
+    background-color: #c0392b;
+    color: white;
+    padding: 8px 14px;
+    border: none;
+    border-radius: 6px;
+    text-decoration: none;
+    font-size: 14px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.logout-btn:hover {
+    background-color: #a83224;
+}
+
+.error {
+    color: red;
+    margin-top: 10px;
 }

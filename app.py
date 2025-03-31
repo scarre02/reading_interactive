@@ -4,6 +4,9 @@ import random
 import re
 import json  # To handle JSON in Python
 import logging
+from werkzeug.security import generate_password_hash, check_password_hash
+
+
 
 app = Flask(__name__)
 app.secret_key = 'your_secret_key'
@@ -180,39 +183,50 @@ def process_speech():
 @app.route('/Signup', methods=['GET', 'POST'])
 def Signup():
     if request.method == 'POST':
-        name = request.form.get('name')
-        email = request.form.get('email')
-        dob = request.form.get('dob')
+        name = request.form['name']
+        dob = request.form['dob']
+        email = request.form['email']
+        password = request.form['password']
         terms = request.form.get('terms')
+        privacy = request.form.get('privacy')
 
-        if not all([name, email, dob, terms]):
+        if not all([name, email, dob, password, terms, privacy]):
             return render_template('Signup.html', error="Please complete all the fields.")
 
         email_regex = r'^[\w\.-]+@[\w\.-]+\.\w+$'
         if not re.match(email_regex, email):
-            return render_template('Signup.html', error="Please, enter a valid email address.")
+            return render_template('Signup.html', error="Please enter a valid email address.")
 
         if terms != 'on':
             return render_template('Signup.html', error="You must accept the terms and conditions.")
+
+        # Hash password
+        hashed_password = generate_password_hash(password)
 
         try:
             conn = mysql.connector.connect(**db_config)
             cursor = conn.cursor()
             cursor.execute("""
-                INSERT INTO users (name, email, dob, terms_accepted)
-                VALUES (%s, %s, %s, %s)
-            """, (name, email, dob, True))
+                INSERT INTO users (name, email, dob, password, terms_accepted, privacy_accepted)
+                VALUES (%s, %s, %s, %s, %s, %s)
+            """, (name, email, dob, hashed_password, True, True))
             conn.commit()
+
         except mysql.connector.Error as err:
             logging.error(f"Error registering user: {err}")
             return render_template('Signup.html', error=f"Error registering: {err}")
+
         finally:
             if cursor:
                 cursor.close()
             if conn and conn.is_connected():
                 conn.close()
 
-        return redirect(url_for('index'))
+        session['username'] = name  # Guardamos el nombre en sesión
+
+        # 🎯 Ahora sí redirige después de guardar
+        return redirect(url_for('login'))
+
     return render_template('Signup.html')
 
 
@@ -228,9 +242,43 @@ def story(story_id):
         return render_template('404.html'), 404
     return render_template('story.html', story=story_data)
 
-@app.route("/login")
+@app.route("/login", methods=["GET", "POST"])
 def login():
+    if request.method == "POST":
+        email = request.form.get("email")
+        password = request.form.get("password")
+
+        if not email or not password:
+            return render_template("login.html", error="Please fill in all fields.")
+
+        try:
+            conn = mysql.connector.connect(**db_config)
+            cursor = conn.cursor(dictionary=True)
+
+            # Buscar usuario por email
+            cursor.execute("SELECT * FROM users WHERE email = %s", (email,))
+            user = cursor.fetchone()
+
+            if user and check_password_hash(user['password'], password):
+                # Login correcto → guardar en sesión
+                session['user_email'] = user['email']
+                session['user_name'] = user['name']
+                return redirect(url_for("index"))
+            else:
+                return render_template("login.html", error="Incorrect email or password.")
+
+        except mysql.connector.Error as err:
+            logging.error(f"Login error: {err}")
+            return render_template("login.html", error="Database error.")
+        
+        finally:
+            if cursor:
+                cursor.close()
+            if conn and conn.is_connected():
+                conn.close()
+
     return render_template("login.html")
+
 
 @app.route('/fairy_tales')
 def fairy_tales():
@@ -248,6 +296,18 @@ def bedtime_stories():
 def about_us():
     return render_template('about_us.html')
 
+@app.route('/terms')
+def terms():
+    return render_template('terms.html')  
+
+@app.route('/privacy')
+def privacy():
+    return render_template('privacy.html')  
+
+@app.route('/logout')
+def logout():
+    session.clear()  # Elimina todos los datos de la sesión
+    return redirect(url_for('index'))
 
 
 

@@ -31,7 +31,42 @@ CREATE TABLE category (
     PRIMARY KEY (id_category)
 ) ENGINE=InnoDB;
 
-INSERT INTO category (name_category) VALUES ('Story Selection'), ('Fairy Tales'), ('Animal Fables'), ('Stories to spark the imagination');
+CREATE TABLE users (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    name VARCHAR(255) NOT NULL,
+    email VARCHAR(255) NOT NULL UNIQUE,
+    dob DATE NOT NULL,
+    terms_accepted BOOLEAN NOT NULL,
+    registration_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+CREATE TABLE `users` (
+  `id_user` int NOT NULL AUTO_INCREMENT,
+  `name` varchar(100) NOT NULL,
+  `email` varchar(255) NOT NULL,
+  `dob` date NOT NULL,
+  `terms_accepted` tinyint(1) NOT NULL DEFAULT '0',
+  `registration_date` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  PRIMARY KEY (`id_user`),
+  UNIQUE KEY `email` (`email`)
+);
+SELECT * FROM users;
+SELECT id, name, email, dob, terms_accepted, registration_date from USERS;
+
+CREATE TABLE `history` (
+  `id_history` int NOT NULL AUTO_INCREMENT,
+  `users_id_user` int NOT NULL,
+  `stories_id` int NOT NULL,
+  `date_of_lecture` date NOT NULL,
+  `score` tinyint NOT NULL,
+  `rating` tinyint NOT NULL,
+  PRIMARY KEY (`id_history`),
+  KEY `fk_users_has_stories_stories1_idx` (`stories_id`),
+  KEY `fk_users_has_stories_users_idx` (`users_id_user`),
+  CONSTRAINT `fk_users_has_stories_stories1` FOREIGN KEY (`stories_id`) REFERENCES `stories` (`id`),
+  CONSTRAINT `fk_users_has_stories_users` FOREIGN KEY (`users_id_user`) REFERENCES `users` (`id_user`)
+);
+
+INSERT INTO category (name_category) VALUES ('Story Selection'), ('Fairy Tales'), ('Animal Fables'), ('Bedtime stories');
 
 INSERT INTO stories (id, title, content, image, category_id) VALUES
 (1, 'The ant and the Grasshopper', 'One summer, under the warm sun, a grasshopper spent her days singing and playing her violin, enjoying the beauty of the season.<br>
@@ -63,6 +98,9 @@ Ashamed, the Grasshopper realized her mistake. She had wasted the warm months wi
 
 The moral of the story?<br>
 There is a time for work and a time for play. Those who plan ahead will not suffer when hard times come.', 'story_1.webp', 1);
+
+INSERT INTO keywords (id, keyword) VALUES 
+(1, 'violin'),(2, 'sunshine'),(1, 'snow'),(4, 'starving'),(5, 'future');
 
 INSERT INTO stories (id, title, content, image, category_id) VALUES
 (2, 'The Brave Little Squirrel', 'In a vast and ancient forest, where the trees whispered secrets to the wind, lived a little squirrel named Pip.<br>
@@ -237,9 +275,296 @@ But this time, the Little Red Hen replied – “No, you won\'t. I will.”<br><
 The Little Red Hen called her chicks and ate up all the delicious bread.<br>
 There was nothing left for the Pig, Cat, and Rat.', 'story_6.webp', 1);
 
+INSERT INTO stories (id, title, content, image, category_id) VALUES
+(7, 'Little Red Riding Hood', 'Once upon a time there was a dear little girl who was loved by every one who looked at her, but most of all by her grandmother, and there was nothing that she would not have given to the child. Once she gave her a little cap of red velvet, which suited her so well that she would never wear anything else. So she was always called Little Red Riding Hood.<br><br>
+
+One day her mother said to her, "Come, Little Red Riding Hood, here is a piece of cake and a bottle of wine. Take them to your grandmother, she is ill and weak, and they will do her good. Set out before it gets hot, and when you are going, walk nicely and quietly and do not run off the path, or you may fall and break the bottle, and then your grandmother will get nothing. And when you go into her room, don’t forget to say, good-morning, and don’t peep into every corner before you do it."<br><br>
+
+"I will take great care," said Little Red Riding Hood to her mother, and gave her hand on it.<br><br>
+
+The grandmother lived out in the wood, half a league from the village, and just as Little Red Riding Hood entered the wood, a wolf met her. Little Red Riding Hood did not know what a wicked creature he was, and was not at all afraid of him.<br><br>
+
+"Good-day, Little Red Riding Hood," said he.<br><br>
+
+"Thank you kindly, wolf."<br><br>
+
+"Whither away so early, Little Red Riding Hood?"<br><br>
+
+"To my grandmother''s."<br><br>
+
+"What have you got in your apron?"<br><br>
+
+"Cake and wine. Yesterday was baking-day, so poor sick grandmother is to have something good, to make her stronger."<br><br>
+
+"Where does your grandmother live, Little Red Riding Hood?"<br><br>
+
+"A good quarter of a league farther on in the wood. Her house stands under the three large oak-trees, the nut-trees are just below. You surely must know it," replied Little Red Riding Hood.<br><br>
+
+The wolf thought to himself, "What a tender young creature. What a nice plump mouthful, she will be better to eat than the old woman. I must act craftily, so as to catch both." So he walked for a short time by the side of Little Red Riding Hood, and then he said, "See, Little Red Riding Hood, how pretty the flowers are about here. Why do you not look round? I believe, too, that you do not hear how sweetly the little birds are singing. You walk gravely along as if you were going to school, while everything else out here in the wood is merry."<br><br>
+
+Little Red Riding Hood raised her eyes, and when she saw the sunbeams dancing here and there through the trees, and pretty flowers growing everywhere, she thought, "Suppose I take grandmother a fresh nosegay. That would please her too. It is so early in the day that I shall still get there in good time." And so she ran from the path into the wood to look for flowers. And whenever she had picked one, she fancied that she saw a still prettier one farther on, and ran after it, and so got deeper and deeper into the wood.<br><br>
+
+Meanwhile the wolf ran straight to the grandmother''s house and knocked at the door.<br><br>
+
+"Who is there?"<br><br>
+
+"Little Red Riding Hood," replied the wolf. "She is bringing cake and wine. Open the door."<br><br>
+
+"Lift the latch," called out the grandmother, "I am too weak, and cannot get up."<br><br>
+
+The wolf lifted the latch, the door sprang open, and without saying a word he went straight to the grandmother''s bed, and devoured her. Then he put on her clothes, dressed himself in her cap, laid himself in bed and drew the curtains.<br><br>
+
+Little Red Riding Hood, however, had been running about picking flowers, and when she had gathered so many that she could carry no more, she remembered her grandmother, and set out on the way to her.<br><br>
+
+She was surprised to find the cottage-door standing open, and when she went into the room, she had such a strange feeling that she said to herself, "Oh dear, how uneasy I feel today, and at other times I like being with grandmother so much."<br><br>
+
+She called out, "Good morning," but received no answer. So she went to the bed and drew back the curtains. There lay her grandmother with her cap pulled far over her face, and looking very strange.<br><br>
+
+"Oh, grandmother," she said, "what big ears you have."<br><br>
+
+"The better to hear you with, my child," was the reply.<br><br>
+
+"But, grandmother, what big eyes you have," she said.<br><br>
+
+"The better to see you with, my dear."<br><br>
+
+"But, grandmother, what large hands you have."<br><br>
+
+"The better to hug you with."<br><br>
+
+"Oh, but, grandmother, what a terrible big mouth you have."<br><br>
+
+"The better to eat you with."<br><br>
+
+And scarcely had the wolf said this, than with one bound he was out of bed and swallowed up Little Red Riding Hood.<br><br>
+
+When the wolf had appeased his appetite, he lay down again in the bed, fell asleep and began to snore very loud. The huntsman was just passing the house, and thought to himself, "How the old woman is snoring. I must just see if she wants anything."<br><br>
+
+So he went into the room, and when he came to the bed, he saw that the wolf was lying in it. "Do I find you here, you old sinner," said he. "I have long sought you."<br><br>
+
+Then just as he was going to fire at him, it occurred to him that the wolf might have devoured the grandmother, and that she might still be saved, so he did not fire, but took a pair of scissors, and began to cut open the stomach of the sleeping wolf.<br><br>
+
+When he had made two snips, he saw the Little Red Riding Hood shining, and then he made two snips more, and the little girl sprang out, crying, "Ah, how frightened I have been. How dark it was inside the wolf."<br><br>
+
+And after that the aged grandmother came out alive also, but scarcely able to breathe. Little Red Riding Hood, however, quickly fetched great stones with which they filled the wolf''s belly, and when he awoke, he wanted to run away, but the stones were so heavy that he collapsed at once, and fell dead.<br><br>
+
+Then all three were delighted. The huntsman drew off the wolf''s skin and went home with it. The grandmother ate the cake and drank the wine which Little Red Riding Hood had brought, and revived, but Little Red Riding Hood thought to herself, "As long as I live, I will never by myself leave the path, to run into the wood, when my mother has forbidden me to do so."<br><br>
+
+The End.', 'story_7.webp', 2);
+
+INSERT INTO stories (id, title, content, image, category_id) VALUES
+(8, 'Sleeping Beauty', 'Once upon a time, in a land of magic, there lived a beautiful princess named Aurora. She was known throughout the kingdom for her kindness, grace, and her heartwarming smile. Her hair was as golden as the sun, her eyes as blue as the sky, and her laughter as sweet as a songbird''s.<br><br>
+
+Aurora''s story began in a grand palace, where she was born to a loving king and queen. Her arrival brought great joy to the kingdom, and the king and queen celebrated her birth with a big feast. As the kingdom rejoiced, three good fairies, Flora, Fauna, and Merryweather, gave their blessings to the little princess.<br><br>
+
+Flora, with her red dress and magical wand, gave Aurora the gift of beauty. Fauna, in her green dress, gave her the gift of song. Merryweather, in her blue dress, wanted to give Aurora a gift too, but before she could finish, an evil sorceress named Maleficent appeared. Angry that she had not been invited to the celebration, she placed a curse on the young princess.<br><br>
+
+Maleficent declared that on Aurora''s sixteenth birthday, she would prick her finger on a spinning wheel''s spindle and fall into a deep sleep from which she could only be awakened by true love''s kiss. The kingdom was filled with sadness, and the good fairies were determined to protect the princess from the curse.<br><br>
+
+To keep Aurora safe, they took her to a hidden cottage in the woods, where she was given a new name, Briar Rose. There, she lived a simple life with the fairies as her guardians, and she was told nothing of her true identity or the curse that hung over her.<br><br>
+
+Years passed, and Aurora grew into a lovely young girl. She had a deep love for the forest and all its creatures. She would sing and dance with the animals, and they, in turn, became her dearest friends.<br><br>
+
+On the eve of her sixteenth birthday, the fairies decided it was time to tell Aurora the truth. They took her back to the palace, where her heartwarming smile and her beauty made everyone happy. But as the evening wore on, Aurora was drawn to an old spinning wheel she found in a dark, hidden room.<br><br>
+
+Despite the fairies'' warnings, she pricked her finger on the spindle and fell into a deep, enchanted sleep, just as Maleficent had said. The king and queen, filled with sadness, placed Aurora on a bed of flowers and cried for their beloved daughter.<br><br>
+
+The good fairies knew that Aurora could only be awakened by true love''s kiss, and they set out to find the prince who could break the curse. Prince Phillip, a brave and kind young man, was the one who had met Aurora in the forest and fallen in love with her as Briar Rose.<br><br>
+
+With the fairies'' help, Prince Phillip battled through thorns, defeated Maleficent in her fearsome dragon form, and reached Aurora''s side. With a gentle kiss, he awakened the princess from her deep sleep, and her eyes sparkled with love as she looked at the prince.<br><br>
+
+The kingdom rejoiced, and Aurora and Prince Phillip were married in a grand and joyous ceremony. The prince had proven that true love could conquer any curse, and the two of them ruled the kingdom with kindness and grace.<br><br>
+
+And so, my dear child, that is the end of the story of Sleeping Beauty. It reminds us that love and courage can overcome even the darkest of curses. Now, close your eyes and let your dreams take you to a world of magic and enchantment. Goodnight, and may your dreams be as beautiful as Aurora''s heart.<br><br>
+
+The End.', 'story_8.webp', 2);
+
+INSERT INTO stories (id, title, content, image, category_id) VALUES
+(9, 'Jack and the Beanstalk', 'Once upon a time, there was a poor boy named Jack who lived with his mother in a small cottage.<br><br>
+
+They had no money, and their only possession was a cow. One day, Jack''s mother told him to sell the cow at the market so they could buy food.<br><br>
+
+On the way, Jack met a mysterious old man who offered him five magic beans in exchange for the cow. Jack was curious and traded the cow for the beans. But when he got home, his mother was very angry.<br><br>
+
+"Magic beans? These are useless!" she cried and threw them out the window.<br><br>
+
+The next morning, Jack woke up and saw a giant beanstalk reaching into the sky! The beans really were magic! Excited, he decided to climb the beanstalk.<br><br>
+
+At the top, Jack found a huge castle in the clouds. He knocked on the door, and a giant''s wife opened it.<br><br>
+
+"Please, ma’am, I’m very hungry," Jack said.<br><br>
+
+The kind woman gave him some food, but suddenly, he heard loud footsteps.<br><br>
+
+"FEE-FI-FO-FUM! I smell the blood of an Englishman!"<br><br>
+
+It was the giant! The wife quickly hid Jack in a cupboard. The giant sat down, counted his gold coins, and soon fell asleep.<br><br>
+
+Jack saw his chance! He grabbed a bag of gold and ran back down the beanstalk.<br><br>
+
+Jack and his mother were happy, but soon, the gold ran out. So Jack climbed the beanstalk again. This time, he saw the giant''s golden hen, which laid eggs made of gold! While the giant was asleep, Jack took the hen and escaped.<br><br>
+
+Jack''s mother was thrilled, but Jack wanted to go one more time.<br><br>
+
+For the third time, Jack climbed the beanstalk and saw the giant''s magical harp that could sing by itself! As Jack picked it up, the harp cried,<br><br>
+
+"Master! Master! Someone is stealing me!"<br><br>
+
+The giant woke up and chased Jack.<br><br>
+
+Jack ran as fast as he could, sliding down the beanstalk. The giant followed him.<br><br>
+
+"Mother! Bring me an axe!" Jack shouted.<br><br>
+
+As soon as he reached the ground, Jack chopped down the beanstalk with all his strength.<br><br>
+
+The giant fell from the sky—and that was the end of him!<br><br>
+
+From then on, Jack and his mother lived happily ever after with the golden hen and the magic harp.<br><br>
+
+The End.', 'story_9.webp', 2);
+
+INSERT INTO stories (id, title, content, image, category_id) VALUES
+(10, 'The Shepherd Boy and The Wolf', 'Once upon a time, a young shepherd boy took care of his sheep near a quiet village. Every day, he sat on the hill watching his flock, but he felt bored and lonely.<br><br>
+
+One day, to have some fun, he shouted, "Wolf! Wolf! Help! The wolf is attacking the sheep!"<br><br>
+
+The villagers ran up the hill to help him. But when they arrived, they saw no wolf. The boy laughed, "I tricked you!" The villagers were angry and went back down.<br><br>
+
+The next day, the boy did it again. "Wolf! Wolf!" he shouted. The villagers rushed to help, but again, there was no wolf. The boy laughed and laughed. The villagers were even angrier.<br><br>
+
+A few days later, a real wolf came. The boy was scared and shouted, "Wolf! Wolf! Please help!" But this time, the villagers didn’t believe him. They thought he was joking again and didn’t come.<br><br>
+
+The wolf chased the sheep, and the boy learned a very important lesson: Never tell lies, because people may not believe you when you are telling the truth.<br><br>
+
+The End.', 'story_10.webp', 2);
+
+INSERT INTO stories (id, title, content, image, category_id) VALUES
+(11, 'Snow White and the Seven Dwarfs', 'Once upon a time, in a faraway kingdom, there was a beautiful princess named Snow White. She had skin as white as snow, lips as red as roses, and hair as black as ebony. But her stepmother, the Evil Queen, was jealous of her beauty. Every day, the Queen asked her magic mirror,<br><br>
+
+"Mirror, mirror on the wall, who is the fairest of them all?"<br><br>
+
+The mirror always replied, "You, my Queen, are the fairest of them all." But one day, the mirror said, "Snow White is the fairest of them all!"<br><br>
+
+The Evil Queen was furious! She ordered a huntsman to take Snow White into the forest and get rid of her. But the kind huntsman felt sorry for Snow White and let her go.<br><br>
+
+Snow White ran deep into the forest and found a small cottage. Inside, everything was tiny—tiny chairs, tiny beds, and tiny dishes. Tired and hungry, she ate a little food and fell asleep.<br><br>
+
+When the seven dwarfs returned from working in the mines, they found her sleeping in their beds! Snow White woke up and was surprised to see them. The dwarfs introduced themselves: Doc, Grumpy, Happy, Sleepy, Bashful, Sneezy, and Dopey.<br><br>
+
+They listened to her story and said, “You can stay with us, but beware of the Evil Queen!”<br><br>
+
+Back at the castle, the Evil Queen discovered that Snow White was still alive. She disguised herself as an old woman and went to the cottage with a poisoned apple.<br><br>
+
+“Take a bite, dear child,” the old woman said. Snow White took a bite and fell into a deep sleep! When the dwarfs returned, they were heartbroken. They placed her in a glass coffin in the forest, hoping she would wake up one day.<br><br>
+
+One day, a handsome prince rode through the forest and saw Snow White. He had heard stories of her kindness and beauty. He leaned down and kissed her gently.<br><br>
+
+Suddenly, Snow White opened her eyes! The poison was broken! The dwarfs cheered with joy, and Snow White and the Prince rode away to the castle. They lived happily ever after.<br><br>
+
+Kindness and goodness always win in the end.<br><br>
+
+The End.', 'story_11.webp', 2);
+
+INSERT INTO stories (id, title, content, image, category_id) VALUES
+(12, 'Cinderella', 'Once upon a time, in a faraway kingdom, there lived a kind and beautiful girl named Cinderella. She lived with her wicked stepmother and two stepsisters, who were cruel to her. They made her do all the household chores and treated her like a servant. Despite this, Cinderella remained kind and hopeful.<br><br>
+
+One day, the king announced a grand ball at the palace, where the prince would choose a bride. Cinderella''s stepsisters were excited and prepared lavish dresses, but her stepmother forbade Cinderella from going. Heartbroken, she watched them leave.<br><br>
+
+As she cried, a fairy godmother appeared and transformed her into a stunning princess. She gave Cinderella a beautiful gown, glass slippers, and a magical carriage made from a pumpkin. However, the magic would wear off at midnight. Cinderella hurried to the ball.<br><br>
+
+At the palace, she captivated the prince, and they danced all night. But when the clock struck midnight, Cinderella ran away, losing one glass slipper on the staircase.<br><br>
+
+The next day, the prince searched the kingdom for the girl who fit the slipper. When he arrived at Cinderella’s house, her stepsisters tried to force their feet into the shoe, but it didn’t fit. Then, Cinderella tried it on—it was a perfect fit!<br><br>
+
+The prince and Cinderella were married, and she lived happily ever after, free from her cruel family.<br><br>
+
+The End.', 'story_12.webp', 2);
+
+INSERT INTO stories (id, title, content, image, category_id) VALUES
+(13, 'The Tale of Peter Rabbit', 'Once upon a time, there were four little rabbits named Flopsy, Mopsy, Cotton-tail, and Peter.<br>
+They lived with their mother in a cozy burrow under the roots of a big fir tree.<br><br>
+
+One morning, Mrs. Rabbit said, "You may go into the fields or down the lane, but don’t go into Mr. McGregor’s garden.<br>
+Your father had an accident there, and I don’t want the same to happen to you."<br><br>
+
+Flopsy, Mopsy, and Cotton-tail were good little bunnies. They went to gather blackberries.<br>
+But Peter, who was a bit more adventurous, ran straight to Mr. McGregor’s garden.<br><br>
+
+Peter squeezed under the gate and found himself in a paradise of vegetables—lettuces, radishes, and carrots.<br>
+He nibbled happily until he came to some parsley. But as he was munching, he heard a loud shout:<br>
+"Stop, thief!" It was Mr. McGregor!<br><br>
+
+Terrified, Peter ran as fast as his little legs could carry him. He dashed through the garden,<br>
+knocking over flower pots and leaving a trail of footprints.<br><br>
+
+Peter tried to find his way back to the gate but got lost. He hid in a watering can to catch his breath,<br>
+but Mr. McGregor was close behind. Peter scrambled out and leaped into a gooseberry bush, tearing his jacket on the thorns.<br><br>
+
+At last, Peter found a way out—a small hole in the garden fence. He wriggled through just in time<br>
+and ran all the way home, leaving his blue jacket and shoes behind.<br><br>
+
+When Peter reached the burrow, he was so tired that he flopped down on the soft sand floor.<br>
+His mother shook her head when she saw him. "Peter, where is your jacket and shoes?" she asked.<br><br>
+
+That evening, while Flopsy, Mopsy, and Cotton-tail enjoyed bread and blackberries, Peter had to go to bed early<br>
+with chamomile tea, which he didn’t like at all.<br><br>
+
+Peter learned a lesson that day about listening to his mother and staying out of trouble—at least for a little while!<br><br>
+
+The End.', 'story_13.webp', 3);
+
+INSERT INTO stories (id, title, content, image, category_id) VALUES
+(14, 'The Brave Little Squirrel', 'Once upon a time in a lush green forest, there lived a little squirrel named Sammy. Sammy was afraid of heights, unlike his friends who loved to climb the tallest trees.<br><br>
+
+One day, a storm hit the forest, and a baby bird fell from its nest. Sammy knew he had to help. Summoning all his courage, he climbed the tallest tree and returned the baby bird to its nest.<br><br>
+
+From that day on, Sammy learned that bravery comes in all sizes, and he was no longer afraid of heights.<br><br>
+
+Moral: Courage can help you overcome your fears.', 'story_14.webp', 3);
+
+INSERT INTO stories (id, title, content, image, category_id) VALUES
+(15, 'Luna and the Starry Night', 'In a small village, a little girl named Luna loved to gaze at the stars.<br><br>
+
+One night, she noticed a star that seemed to twinkle just for her. Curious, she made a wish to visit the star. To her surprise, a friendly moonbeam appeared and took her on a magical journey through the night sky.<br><br>
+
+They danced among the stars and learned about the constellations. When Luna returned home, she realized that the stars were always there, shining brightly, just like her dreams.<br><br>
+
+Moral: Always believe in your dreams, for they can take you on wonderful adventures.', 'story_15.webp', 3);
+
+INSERT INTO stories (id, title, content, image, category_id) VALUES
+(16, 'The Kindness of the Little Mouse', 'In a bustling meadow, a little mouse named Max found a lost butterfly named Bella. Bella was sad and couldn’t find her way home.<br><br>
+
+Max decided to help her, even though he was small. Together, they asked the wise old owl for directions. With his help, they traveled through the meadow, and Max showed Bella the beauty of friendship.<br><br>
+
+Finally, they found Bella’s home, and she thanked Max for his kindness. From that day on, they became the best of friends.<br><br>
+
+Moral: Kindness can create lasting friendships.', 'story_16.webp', 3);
+
+INSERT INTO stories (id, title, content, image, category_id) VALUES
+(17, 'The Adventure of the Lost Treasure', 'A group of friends—Tommy the turtle, Bella the bunny, and Leo the lion—decided to go on an adventure to find a hidden treasure.<br><br>
+
+They followed a map that led them through a dark cave, across a wobbly bridge, and up a steep hill.<br><br>
+
+Along the way, they faced challenges but worked together to overcome them.<br><br>
+
+When they finally found the treasure, it was a chest filled with friendship and memories.<br><br>
+
+They realized that the real treasure was the adventure they shared.<br><br>
+
+Moral: The journey and friendships we make are more valuable than material treasures.', 'story_17.webp', 3);
+
+INSERT INTO stories (id, title, content, image, category_id) VALUES
+(18, 'The Little Cloud Who Could', 'In the sky, there was a little cloud named Cumulus who wanted to be big and fluffy like the other clouds. He felt small and insignificant.<br><br>
+
+One day, he saw a parched field below and decided to help. Cumulus gathered all his strength and rained down, nourishing the plants and flowers. The farmers rejoiced, and the field bloomed beautifully.<br><br>
+
+Cumulus learned that it’s not about size but the impact you can make.<br><br>
+
+Moral: Everyone has the power to make a difference, no matter how small they may feel.', 'story_18.webp', 3);
 
 INSERT INTO keywords (id, keyword) VALUES 
-(1, 'violin'),(2, 'undergound'),(3, 'playing'),(4, 'starving'),(5, 'future');
+(1, 'violin'),(2, 'sunshine'),(3, 'snow'),(4, 'starving'),(5, 'future');
 
 INSERT INTO keywords (id, keyword) VALUES 
 (6, 'lion'),(7, 'storm'),(8, 'courage'),(9, 'animals'),(10, 'heart');
@@ -256,8 +581,41 @@ INSERT INTO keywords (id, keyword) VALUES
 INSERT INTO keywords (id, keyword) VALUES 
 (26, 'pigsty'),(27, 'discovered'),(28, 'seed'),(29, 'wheat'),(30, 'chicks');
 
+INSERT INTO keywords (id, keyword) VALUES 
+(31, 'bottle'),(32, 'Cake'),(33, 'grandmother'),(34, 'corner'),(35, 'live');
 
+INSERT INTO keywords (id, keyword) VALUES 
+(36, 'palace'),(37, 'princess'),(38, 'kingdom'),(39, 'flowers'),(40, 'enchantment');
 
+INSERT INTO keywords (id, keyword) VALUES 
+(41, 'magic'),(42, 'beanstalk'),(43, 'mother'),(44, 'beanstalk'),(45, 'golden');
+
+INSERT INTO keywords (id, keyword) VALUES 
+(46, 'shepherd'),(47, 'arrived'),(48, 'wolf'),(49, 'villagers'),(50, 'lesson');
+
+INSERT INTO keywords (id, keyword) VALUES 
+(51, 'Queen'),(52, 'furious'),(53, 'hungry'),(54, 'woman'),(55, 'castle');
+
+INSERT INTO keywords (id, keyword) VALUES 
+(56, 'kingdom'),(57, 'servant'),(58, 'stunning'),(59, 'slippers'),(60, 'shoe');
+
+INSERT INTO keywords (id, keyword) VALUES 
+(61, 'time'),(62, 'rabbits'),(63, 'accident'),(64, 'carrots'),(65, 'blackberries');
+
+INSERT INTO keywords (id, keyword) VALUES 
+(66, 'squirrel'),(67, 'tallest'),(68, 'nest'),(69, 'bravery'),(70, 'heights');
+
+INSERT INTO keywords (id, keyword) VALUES 
+(71, 'stars'),(72, 'twinkle'),(73, 'night'),(74, 'constellations'),(75, 'shining');
+
+INSERT INTO keywords (id, keyword) VALUES 
+(76, 'mouse'),(77, 'butterfly'),(78, 'directions'),(79, 'home'),(80, 'became');
+
+INSERT INTO keywords (id, keyword) VALUES 
+(81, 'treasure'),(82, 'map'),(83, 'hill'),(84, 'memories'),(85, 'treasures');
+
+INSERT INTO keywords (id, keyword) VALUES 
+(86, 'cloud'),(87, 'small'),(88, 'below'),(89, 'plants'),(90, 'impact');
 
 -- Insertar relaciones entre historia y palabras clave en story_keywords
 INSERT INTO story_keywords (story_id, keyword_id) VALUES
@@ -302,12 +660,86 @@ INSERT INTO story_keywords (story_id, keyword_id) VALUES
 (6, 29),  -- Relationship between story 6 and keyword 4
 (6, 30);  -- Relationship between story 6 and keyword 5
 
+INSERT INTO story_keywords (story_id, keyword_id) VALUES
+(7, 31),  -- Relationship between story 7 and keyword 1
+(7, 32),  -- Relationship between story 7 and keyword 2
+(7, 33),  -- Relationship between story 7 and keyword 3
+(7, 34),  -- Relationship between story 7 and keyword 4
+(7, 35);  -- Relationship between story 7 and keyword 5
 
+INSERT INTO story_keywords (story_id, keyword_id) VALUES
+(8, 36),  -- Relationship between story 8 and keyword 1
+(8, 37),  -- Relationship between story 8 and keyword 2
+(8, 38),  -- Relationship between story 8 and keyword 3
+(8, 39),  -- Relationship between story 8 and keyword 4
+(8, 40);  -- Relationship between story 8 and keyword 5
 
+INSERT INTO story_keywords (story_id, keyword_id) VALUES
+(9, 41),  -- Relationship between story 9 and keyword 1
+(9, 42),  -- Relationship between story 9 and keyword 2
+(9, 43),  -- Relationship between story 9 and keyword 3
+(9, 44),  -- Relationship between story 9 and keyword 4
+(9, 45);  -- Relationship between story 9 and keyword 5
 
+INSERT INTO story_keywords (story_id, keyword_id) VALUES
+(10, 46),  -- Relationship between story 10 and keyword 1
+(10, 47),  -- Relationship between story 10 and keyword 2
+(10, 48),  -- Relationship between story 10 and keyword 3
+(10, 49),  -- Relationship between story 10 and keyword 4
+(10, 50);  -- Relationship between story 10 and keyword 5
 
+INSERT INTO story_keywords (story_id, keyword_id) VALUES
+(11, 51),  -- Relationship between story 11 and keyword 1
+(11, 52),  -- Relationship between story 11 and keyword 2
+(11, 53),  -- Relationship between story 11 and keyword 3
+(11, 54),  -- Relationship between story 11 and keyword 4
+(11, 55);  -- Relationship between story 11 and keyword 5
 
+INSERT INTO story_keywords (story_id, keyword_id) VALUES
+(12, 56),  -- Relationship between story 12 and keyword 1
+(12, 57),  -- Relationship between story 12 and keyword 2
+(12, 58),  -- Relationship between story 12 and keyword 3
+(12, 59),  -- Relationship between story 12 and keyword 4
+(12, 60);  -- Relationship between story 12 and keyword 5
 
+INSERT INTO story_keywords (story_id, keyword_id) VALUES
+(13, 61),  -- Relationship between story 13 and keyword 1
+(13, 62),  -- Relationship between story 13 and keyword 2
+(13, 63),  -- Relationship between story 13 and keyword 3
+(13, 64),  -- Relationship between story 13 and keyword 4
+(13, 65);  -- Relationship between story 13 and keyword 5
 
+INSERT INTO story_keywords (story_id, keyword_id) VALUES
+(14, 66),  -- Relationship between story 14 and keyword 1
+(14, 67),  -- Relationship between story 14 and keyword 2
+(14, 68),  -- Relationship between story 14 and keyword 3
+(14, 69),  -- Relationship between story 14 and keyword 4
+(14, 70);  -- Relationship between story 14 and keyword 5
 
+INSERT INTO story_keywords (story_id, keyword_id) VALUES
+(15, 71),  -- Relationship between story 15 and keyword 1
+(15, 72),  -- Relationship between story 15 and keyword 2
+(15, 73),  -- Relationship between story 15 and keyword 3
+(15, 74),  -- Relationship between story 15 and keyword 4
+(15, 75);  -- Relationship between story 15 and keyword 5
 
+INSERT INTO story_keywords (story_id, keyword_id) VALUES
+(16, 76),  -- Relationship between story 16 and keyword 1
+(16, 77),  -- Relationship between story 16 and keyword 2
+(16, 78),  -- Relationship between story 16 and keyword 3
+(16, 79),  -- Relationship between story 16 and keyword 4
+(16, 80);  -- Relationship between story 16 and keyword 5
+
+INSERT INTO story_keywords (story_id, keyword_id) VALUES
+(17, 81),  -- Relationship between story 17 and keyword 1
+(17, 82),  -- Relationship between story 17 and keyword 2
+(17, 83),  -- Relationship between story 17 and keyword 3
+(17, 84),  -- Relationship between story 17 and keyword 4
+(17, 85);  -- Relationship between story 17 and keyword 5
+
+INSERT INTO story_keywords (story_id, keyword_id) VALUES
+(18, 86),  -- Relationship between story 18 and keyword 1
+(18, 87),  -- Relationship between story 18 and keyword 2
+(18, 88),  -- Relationship between story 18 and keyword 3
+(18, 89),  -- Relationship between story 18 and keyword 4
+(18, 90);  -- Relationship between story 18 and keyword 5

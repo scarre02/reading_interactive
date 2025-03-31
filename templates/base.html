@@ -11,26 +11,35 @@
     <header class="header">
         <h1>Reading Interactive</h1>
         <h2>Short Stories for Kids</h2>
+
+        <!-- Usuario logueado o botones de acceso -->
         <div class="button-container header-buttons">
-            <a href="{{ url_for('Signup') }}" class="btn signup-btn">Sign up</a>
-            <a href="{{ url_for('login') }}" class="btn login-btn">Log in with Google</a>
+            {% if session.username %}
+                <div class="user-info">
+                     {{ session.username }}
+                    <a href="{{ url_for('logout') }}" class="btn logout-btn">Log Out</a>
+                </div>
+            {% else %}
+                <a href="{{ url_for('Signup') }}" class="btn signup-btn">Sign up</a>
+                <a href="{{ url_for('login') }}" class="btn login-btn">Log in with Google</a>
+            {% endif %}
         </div>
     </header>
 
     <!-- Return to main page button -->
     <div class="return-main">
         <a href="{{ url_for('index') }}" class="btn">Return to the main page</a>
-     </div>
+    </div>
 
     <!-- Button line -->
     <section class="button-line">
         <nav>
             <div class="button-container">
-                <a href="{{ url_for('index') }}"class="btn">Index</a>
-                <a href="{{ url_for('fairy_tales') }}"class="btn">Fairy tales</a>
-                <a href="{{ url_for('animal_fables') }}"class="btn">Animal fables</a>
-                <a href="{{ url_for('bedtime_stories') }}"class="btn">Bedtime stories</a>
-                <a href="{{ url_for('about_us') }}"class="btn">About us</a>
+                <a href="{{ url_for('index') }}" class="btn">Index</a>
+                <a href="{{ url_for('fairy_tales') }}" class="btn">Fairy tales</a>
+                <a href="{{ url_for('animal_fables') }}" class="btn">Animal fables</a>
+                <a href="{{ url_for('bedtime_stories') }}" class="btn">Bedtime stories</a>
+                <a href="{{ url_for('about_us') }}" class="btn">About us</a>
             </div>
         </nav>
     </section>
@@ -44,11 +53,13 @@
         </div>
     </main>
 
-    
     <!-- Footer -->
     <footer class="footer">
-        <p>&copy; 2025, Reading Interactive, Silvina Carrera - Birkbeck, University of London. All Rights Reserved</p>
+        <p>&copy; 2025, Reading Interactive. All Rights Reserved</p>
+        <p>
+            <a href="{{ url_for('terms') }}">Terms and Conditions</a> | 
+            <a href="{{ url_for('privacy') }}">Privacy Policy</a>
+        </p>
     </footer>
- 
 </body>
 </html>

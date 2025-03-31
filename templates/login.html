@@ -1,37 +1,31 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>{% block title %}log in - Short Stories for Kids community{% endblock %}</title>
-    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
-</head>
-<body>
-    <!-- Header -->
-    <header class="header">
-        <h1>Short Stories for Kids</h1>
-    </header>
-    <!-- Return to main page button -->
-    <div class="return-main">
-        <a href="{{ url_for('index') }}" class="btn">Return to the main page</a>
-    </div>
+{% extends "base.html" %}
 
-    <!-- Main Content -->
-    <main class="main-content">
-        <section class="login-container">
-            <button class="btn" id="btn-user">User</button>
-            <button class="btn" id="btn-password">Password</button>
+{% block title %}index - Short Stories{% endblock %}
 
-            <a href="{{ url_for('index') }}"><button>ENTER</button></a>
-            By clicking "Continue" to join or sign in, you agree to Reading Interactive's Terms of Service, Privacy Policy, and Cookie Policy.
-            <a href="Signup" class="create-account">CREATE AN ACCOUNT</a>
+{% block content %}
 
-        </section>
-    </main>
+<section class="login-container">
+    <form action="{{ url_for('login') }}" method="POST" id="login-form">
+        <div class="input-group">
+            <label for="email">Email:</label>
+            <input type="email" id="email" name="email" required>
+        </div>
 
-    <!-- Footer -->
-    <footer class="footer">
-        <p>&copy; © 2025 Reading Interactive</p>
-    </footer>
-</body>
-</html>
+        <div class="input-group">
+            <label for="password">Password:</label>
+            <input type="password" id="password" name="password" required>
+        </div>
+
+        <button type="submit" class="btn">Log In</button>
+    </form>
+
+    <p>
+        By clicking "Log In", you agree to Reading Interactive's 
+        <a href="{{ url_for('terms') }}">Terms of Service</a>, 
+        <a href="{{ url_for('privacy') }}">Privacy Policy</a>, 
+        and Cookie Policy.
+    </p>
+
+    <a href="{{ url_for('Signup') }}" class="create-account">CREATE AN ACCOUNT</a>
+</section>
+{% endblock %}
