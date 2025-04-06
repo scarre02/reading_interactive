@@ -1,4 +1,5 @@
 Flask==3.1.0
+Flask-Dance==7.1.0
 mysql-connector-python==9.2.0
 Werkzeug==3.1.3
 python-dotenv==1.0.1  
@@ -7,6 +8,5 @@ openai==1.3.5         # Only if using ChatGPT or GPT-4 for responses
 pydub==0.25.1         # For handling audio (cutting, merging, etc.)  
 requests==2.32.3      # To make HTTP requests  
 python-dotenv==1.0.1  # For managing environment variables  
-
-
-torch, transformers, for more advanced TTS or AI models.
+google-auth 
+google-auth-oauthlib

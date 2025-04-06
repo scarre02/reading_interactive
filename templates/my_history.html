@@ -1,0 +1,25 @@
+{% extends "base.html" %}
+
+{% block title %}My Reading History{% endblock %}
+
+{% block content %}
+<h1>📚 These are the stories I've read</h1>
+
+{% if history %}
+    <div class="history-container">
+        {% for item in history %}
+            <div class="story-card">
+                <img src="{{ url_for('static', filename=item.image) }}" alt="Story image">
+                <div class="story-info">
+                    <h2>{{ item.title }}</h2>
+                    <p>Read on: {{ item.date_of_lecture }}</p>
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+{% else %}
+    <p>You haven't read any stories yet.</p>
+{% endif %}
+
+<a href="{{ url_for('fairy_tales') }}" class="btn">Back to the stories</a>
+{% endblock %}

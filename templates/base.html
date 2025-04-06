@@ -4,7 +4,13 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{% block title %}My Web App{% endblock %}</title>
+
+    {% if redirect_url %}
+    <meta http-equiv="refresh" content="5;url={{ redirect_url }}">
+    {% endif %}
+
     <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+    
 </head>
 <body class="{{ 'index' if request.endpoint == 'index' else '' }}">
     <!-- Header -->
@@ -12,24 +18,41 @@
         <h1>Reading Interactive</h1>
         <h2>Short Stories for Kids</h2>
 
-        <!-- Usuario logueado o botones de acceso -->
+        <!-- Logged in user or access buttons -->
         <div class="button-container header-buttons">
-            {% if session.username %}
+            {% if session.user_name %}
                 <div class="user-info">
-                     {{ session.username }}
+                    👋 Hello, {{ session.user_name }}!
                     <a href="{{ url_for('logout') }}" class="btn logout-btn">Log Out</a>
                 </div>
             {% else %}
-                <a href="{{ url_for('Signup') }}" class="btn signup-btn">Sign up</a>
-                <a href="{{ url_for('login') }}" class="btn login-btn">Log in with Google</a>
+
+                <a href="{{ url_for('Signup') }}" class="btn signup-btn">Create an account</a>
+                <a href="{{ url_for('login') }}" class="btn login-btn">Log with any email</a>
+                
+
             {% endif %}
         </div>
     </header>
 
-    <!-- Return to main page button -->
-    <div class="return-main">
-        <a href="{{ url_for('index') }}" class="btn">Return to the main page</a>
+<!-- Return to main page + fixed stars -->
+<div class="return-main" style="display: flex; justify-content: space-between; align-items: center;">
+    <a href="{{ url_for('index') }}" class="btn">Return to the main page</a>
+
+    {% if session.user_id and request.endpoint in ['fairy_tales', 'animal_fables', 'bedtime_stories'] and earned_stars is defined %}
+    <div class="star-rating" style="font-size: 1.6em; margin-right: 10px;">
+        {% for i in range(1, 6) %}
+            {% if i <= earned_stars %}
+                <span style="color: gold;">&#9733;</span>
+            {% else %}
+                <span style="color: lightgray;">&#9733;</span>
+            {% endif %}
+        {% endfor %}
     </div>
+    {% endif %}
+</div>
+
+
 
     <!-- Button line -->
     <section class="button-line">
@@ -40,6 +63,9 @@
                 <a href="{{ url_for('animal_fables') }}" class="btn">Animal fables</a>
                 <a href="{{ url_for('bedtime_stories') }}" class="btn">Bedtime stories</a>
                 <a href="{{ url_for('about_us') }}" class="btn">About us</a>
+                {% if session['user_id'] %}
+                <a href="{{ url_for('my_history') }}" class="btn">My reading history</a>
+                {% endif %}
             </div>
         </nav>
     </section>
