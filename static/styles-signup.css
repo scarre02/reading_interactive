@@ -1,0 +1,123 @@
+/* styles-signup.css */
+
+/* Initially hide the input fields */
+.signup-page .input-group {
+    display: none; /* Initially hide the input fields */
+    margin-top: 20px 0 16px;
+}
+
+/* Display input groups when the 'visible' class is applied */
+.signup-page .input-group.visible {
+    display: block; /* Show the input fields when they have the class 'visible' */
+}
+
+/* Style for error messages displayed in the form */
+.form-error {
+    color: red;
+    font-weight: bold;
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+/* Wrapper for the password input and toggle button */
+.password-wrapper {
+    position: relative;
+    display: flex;
+    align-items: center;
+}
+
+/* Make the password input take full width within the wrapper */
+.password-wrapper input {
+    flex: 1;
+}
+
+/* Style for the toggle password visibility button */
+.toggle-password {
+    margin-left: 10px;
+    background: none;
+    border: none;
+    cursor: pointer;
+    font-size: 18px;
+}
+
+/* Space below form actions like submit buttons */
+.form-actions {
+    margin-bottom: 16px;
+}
+
+/* Space below the redirect to login text/link */
+.login-redirect {
+    margin-bottom: 16px;
+}
+
+/* Container for visual separator line between sections */
+.separator {
+    display: flex;
+    align-items: center;
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+/* Style for the line inside the separator */
+.separator .line {
+    flex: 1;
+    height: 1px;
+    background-color: #ccc;
+    border: none;
+    margin: 0 8px;
+}
+
+/* Center the Google signup button */
+.google-signup {
+    display: flex;
+    justify-content: center;
+}
+
+/* Style for the blue 'Continue' button */
+.btn-primary {
+    background-color: #2563eb; 
+    color: white;
+    padding: 12px 20px;
+    border: none;
+    border-radius: 6px;
+    font-size: 16px;
+    font-weight: 500;
+    width: 100%;
+    max-width: 400px; /* Same width as the Google button */
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+}
+
+.btn-primary:hover {
+    background-color: #1e4ed8;
+}
+
+/* Match the size of the Google button */
+.google-signup .google-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    padding: 12px 20px;
+    font-size: 16px;
+    width: 100%;
+    max-width: 400px;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    text-decoration: none;
+    color: #000;
+    background-color: white;
+}
+
+/* Center both buttons and add bottom spacing */
+.form-actions,
+.google-signup {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 16px;
+}
+
+/* Add spacing below the privacy checkbox group */
+#group-privacy {
+    margin-bottom: 24px; 
+}

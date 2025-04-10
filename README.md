@@ -57,7 +57,7 @@ It uses voice recognition to help users improve pronunciation and comprehension,
 │   ├── about_us.html
 │   ├── story.html
 │   ├── feedback.html
-│   ├── Signup.html
+│   ├── signup.html
 │   ├── login.html
 │   ├── privacy.html
 │   ├── terms.html
@@ -136,6 +136,36 @@ The database is called interactive_stories and consists of the following main ta
 To import the full schema, you can use the `interactive_stories.sql` file included in this repository.
 
 This file contains the CREATE TABLE, INSERT INTO, and relationship statements required to start the application.
+
+## How to Import the SQL File
+
+### Option 1: Using MySQL Workbench
+
+1. Open **MySQL Workbench** and connect to your server.
+
+2. In the menu, select: **File > Open SQL Script...** and choose interactive_stories.sql.
+
+3. The script will open in a new tab.
+
+4. Click the ⚡ **Execute** button (or press Ctrl + Shift + Enter) to run the entire script.
+
+5. Done! The interactive_stories database will be created with all its data.
+
+### Option 2: Using the Command Line
+
+1. Open your terminal or command prompt.
+
+2. Access MySQL with your user (for example, `root`):
+ ```bash
+   mysql -u root -p 
+```
+3. Once inside MySQL, run the script with:
+
+source ruta/al/archivo/interactive_stories.sql;
+
+Replace path/to/interactive_stories.sql with the actual path to your .sql file on your system.
+
+This will create the `interactive_stories` database along with all its tables and initial data.
 
 ## Additional Tools
 

@@ -1,0 +1,12 @@
+<!-- templates/verification_failed.html -->
+{% extends "base.html" %}
+
+{% block title %}Verification Failed - Reading Interactive{% endblock %}
+
+{% block content %}
+<div style="text-align: center; padding: 50px;">
+    <h1 style="font-size: 2.5rem;">😕 Something went wrong</h1>
+    <p style="font-size: 1.2rem;">The verification link is invalid or has already been used.</p>
+    <a href="{{ url_for('index') }}" class="btn" style="margin-top: 20px;">Back to Home</a>
+</div>
+{% endblock %}

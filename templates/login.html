@@ -18,14 +18,17 @@
 
         <button type="submit" class="btn">Log In</button>
     </form>
+    {% if error %}
+    <p class="error">{{ error }}</p>
+    {% endif %}
 
     <p>
         By clicking "Log In", you agree to Reading Interactive's 
         <a href="{{ url_for('terms') }}">Terms of Service</a>, 
         <a href="{{ url_for('privacy') }}">Privacy Policy</a>, 
         and Cookie Policy.
+        
     </p>
 
-    <a href="{{ url_for('Signup') }}" class="create-account">CREATE AN ACCOUNT</a>
 </section>
 {% endblock %}

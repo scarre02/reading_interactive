@@ -1,18 +1,17 @@
+{# story.html #}
 {% extends "base.html" %}
 
 {% block title %}{{ story.title }} - Short Stories{% endblock %}
 
 {% block content %}
-<!-- It comes from the database -->
 <h1>{{ story.title }}</h1>
 <img src="{{ url_for('static', filename=story.image) }}" class="small-image">
 
 <div id="story-content">
-    {{ story.content | safe }}
+    {{ story.content | highlight_keywords(story.words) | safe }}
 </div>
-<!-- Flexible container for Keywords, Word to Pronounce, Progress, and the button -->
+
 <div class="interaction-container">
-    <!-- Keywords section -->
     <div class="keywords-box">
         <h2>Keywords:</h2>
         <ul id="keyword-list">
@@ -22,10 +21,15 @@
         </ul>
     </div>
 
-    <!-- Words and progress section -->
     <div class="progress-section">
         <h2>Word to Pronounce:</h2>
-        <p id="current-word" style="visibility: hidden;">Press "Speak" to start</p>
+        <p id="current-word">
+            {% if story.words %}
+                {{ story.words[0] }}
+            {% else %}
+                No words available.
+            {% endif %}
+        </p>
 
         <h2>Word Recognized:</h2>
         <p id="recognized-word"></p>
@@ -33,106 +37,102 @@
         <h2>Progress:</h2>
         <p>Correct words pronounced: <span id="correct-count">0</span></p>
         <p>Incorrect words pronounced: <span id="incorrect-count">0</span></p>
+        <p>Words left: <span id="words-left">{{ story.words|length }}</span></p>
         <ul id="correct-words-list"></ul>
     </div>
 
-    <!-- Speech recognition button -->
     <div class="button-container">
         <button id="start-recognition" onclick="startSpeechRecognition()">Speak</button>
     </div>
 </div>
 
 <script>
-    let firstWordShown = false;
-    let wordIndexMap = []; // Stores word-index mapping
+// Store DOM references once for better performance
+const UI = {
+    recognizedWord: document.getElementById("recognized-word"),
+    correctCount: document.getElementById("correct-count"),
+    incorrectCount: document.getElementById("incorrect-count"),
+    wordsLeft: document.getElementById("words-left"),
+    currentWord: document.getElementById("current-word"),
+    correctWordsList: document.getElementById("correct-words-list")
+};
 
-    // Extract words from span tags and store in wordIndexMap
-    function initializeWordIndexMap() {
-        const spanElements = document.querySelectorAll("span[data-index]");
-        wordIndexMap = Array.from(spanElements).map(span => ({
-            word: span.innerText.toLowerCase().trim(),
-            index: parseInt(span.getAttribute("data-index")),
-            element: span // Store reference to the actual span element
-        }));
-        wordIndexMap.sort((a, b) => a.index - b.index); // Sort by index for correct order
-    }
 
-    function highlightCurrentWord(index) {
-        // Remove existing highlights
-        document.querySelectorAll("span.highlight-word").forEach(span => {
-            span.classList.remove("highlight-word");
+function updateUI(data) {
+    
+    // Remove ALL existing highlights
+    document.querySelectorAll('.highlight-word').forEach(span => {
+        span.classList.remove('highlight-word');
+    });
+
+    // Update progress displays
+    UI.recognizedWord.innerText = data.message || "";
+    UI.correctCount.innerText = data.correct_count;
+    UI.incorrectCount.innerText = data.incorrect_count;
+    UI.wordsLeft.innerText = data.words_left;
+
+    // Highlight new current word using server-provided word
+    if (data.next_word) {
+        const targetWord = data.next_word.toLowerCase();
+        // Update progress section
+        UI.currentWord.innerText = data.next_word;
+        // Highlight in story content
+        document.querySelectorAll(`[data-word="${targetWord}"]`).forEach(span => {
+            span.classList.add('highlight-word');
         });
-
-        // Highlight the current word's span
-        let currentSpan = document.querySelector(`span[data-index='${index}']`);
-        if (currentSpan) {
-            currentSpan.classList.add("highlight-word");
+    } else if (data.words_left === 0) {
+    UI.currentWord.innerText = "All words pronounced!";
+    fetch('/save_history', {
+        method: 'POST',
+        headers: {'Content-Type': 'application/json'},
+        body: JSON.stringify({})
+    })
+    .then(response => response.json())
+    .then(historyData => {
+        console.log("History saved:", historyData);
+        // Redirect to feedback after history is saved
+        if (data.show_feedback) {
+            window.location.href = "/feedback";
         }
-    }
-
-    function startSpeechRecognition() {
-        if (!firstWordShown) {
-            initializeWordIndexMap(); // Ensure words are indexed before starting
-            
-            if (wordIndexMap.length > 0) {
-                let firstWord = wordIndexMap[0];
-                document.getElementById("current-word").innerText = firstWord.word;
-                document.getElementById("current-word").setAttribute("data-index", firstWord.index);
-                document.getElementById("current-word").style.visibility = "visible";
-                highlightCurrentWord(firstWord.index);
-                firstWordShown = true;
-            }
+    })
+    .catch(err => {
+        console.error("Error saving history:", err);
+        // Still redirect even if saving history fails
+        if (data.show_feedback) {
+            window.location.href = "/feedback";
         }
+    });
+}
 
-        const recognition = new (window.SpeechRecognition || window.webkitSpeechRecognition)();
-        recognition.lang = "en-US";
-        recognition.start();
+}
 
-        recognition.onresult = function (event) {
-            let spokenWord = event.results[0][0].transcript.trim().toLowerCase();
-            document.getElementById("recognized-word").innerText = `Recognized: ${spokenWord}`;
+function startSpeechRecognition() {
+    const recognition = new (window.SpeechRecognition || window.webkitSpeechRecognition)();
+    recognition.lang = "en-US";
+    recognition.start();
 
-            let currentWord = document.getElementById("current-word").innerText.toLowerCase();
-            let currentIndex = parseInt(document.getElementById("current-word").getAttribute("data-index"));
+    recognition.onresult = function(event) {
+        const spokenWord = event.results[0][0].transcript.trim().toLowerCase();
+        // Show what was recognized immediately for better UX
+        UI.recognizedWord.innerText = spokenWord;
+        
+        fetch('/update_progress', {
+            method: 'POST',
+            headers: {'Content-Type': 'application/json'},
+            body: JSON.stringify({ word: spokenWord })
+        })
+        .then(response => response.json())
+        .then(data => {
+            updateUI(data);
+        })
+        .catch(err => {
+            console.error("Error updating progress:", err);
+        });
+    };
 
-            if (spokenWord === currentWord) {
-                alert(`✅ Correct! You said: ${spokenWord}`);
-
-                // Add the word to the correct list
-                let correctWordsList = document.getElementById("correct-words-list");
-                let newItem = document.createElement("li");
-                newItem.innerText = spokenWord;
-                correctWordsList.appendChild(newItem);
-
-                // Update the correct counter
-                let correctCount = document.getElementById("correct-count");
-                correctCount.innerText = parseInt(correctCount.innerText) + 1;
-
-                // Find the next word in sequence
-                let nextWord = wordIndexMap.find(wordObj => wordObj.index > currentIndex);
-                if (nextWord) {
-                    document.getElementById("current-word").innerText = nextWord.word;
-                    document.getElementById("current-word").setAttribute("data-index", nextWord.index);
-                    highlightCurrentWord(nextWord.index);
-                } else {
-                    document.getElementById("current-word").innerText = "All words have been pronounced correctly.";
-                    
-                    setTimeout(() => {
-                        window.location.href = "/feedback";  
-                    }, 1000);
-                }
-            } else {
-                alert(`❌ Incorrect! Try again.`);
-                let incorrectCount = document.getElementById("incorrect-count");
-                incorrectCount.innerText = parseInt(incorrectCount.innerText) + 1;
-            }
-        };
-
-        recognition.onerror = function (event) {
-            alert("Speech recognition error: " + event.error);
-        };
-    }
+    recognition.onerror = function(event) {
+        alert("Speech recognition error: " + event.error);
+    };
+}
 </script>
-
-
 {% endblock %}

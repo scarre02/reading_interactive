@@ -1,109 +1,97 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Sign Up</title>
-    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
-    
-    <style>
-        /* Make sure the hidden fields are set up correctly. */
-        .input-group {
-            display: none; /* Initially hide the input fields */
-            margin-top: 20px;
-        }
+{% extends "base.html" %}
 
-        .input-group.visible {
-            display: block; /* Show the input fields when they have the class 'visible' */
-        }
-    </style>
-    <script>
-        document.addEventListener('DOMContentLoaded', function () {
-            // Select all buttons with the class 'btn'
-            const buttons = document.querySelectorAll('.login-container .btn');
+{% block title %}Create Your Account | Reading Interactive{% endblock %}
 
-            // Add a click event to each button
-            buttons.forEach(button => {
-                button.addEventListener('click', function () {
-                    const fieldId = this.id.replace('btn-', 'group-'); // Get the ID of the corresponding field
-                    const fieldGroup = document.getElementById(fieldId); // Find the input group
+{% block head %}
+   <!-- Page-specific styles -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles-signup.css') }}">
+{% endblock %}
 
-                    if (fieldGroup) {
-                        // Toggle the 'visible' class to show/hide the field
-                        fieldGroup.classList.toggle('visible');
-                    }
-                });
-            });
-        });
-    </script>
-</head>
-<body>
-    <!-- Header -->
-    <header class="header">
-        <h1>Short Stories for Kids</h1>
-    </header>
-
-    <!-- Return to main page button -->
-    <div class="return-main">
-        <a href="{{ url_for('index') }}" class="btn">Return to the main page</a>
-    </div>
-
-    <!-- Main Content -->
+{% block content %}
+<div class="signup-page">
+    <!-- form -->
     <main class="main-content">
         <section class="login-container">
-            <form action="{{ url_for('Signup') }}" method="post" id="signup-form">
+            {% if error %}
+            <p class="form-error">{{ error }}</p>
+            {% endif %}
 
-                <!-- Hidden input fields -->
+            <form action="{{ url_for('signup') }}" method="post" id="signup-form">
+
                 <div class="input-fields">
                     <div class="input-group visible" id="group-name">
                         <label for="name">Name:</label>
-                        <input type="text" id="name" name="name" required>
+                        <input type="text" id="name" name="name" autocomplete="name" required>
                     </div>
 
                     <div class="input-group visible" id="group-dob">
                         <label for="dob">Date of birth:</label>
-                        <input type="date" id="dob" name="dob" required>
+                        <input type="date" id="dob" name="dob" autocomplete="bday" required>
                     </div>
 
                     <div class="input-group visible" id="group-email">
                         <label for="email">Email address:</label>
-                        <input type="email" id="email" name="email" required>
+                        <input type="email" id="email" name="email" autocomplete="email" required>
                     </div>
 
                     <div class="input-group visible" id="group-password">
                         <label for="password">Password:</label>
-                        <input type="password" id="password" name="password" required>
+                        <div class="password-wrapper">
+                            <input type="password" id="password" name="password" autocomplete="new-password" required>
+                            <button type="button" id="toggle-password" class="toggle-password">👁️</button>
+                        </div>
                     </div>                    
 
-                   <!-- Legal checkboxes -->
                     <div class="input-group visible" id="group-terms">
                         <label for="checkbox-terms">
                             <input type="checkbox" id="checkbox-terms" name="terms" required>
                             By signing up, you agree to our <a href="{{ url_for('terms') }}">Terms and Conditions</a>.
-                        </label>                        
+                        </label>
                     </div>
 
                     <div class="input-group visible" id="group-privacy">
                         <label for="checkbox-privacy">
                             <input type="checkbox" id="checkbox-privacy" name="privacy" required>
                             Read how we protect your data in our <a href="{{ url_for('privacy') }}">Privacy Policy</a>.
-                        </label>                        
+                        </label>
                     </div>
                 </div>
 
                 <div class="form-actions">
-                    <button type="submit">Sign Up</button>
+                    <button type="submit" class="btn-primary">Continue</button>
                 </div>
 
+                <div class="login-redirect">
+                    <p>Already have an account? <a href="{{ url_for('login') }}">Log in</a></p>
+                </div>
+
+                <div class="separator">
+                    <hr class="line"><span>OR</span><hr class="line">
+                </div>
+
+                <div class="google-signup">
+                    <a href="{{ url_for('google_login') }}" class="google-btn">
+                        <img src="{{ url_for('static', filename='google-icon.svg') }}" alt="Google icon">
+                        Sign up with Google
+                    </a>
+                </div>
             </form>
         </section>
     </main>
+</div>
+{% endblock %}
 
-    <!-- Footer -->
-    <footer class="footer">
-        <p>&copy; 2025 Reading Interactive</p>
-    </footer>
-    <script src="{{ url_for('static', filename='scripts.js') }}"></script>
+{% block scripts %}
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        const toggleBtn = document.getElementById('toggle-password');
+        const passwordInput = document.getElementById('password');
 
-</body>
-</html>
+        toggleBtn.addEventListener('click', function () {
+            const type = passwordInput.getAttribute('type');
+            passwordInput.setAttribute('type', type === 'password' ? 'text' : 'password');
+            toggleBtn.textContent = type === 'password' ? '🙈' : '👁️'; 
+        });
+    });
+</script>
+{% endblock %}

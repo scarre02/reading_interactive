@@ -24,7 +24,6 @@ CREATE TABLE story_keywords (
     FOREIGN KEY (keyword_id) REFERENCES keywords(id) ON DELETE CASCADE
 ) ENGINE=InnoDB;
 
-
 CREATE TABLE category (
     id_category INT NOT NULL AUTO_INCREMENT,
     name_category VARCHAR(255) NOT NULL UNIQUE,
@@ -32,40 +31,34 @@ CREATE TABLE category (
 ) ENGINE=InnoDB;
 
 CREATE TABLE users (
-    id INT AUTO_INCREMENT PRIMARY KEY,
-    name VARCHAR(255) NOT NULL,
-    email VARCHAR(255) NOT NULL UNIQUE,
-    dob DATE NOT NULL,
-    terms_accepted BOOLEAN NOT NULL,
-    registration_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP
-);
-CREATE TABLE `users` (
-  `id_user` int NOT NULL AUTO_INCREMENT,
-  `name` varchar(100) NOT NULL,
-  `email` varchar(255) NOT NULL,
-  `dob` date NOT NULL,
-  `terms_accepted` tinyint(1) NOT NULL DEFAULT '0',
-  `registration_date` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  PRIMARY KEY (`id_user`),
-  UNIQUE KEY `email` (`email`)
-);
-SELECT * FROM users;
-SELECT id, name, email, dob, terms_accepted, registration_date from USERS;
-
-CREATE TABLE `history` (
-  `id_history` int NOT NULL AUTO_INCREMENT,
-  `users_id_user` int NOT NULL,
-  `stories_id` int NOT NULL,
-  `date_of_lecture` date NOT NULL,
-  `score` tinyint NOT NULL,
-  `rating` tinyint NOT NULL,
-  PRIMARY KEY (`id_history`),
-  KEY `fk_users_has_stories_stories1_idx` (`stories_id`),
-  KEY `fk_users_has_stories_users_idx` (`users_id_user`),
-  CONSTRAINT `fk_users_has_stories_stories1` FOREIGN KEY (`stories_id`) REFERENCES `stories` (`id`),
-  CONSTRAINT `fk_users_has_stories_users` FOREIGN KEY (`users_id_user`) REFERENCES `users` (`id_user`)
+  id_user INT NOT NULL AUTO_INCREMENT,
+  name VARCHAR(255) NOT NULL,
+  email VARCHAR(255) UNIQUE NOT NULL,
+  password VARCHAR(255) DEFAULT NULL, -- NULL para usuarios de Google
+  dob DATE DEFAULT NULL,
+  terms_accepted BOOLEAN DEFAULT FALSE,
+  privacy_accepted BOOLEAN DEFAULT FALSE,
+  is_verified BOOLEAN DEFAULT FALSE,
+  verification_token VARCHAR(255) DEFAULT NULL,
+  provider ENUM('local', 'google') DEFAULT 'local',
+  earned_stars INT DEFAULT 0,
+  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+  PRIMARY KEY (id_user)
 );
 
+CREATE TABLE history (
+  id_history INT NOT NULL AUTO_INCREMENT,
+  users_id_user INT NOT NULL,
+  stories_id INT NOT NULL,
+  date_of_lecture DATE NOT NULL,
+  PRIMARY KEY (id_history),
+  KEY fk_users_has_stories_stories1_idx (stories_id),
+  KEY fk_users_has_stories_users_idx (users_id_user),
+  CONSTRAINT fk_users_has_stories_stories1 FOREIGN KEY (stories_id) REFERENCES stories (id),
+  CONSTRAINT fk_users_has_stories_users FOREIGN KEY (users_id_user) REFERENCES users (id_user)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+Select * from users;
+SELECT * FROM history;
 INSERT INTO category (name_category) VALUES ('Story Selection'), ('Fairy Tales'), ('Animal Fables'), ('Bedtime stories');
 
 INSERT INTO stories (id, title, content, image, category_id) VALUES
