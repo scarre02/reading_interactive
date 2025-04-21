@@ -1,4 +1,7 @@
-/* styles-signup.css */
+/* styles-signup.css
+   Styles for the signup page of the Interactive Reading App.
+   Includes form layout, error handling, and Google auth button styling.
+*/
 
 /* Initially hide the input fields */
 .signup-page .input-group {
@@ -121,3 +124,5 @@
 #group-privacy {
     margin-bottom: 24px; 
 }
+
+

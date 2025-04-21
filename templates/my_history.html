@@ -2,6 +2,11 @@
 
 {% block title %}My Reading History{% endblock %}
 
+{% block head %}
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles-history.css') }}">
+{% endblock %}
+
+
 {% block content %}
 <h1>📚 These are the stories I've read</h1>
 

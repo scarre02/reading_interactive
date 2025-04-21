@@ -6,7 +6,7 @@
 <div style="text-align: center; padding: 50px;">
     <h1 style="font-size: 2.5rem;">Your email has been verified!</h1>
     <p style="font-size: 1.2rem;">Thank you for confirming your account.</p>
-    <p>You can now <a href="{{ url_for('login') }}" style="font-weight: bold; color: #2c7be5;">log in</a> and enjoy our interactive stories.</p>
+    <p>You can now <a href="{{ url_for('auth.login') }}" style="font-weight: bold; color: #2c7be5;">log in</a> and enjoy our interactive stories.</p>
     <img src="{{ url_for('static', filename='1.png') }}" alt="Success!" style="max-width: 200px; margin-top: 20px;">
 </div>
 {% endblock %}

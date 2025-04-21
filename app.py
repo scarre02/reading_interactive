@@ -1,34 +1,54 @@
-from flask import Flask, render_template, request, jsonify, redirect, url_for, session, Markup
-import mysql.connector
-import re
-import logging
+from flask import Flask, render_template, request, jsonify, redirect, url_for, session
+from markupsafe import Markup
+from datetime import date 
 from werkzeug.security import generate_password_hash, check_password_hash
-from datetime import date
+from authlib.integrations.flask_client import OAuth
+import mysql.connector
 import smtplib
+import secrets
+import logging
+import os
+import re
 from email.mime.text import MIMEText
 from email.mime.multipart import MIMEMultipart
-import secrets
-from dotenv import dotenv_values
-import os
-from dotenv import load_dotenv
+from dotenv import load_dotenv, dotenv_values
+
+
+
+import sys
+
+# --- Load environment variables ---
 load_dotenv()
 
+sys.path.append(os.path.dirname(os.path.abspath(__file__)))
 
-env = dotenv_values(".env")
+if os.getenv("FLASK_ENV") == "testing":
+    from config_test import db_config, EMAIL_USER, EMAIL_PASS
+else:
+    from config import db_config, EMAIL_USER, EMAIL_PASS 
 
 
-os.environ['SECRET_KEY'] = env.get('SECRET_KEY', '')
-os.environ['EMAIL_USER'] = env.get('EMAIL_USER', '')
-os.environ['EMAIL_PASSWORD'] = env.get('EMAIL_PASSWORD', '')
 
 
 def send_verification_email(email, token):
     print("Entering send_verification_email()")  # DEBUG
-    sender_email = os.getenv('EMAIL_USER')
-    sender_password = os.getenv('EMAIL_PASSWORD')
+    sender_email = EMAIL_USER
+    sender_password = EMAIL_PASS
+
+    #DEBUG app password
+    print("Using App Password length:", len(EMAIL_PASS))
+    print("First char:", repr(EMAIL_PASS[0]))
+    print("Last char:", repr(EMAIL_PASS[-1]))
+    print("EMAIL_PASS (raw):", repr(sender_password))
+    print("Length:", len(sender_password))
+
+
+
     subject = "Verify your account on Reading Interactive"
     verification_link = f"http://localhost:5001/verify/{token}"
-    print("Password loaded from .env:", sender_password)
+    print("Using sender:", sender_email)
+    print("Using App Password length:", len(sender_password))
+
 
     message = MIMEMultipart()
     message["From"] = sender_email
@@ -56,24 +76,20 @@ def send_verification_email(email, token):
 
 
 
-
+# --- Create Flask app ---
 app = Flask(__name__)
 app.secret_key = os.getenv('SECRET_KEY')  # uses the variable from .env
 
-db_config = {
-    'host': 'localhost',
-    'user': 'root',
-    'password': '1234',
-    'database': 'interactive_stories'
-}
+# --- Register Blueprints ---
+from auth.routes import auth_bp
+app.register_blueprint(auth_bp, url_prefix='/auth')
+
+
 
 logging.basicConfig(level=logging.DEBUG)
 
 
 
-
-# OAuth setup with Authlib
-from authlib.integrations.flask_client import OAuth
 
 oauth = OAuth(app)
 
@@ -137,7 +153,7 @@ def highlight_keywords(content, keywords):
     highlighted_content = content
     for index, word in enumerate(keywords):
         pattern = re.compile(rf'\b{re.escape(word)}\b', flags=re.IGNORECASE)
-        replacement = f'<span class="keyword" data-word="{word.lower()}">\g<0></span>'
+        replacement = rf'<span class="keyword" data-word="{word.lower()}">\g<0></span>'
         highlighted_content = pattern.sub(replacement, highlighted_content, count=1)
     return Markup(highlighted_content)
 
@@ -401,125 +417,11 @@ def update_progress():
         'show_feedback': words_left == 0
     })
 
-@app.route("/login", methods=["GET", "POST"])
-def login():
-    if request.method == "POST":
-        email = request.form.get("email")
-        password = request.form.get("password")
-
-        if not email or not password:
-            return render_template("login.html", error="Please fill in all fields.")
-
-        try:
-            conn = mysql.connector.connect(**db_config)
-            cursor = conn.cursor(dictionary=True)
-            cursor.execute("SELECT * FROM users WHERE email = %s AND provider='local'", (email,))
-            user = cursor.fetchone()
-
-            if user and check_password_hash(user['password'], password):
-                if not user['is_verified']:
-                    return render_template("login.html", error="Please verify your email before logging in.")
-
-                session['user_id'] = user['id_user']
-                session['user_email'] = user['email']
-                session['user_name'] = user['name']
-
-                return redirect(url_for("fairy_tales"))
-            else:
-                return render_template("login.html", error="Incorrect email or password.")
-
-        except mysql.connector.Error as err:
-            logging.error(f"Login error: {err}")
-            return render_template("login.html", error="Database error.")
-
-        finally:
-            cursor.close()
-            conn.close()
-
-    return render_template("login.html")
-
-@app.route('/signup', methods=['GET', 'POST'])
-def signup():
-    if request.method == 'POST':
-        name = request.form['name']
-        email = request.form['email']
-        dob = request.form['dob']
-        password = generate_password_hash(request.form['password'])
-        terms = request.form.get('terms') == 'on'
-        privacy = request.form.get('privacy') == 'on'
-
-        token = secrets.token_urlsafe(32)  # Generate verification token
-        print("Generated token:", token)    # debug
-
-        conn = mysql.connector.connect(**db_config)
-        cursor = conn.cursor()
-
-        try:
-            # Check if the email already exists
-            cursor.execute("SELECT * FROM users WHERE email = %s", (email,))
-            existing_user = cursor.fetchone()
-
-            if existing_user:
-                return render_template("signup.html", error="This email is already registered. Please log in or use a different one.")
-
-            # If not, create the new user
-            cursor.execute("""
-                INSERT INTO users (name, email, dob, password, terms_accepted, privacy_accepted, is_verified, verification_token, provider)
-                VALUES (%s, %s, %s, %s, %s, %s, FALSE, %s, 'local')
-            """, (name, email, dob, password, terms, privacy, token))
-            conn.commit()
-
-            print("Calling send_verification_email() from /signup")
-
-            try:
-                send_verification_email(email, token)
-            except Exception as e:
-                print("Error executing send_verification_email():", e)
-
-            return render_template("verify_notice.html")
-
-
-        finally:
-            cursor.close()
-            conn.close()
-
-    return render_template('signup.html')
-
-@app.route("/verify/<token>")
-def verify_email(token):
-    try:
-        conn = mysql.connector.connect(**db_config)
-        cursor = conn.cursor()
-
-        cursor.execute("SELECT id_user FROM users WHERE verification_token = %s", (token,))
-        result = cursor.fetchone()
-
-        if result:
-            cursor.execute("""
-                UPDATE users SET is_verified = TRUE, verification_token = NULL
-                WHERE verification_token = %s
-            """, (token,))
-            conn.commit()
-            return render_template("verification_success.html")
-        else:
-            return render_template("verification_failed.html")
-
-    except mysql.connector.Error as err:
-        logging.error(f"Verification error: {err}")
-        return "Database error."
-
-    finally:
-        if cursor:
-            cursor.close()
-        if conn and conn.is_connected():
-            conn.close()
-
-
 @app.route('/my_history')
 def my_history():
     user_id = session.get('user_id')
     if not user_id:
-        return redirect(url_for('login'))
+        return redirect(url_for('auth.login'))
 
     try:
         conn = mysql.connector.connect(**db_config)

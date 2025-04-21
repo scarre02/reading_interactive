@@ -43,27 +43,39 @@ It uses voice recognition to help users improve pronunciation and comprehension,
 
 ```bash
 .
-├── app.py                  # Main Flask application file  
+├── app.py                  # Main Flask application file
+├── config.py
+├── auth/
+│   ├── __init__.py
+│   └── routes.py           # Routes for /signup, /login, /verify
+├── utils/                  # Helper functions (email, token generation, validators)
+│   ├── __init__.py        
+│   ├── email.py            # Email sending
+│   └── utils.py            # Helper functions (tokens, validators)
 ├── requirements.txt        # List of dependencies 
-├── static
+├── static                  # Static files (CSS, JS, images)
 │   ├── style.css           # Stylesheets 
+│   ├── styles-history.css  # Stylesheets for my_history.html
 │   └── tts.js              # Frontend scripts  
-├── templates
-│   ├── base.html           
+├── templates               # HTML templates
+│   ├── base.html           # Main layout
 │   ├── index.html          # Main page 
 │   ├── fairy_tales.html  
 │   ├── animal_fables.html
 │   ├── bedtime_stories.html
 │   ├── about_us.html
-│   ├── story.html
+│   ├── story.html          # Story display with interaction
 │   ├── feedback.html
 │   ├── signup.html
 │   ├── login.html
 │   ├── privacy.html
 │   ├── terms.html
-│   └── 404.html
+│   └── 404.html            # Error page
+├── tests/
+│   └── test_signup.py      # Automated tests
 ├── README.md               # Documentation file 
-└── interactive_stories.sql
+└── interactive_stories.sql # SQL script to build the database
+└── .env                    # Sensitive variables
 ```
 
 ## Installation
@@ -116,7 +128,7 @@ Based on correct or incorrect attempts, feedback can be provided and the difficu
 
 ## Database Structure: 
 
-The database is called interactive_stories and consists of the following main tables:
+Include the structure in a .sql file with the tables users, stories, keywords, progress, etc. (see interactive_stories.sql).
 
 - **users**:  Stores information about registered users.
     Fields: id_user, name, email, dob, terms_accepted, registration_date
@@ -185,6 +197,7 @@ Integrate the files into the project's static/audios/ folder.
 
 ## Contact
 
+Project developed by Silvina Carrera as part of the dissertation for the BSc Data Science and Computing degree – Birkbeck, University of London.
 Author: Silvina Carrera Scholz
 
 Email: scarre02@student.bbk.ac.uk

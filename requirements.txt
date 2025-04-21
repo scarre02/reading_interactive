@@ -10,3 +10,4 @@ requests==2.32.3      # To make HTTP requests
 python-dotenv==1.0.1  # For managing environment variables  
 google-auth 
 google-auth-oauthlib
+Authlib==1.5.2

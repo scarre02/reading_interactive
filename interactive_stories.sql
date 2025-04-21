@@ -57,8 +57,8 @@ CREATE TABLE history (
   CONSTRAINT fk_users_has_stories_stories1 FOREIGN KEY (stories_id) REFERENCES stories (id),
   CONSTRAINT fk_users_has_stories_users FOREIGN KEY (users_id_user) REFERENCES users (id_user)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
-Select * from users;
-SELECT * FROM history;
+
+
 INSERT INTO category (name_category) VALUES ('Story Selection'), ('Fairy Tales'), ('Animal Fables'), ('Bedtime stories');
 
 INSERT INTO stories (id, title, content, image, category_id) VALUES

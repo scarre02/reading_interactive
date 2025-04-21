@@ -21,7 +21,7 @@ body::before {
     background-size: cover; /* Ensure the image covers the entire screen */
     background-position: center; /* Centre the image */
     background-repeat: no-repeat; /* Prevent the image from repeating */
-    opacity: 0.5; opacity: 0.5; /* Adjust the opacity (0.1 very transparent, 1 opaque) */
+    opacity: 0.5; /* Adjust the opacity (0.1 very transparent, 1 opaque) */
     z-index: -1; /* Ensure it stays behind the content */
 }
 

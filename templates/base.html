@@ -27,8 +27,8 @@
                 </div>
             {% else %}
 
-                <a href="{{ url_for('signup') }}" class="btn signup-btn">Create an account</a>
-                <a href="{{ url_for('login') }}" class="btn login-btn">Log in</a>
+                <a href="{{ url_for('auth.signup') }}" class="btn signup-btn">Create an account</a>
+                <a href="{{ url_for('auth.login') }}" class="btn login-btn">Log in</a>
                 
 
             {% endif %}
