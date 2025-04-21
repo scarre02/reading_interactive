@@ -1,0 +1,19 @@
+# Compiled Python files
+__pycache__/
+*.py[cod]
+
+# Virtual environment
+venv/
+
+# Env files
+.env
+
+# macOS system files
+.DS_Store
+
+# Static and template system files
+static/.DS_Store
+templates/.DS_Store
+
+# VSCode settings 
+.vscode/

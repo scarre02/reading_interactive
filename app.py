@@ -161,11 +161,20 @@ def get_story_by_id(id):
     conn = None
     cursor = None
     try:
+        print(f"🔍 Buscando story con id = {id}")
+
         conn = mysql.connector.connect(**db_config)
         cursor = conn.cursor(dictionary=True)
 
+        # ✅ Agregado para depurar
+        cursor.execute("SELECT id, title FROM stories")
+        rows = cursor.fetchall()
+        print(f"🧾 Historias encontradas en la tabla 'stories': {rows}")
+
+        # Ahora sí tu query por ID específico
         cursor.execute("SELECT * FROM stories WHERE id = %s", (id,))
         story = cursor.fetchone()
+        print(f"🎯 Resultado de story: {story}") 
         if not story:
             logging.warning(f"Story with ID {id} not found.")
             return None
@@ -348,6 +357,7 @@ def index():
 
 @app.route('/story/<int:story_id>')
 def story(story_id):
+    print(f"✅ Entrando a story() con story_id = {story_id}")
     story_data = get_story_by_id(story_id)
     if not story_data:
         return render_template('404.html'), 404
@@ -480,6 +490,37 @@ def logout():
 @app.route('/feedback')
 def feedback():
     return render_template('feedback.html')
+
+# Route for local debugging only — remove before deployment
+''' @app.route('/debug/db_check')
+def db_check():
+    try:
+        conn = mysql.connector.connect(**db_config)
+        cursor = conn.cursor(dictionary=True)
+
+        # Obtené historias
+        cursor.execute("SELECT id, title FROM stories")
+        stories = cursor.fetchall()
+
+        # Obtené nombre de la base conectada
+        cursor.execute("SELECT DATABASE() AS db_name")
+        db_name = cursor.fetchone()['db_name']
+
+        # Obtené ruta del socket usado
+        cursor.execute("SHOW VARIABLES LIKE 'socket'")
+        socket_info = cursor.fetchone()['Value']
+
+        return {
+            "db_status": "connected",
+            "db_name": db_name,
+            "socket": socket_info,
+            "stories_count": len(stories),
+            "stories": stories
+        }
+
+    except Exception as e:
+        return {"db_status": "error", "message": str(e)}'''
+
 
 if __name__ == "__main__":
     app.run(debug=True, port=5001)

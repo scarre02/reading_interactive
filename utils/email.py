@@ -1,13 +1,14 @@
 import smtplib
 from email.mime.text import MIMEText
 from email.mime.multipart import MIMEMultipart
-from dotenv import load_dotenv
+
 from config import EMAIL_USER, EMAIL_PASS 
 
-load_dotenv()
+
 
 
 def send_verification_email(email, token):
+    print("EMAIL_PASS loaded from config:", repr(EMAIL_PASS))
     sender_email = EMAIL_USER
     print("Using sender:", sender_email)
     sender_password = EMAIL_PASS
