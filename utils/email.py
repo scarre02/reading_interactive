@@ -1,14 +1,11 @@
 import smtplib
 from email.mime.text import MIMEText
 from email.mime.multipart import MIMEMultipart
-
 from config import EMAIL_USER, EMAIL_PASS 
-
-
-
 
 def send_verification_email(email, token):
     print("EMAIL_PASS loaded from config:", repr(EMAIL_PASS))
+
     sender_email = EMAIL_USER
     print("Using sender:", sender_email)
     sender_password = EMAIL_PASS
