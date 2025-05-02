@@ -25,32 +25,48 @@ def login():
         if not email or not password:
             return render_template("login.html", error="Please fill in all fields.")
 
+        conn = None
+        cursor = None
+
         try:
             conn = mysql.connector.connect(**db_config)
-            cursor = conn.cursor(dictionary=True)
-            cursor.execute("SELECT * FROM users WHERE email = %s AND provider='local'", (email,))
-            user = cursor.fetchone()
+            if conn.is_connected():
+                cursor = conn.cursor(dictionary=True)
+                cursor.execute("SELECT * FROM users WHERE email = %s AND provider='local'", (email,))
+                user = cursor.fetchone()
 
-            if user and check_password_hash(user['password'], password):
-                if not user['is_verified']:
-                    return render_template("login.html", error="Please verify your email before logging in.")
+                if user and check_password_hash(user['password'], password):
+                    if not user['is_verified']:
+                        return render_template("login.html", error="Please verify your email before logging in.")
 
-                session['user_id'] = user['id_user']
-                session['user_email'] = user['email']
-                session['user_name'] = user['name']
+                    session['user_id'] = user['id_user']
+                    session['user_email'] = user['email']
+                    session['user_name'] = user['name']
 
-                return redirect(url_for("fairy_tales"))  # Make sure this route exists
+                    return redirect(url_for("fairy_tales"))  # Asegurate de tener esta ruta
+                else:
+                    return render_template("login.html", error="Incorrect email or password.")
             else:
-                return render_template("login.html", error="Incorrect email or password.")
+                return render_template("login.html", error="Failed to connect to the database.")
 
         except mysql.connector.Error as err:
             logging.error(f"Login error: {err}")
             return render_template("login.html", error="Database error.")
         finally:
-            cursor.close()
-            conn.close()
+            try:
+                if cursor is not None:
+                    cursor.close()
+            except Exception as e:
+                logging.warning(f"Could not close cursor: {e}")
+
+            try:
+                if conn is not None and conn.is_connected():
+                    conn.close()
+            except Exception as e:
+                logging.warning(f"Could not close connection: {e}")
 
     return render_template("login.html")
+
 
 
 

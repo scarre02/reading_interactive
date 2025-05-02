@@ -29,13 +29,19 @@ It uses voice recognition to help users improve pronunciation and comprehension,
 ## Technologies Used
 
 - **Python + Flask**: Backend development and web application framework  
-- **Flask `url_for()`**: Static file referencing  
-- **MySQL + MySQL Workbench**: Database and admin tool  
-- **HTML, CSS, JavaScript**: Frontend structure and interactivity  
+- **Flask `url_for()`**: Static file referencing   
+- **MySQL + MySQL Workbench**: database for users, stories, and reading progress.
+- **HTML, CSS, and JavaScript**: construction of the web interface.
 - **Visual Studio Code**: Main development environment  
-- **Webkit API**: Voice recognition (real-time voice-to-text)  
-- **Python modules**: `re`, `json`, `logging`, etc.  
-- **Jinja2**: Flask’s templating engine
+- **Web Speech API (browser-based voice recognition)**: captures real-time pronunciation without storing audio.
+- **Jinja2 Templates**: dynamic rendering of stories.
+- **Google OAuth 2.0**: secure authentication via Google accounts.
+- **SMTP + Gmail App Passwords**: for email verification.
+- **dotenv (.env)**: secure management of sensitive environment variables.
+- **Blueprints (Flask modularization)**: organized and scalable code structure.
+- **Password hashing (Werkzeug)**: secure password storage.
+- **Parameterized queries (MySQL)**: prevention of SQL injection attacks.
+
 
 ---
 
@@ -44,6 +50,8 @@ It uses voice recognition to help users improve pronunciation and comprehension,
 ```bash
 .
 ├── app.py                  # Main Flask application file
+├── db/
+│   └── interactive_stories.sql # Initializate database
 ├── config.py
 ├── auth/
 │   ├── __init__.py
@@ -56,6 +64,7 @@ It uses voice recognition to help users improve pronunciation and comprehension,
 ├── static                  # Static files (CSS, JS, images)
 │   ├── style.css           # Stylesheets 
 │   ├── styles-history.css  # Stylesheets for my_history.html
+│   ├── favicon.ico
 │   └── tts.js              # Frontend scripts  
 ├── templates               # HTML templates
 │   ├── base.html           # Main layout
@@ -194,6 +203,11 @@ Download the generated audio files.
 Trim and adjust the audios as needed.
 
 Integrate the files into the project's static/audios/ folder.
+
+## Debugging Tools
+
+This project included a local-only debug route (`/debug/db_check`) to verify database connections and active story count. This route is disabled in production.
+
 
 ## Contact
 

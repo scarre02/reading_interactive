@@ -3,27 +3,56 @@
 {% block title %}index - Short Stories{% endblock %}
 
 {% block content %}
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
-</head>
-<body>
-
     {% if session.user_name %}
-        <h1>✨ Welcome {{ session.username }}! ✨</h1>
+        <h1>✨ Welcome, {{ session.user_name }}! ✨</h1>
         <p>We're happy to have you here at Reading Interactive.</p>
-    
     {% else %}
         <h1>✨ Welcome! ✨</h1>
         <p>Welcome to a universe of infinite imagination.</p>
         <p>Stories await you to discover new worlds and learn through play.</p>
-
     {% endif %}
 
-</body>
-</html>
+
+    <!-- Coverflow Carousel -->
+<div class="swiper mySwiper">
+    <div class="swiper-wrapper">
+      {% for i in range(1, 19) %}
+      <div class="swiper-slide">
+        <img src="{{ url_for('static', filename='story_' ~ i ~ '.webp') }}" alt="Story {{ i }}">
+      </div>
+      {% endfor %}
+    </div>
+  </div>
+  {% endblock %}
+
+  {% block scripts %}
+    {{ super() }}
+<script>
+  const swiper = new Swiper(".mySwiper", {
+    effect: "coverflow",
+    grabCursor: true,
+    centeredSlides: true,
+    slidesPerView: "auto",
+    loop: true,
+
+    // 💡 Autoplay
+    autoplay: {
+      delay: 2500, // tiempo entre slides (en ms)
+      disableOnInteraction: false, // sigue auto aunque el usuario interactúe
+    },
+
+    // 💡 Transición suave
+    speed: 800, // duración de la animación (en ms)
+
+    coverflowEffect: {
+      rotate: 50,
+      stretch: 0,
+      depth: 100,
+      modifier: 1,
+      slideShadows: true,
+    },
+  });
+</script>
+
 {% endblock %}
 
