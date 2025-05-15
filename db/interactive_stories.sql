@@ -1,6 +1,16 @@
+-- This file contains test queries to demonstrate the functionality
+-- of the interactive reading platform database, including user insertion,
+-- reading history tracking, and deletion operations.
+
 CREATE DATABASE interactive_stories;
 
 USE interactive_stories;
+
+CREATE TABLE category (
+    id_category INT NOT NULL AUTO_INCREMENT,
+    name_category VARCHAR(255) NOT NULL UNIQUE,
+    PRIMARY KEY (id_category)
+) ENGINE=InnoDB;
 
 CREATE TABLE stories (
     id INT AUTO_INCREMENT PRIMARY KEY,
@@ -22,12 +32,6 @@ CREATE TABLE story_keywords (
     PRIMARY KEY (story_id, keyword_id),
     FOREIGN KEY (story_id) REFERENCES stories(id) ON DELETE CASCADE,
     FOREIGN KEY (keyword_id) REFERENCES keywords(id) ON DELETE CASCADE
-) ENGINE=InnoDB;
-
-CREATE TABLE category (
-    id_category INT NOT NULL AUTO_INCREMENT,
-    name_category VARCHAR(255) NOT NULL UNIQUE,
-    PRIMARY KEY (id_category)
 ) ENGINE=InnoDB;
 
 CREATE TABLE users (
@@ -93,7 +97,7 @@ The moral of the story?<br>
 There is a time for work and a time for play. Those who plan ahead will not suffer when hard times come.', 'story_1.webp', 1);
 
 INSERT INTO keywords (id, keyword) VALUES 
-(1, 'violin'),(2, 'sunshine'),(1, 'snow'),(4, 'starving'),(5, 'future');
+(1, 'violin'),(2, 'sunshine'),(3, 'snow'),(4, 'starving'),(5, 'future');
 
 INSERT INTO stories (id, title, content, image, category_id) VALUES
 (2, 'The Brave Little Squirrel', 'In a vast and ancient forest, where the trees whispered secrets to the wind, lived a little squirrel named Pip.<br>
@@ -736,3 +740,59 @@ INSERT INTO story_keywords (story_id, keyword_id) VALUES
 (18, 88),  -- Relationship between story 18 and keyword 3
 (18, 89),  -- Relationship between story 18 and keyword 4
 (18, 90);  -- Relationship between story 18 and keyword 5
+
+-- =======================
+-- DEMO: Sample Operations
+-- =======================
+
+-- View all users in the system
+SELECT * FROM users;
+
+-- View all reading history records
+SELECT * FROM history;
+
+-- Show all users and their reading history
+SELECT users.id_user, users.email, history.id_history
+FROM users
+JOIN history ON users.id_user = history.users_id_user
+LIMIT 1000;
+
+-- Add a new test user
+INSERT INTO users (user_name, email, password_hash)
+VALUES ('Test User', 'test@example.com', 'hashedpassword');
+
+-- Simulate a story read by the test user (optional example)
+-- INSERT INTO history (users_id_user, story_id, reading_date)
+-- VALUES (LAST_INSERT_ID(), 1, CURDATE());
+
+-- Delete all reading history for a specific user
+DELETE history
+FROM history
+JOIN users ON users.id_user = history.users_id_user
+WHERE users.email = 'test@example.com';
+
+-- Delete the test user
+DELETE FROM users WHERE email = 'test@example.com';
+
+-- ==============================
+-- RESET DATABASE FOR TESTING
+-- ==============================
+
+-- Disable foreign key constraints temporarily
+SET FOREIGN_KEY_CHECKS = 0;
+
+-- Clear all records and reset auto-increment counters
+TRUNCATE TABLE users;
+
+-- Re-enable foreign key constraints
+SET FOREIGN_KEY_CHECKS = 1;
+
+-- ==============================
+-- DELETE HISTORY FOR SPECIFIC USER
+-- ==============================
+
+-- To delete everything a specific user has read
+DELETE FROM history WHERE users_id_user = 2;
+
+-- View what the user with ID 2 has read
+SELECT * FROM history WHERE users_id_user = 2;

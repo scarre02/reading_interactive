@@ -12,25 +12,23 @@ import re
 from email.mime.text import MIMEText
 from email.mime.multipart import MIMEMultipart
 from dotenv import load_dotenv, dotenv_values
-
-
-
 import sys
 
 # --- Load environment variables ---
 load_dotenv()
 
+# Add current directory to Python path
 sys.path.append(os.path.dirname(os.path.abspath(__file__)))
 
+# Load appropriate configuration based on environment
 if os.getenv("FLASK_ENV") == "testing":
     from config_test import db_config, EMAIL_USER, EMAIL_PASS
 else:
     from config import db_config, EMAIL_USER, EMAIL_PASS 
 
-
-
-
+# Function to send verification email to new users
 def send_verification_email(email, token):
+    # Build email content
     print("Entering send_verification_email()")  # DEBUG
     sender_email = EMAIL_USER
     sender_password = EMAIL_PASS
@@ -42,13 +40,10 @@ def send_verification_email(email, token):
     print("EMAIL_PASS (raw):", repr(sender_password))
     print("Length:", len(sender_password))
 
-
-
     subject = "Verify your account on Reading Interactive"
     verification_link = f"http://localhost:5001/verify/{token}"
     print("Using sender:", sender_email)
     print("Using App Password length:", len(sender_password))
-
 
     message = MIMEMultipart()
     message["From"] = sender_email
@@ -63,6 +58,7 @@ def send_verification_email(email, token):
     """
     message.attach(MIMEText(body, "html"))
 
+    # Connect to Gmail SMTP and send the email
     try:
         print("Connecting to Gmail SMTP...")
         with smtplib.SMTP("smtp.gmail.com", 587) as server:
@@ -74,25 +70,19 @@ def send_verification_email(email, token):
         print("Error sending email:", e)
 
 
-
-
-# --- Create Flask app ---
+# Create Flask app 
 app = Flask(__name__)
 app.secret_key = os.getenv('SECRET_KEY')  # uses the variable from .env
 
-# --- Register Blueprints ---
+# Register authentication routes using Blueprint
 from auth.routes import auth_bp
 app.register_blueprint(auth_bp, url_prefix='/auth')
 
-
-
+# Configure logging
 logging.basicConfig(level=logging.DEBUG)
 
-
-
-
+# OAuth2 configuration for Google login
 oauth = OAuth(app)
-
 google = oauth.register(
     name='google',
     client_id=os.getenv("GOOGLE_CLIENT_ID"),
@@ -103,11 +93,13 @@ google = oauth.register(
     }
 )
 
+# Handle Google login redirect
 @app.route('/google_login')
 def google_login():
     redirect_uri = url_for('google_callback', _external=True)
     return google.authorize_redirect(redirect_uri)
 
+# Handle Google callback and user session setup
 @app.route('/google/callback')
 def google_callback():
     token = google.authorize_access_token()
@@ -135,6 +127,7 @@ def google_callback():
             cursor.execute("SELECT * FROM users WHERE email = %s AND provider = 'google'", (email,))
             user = cursor.fetchone()
 
+        # Store user data in session
         session['user_id'] = user['id_user']
         session['user_email'] = user['email']
         session['user_name'] = user['name']
@@ -145,9 +138,7 @@ def google_callback():
 
     return redirect(url_for('index')) 
 
-
-
-
+# Custom Jinja2 filter to highlight specific keywords
 @app.template_filter('highlight_keywords')
 def highlight_keywords(content, keywords):
     highlighted_content = content
@@ -157,24 +148,25 @@ def highlight_keywords(content, keywords):
         highlighted_content = pattern.sub(replacement, highlighted_content, count=1)
     return Markup(highlighted_content)
 
+# Retrieve story and associated keywords by ID
 def get_story_by_id(id):
     conn = None
     cursor = None
     try:
-        print(f"🔍 Buscando story con id = {id}")
+        print(f"🔍  Looking for story with id = {id}")
 
         conn = mysql.connector.connect(**db_config)
         cursor = conn.cursor(dictionary=True)
 
-        # ✅ Agregado para depurar
+        # Added for debugging
         cursor.execute("SELECT id, title FROM stories")
         rows = cursor.fetchall()
-        print(f"🧾 Historias encontradas en la tabla 'stories': {rows}")
+        print(f"Stories found in the 'stories' table: {rows}")
 
-        # Ahora sí tu query por ID específico
+        # Query for specific ID
         cursor.execute("SELECT * FROM stories WHERE id = %s", (id,))
         story = cursor.fetchone()
-        print(f"🎯 Resultado de story: {story}") 
+        print(f"Story result: {story}") 
         if not story:
             logging.warning(f"Story with ID {id} not found.")
             return None
@@ -213,6 +205,7 @@ def get_story_by_id(id):
         if conn and conn.is_connected():
             conn.close()
 
+# Store reading history if not already recorded
 def save_to_history(user_id, story_id):
     try:
         conn = mysql.connector.connect(**db_config)
@@ -351,13 +344,14 @@ def process_speech():
             "words_left": total - current_index
         })
 
+# Routes for main application functionality (index, stories, progress, etc.)
 @app.route("/")
 def index():
     return render_template("index.html")
 
 @app.route('/story/<int:story_id>')
 def story(story_id):
-    print(f"✅ Entrando a story() con story_id = {story_id}")
+    print(f"Entering story() with story_id = {story_id}")
     story_data = get_story_by_id(story_id)
     if not story_data:
         return render_template('404.html'), 404
@@ -498,15 +492,15 @@ def db_check():
         conn = mysql.connector.connect(**db_config)
         cursor = conn.cursor(dictionary=True)
 
-        # Obtené historias
+        # Retrieve stories
         cursor.execute("SELECT id, title FROM stories")
         stories = cursor.fetchall()
 
-        # Obtené nombre de la base conectada
+        # Retrieve connected database name
         cursor.execute("SELECT DATABASE() AS db_name")
         db_name = cursor.fetchone()['db_name']
 
-        # Obtené ruta del socket usado
+        # Retrieve socket path used
         cursor.execute("SHOW VARIABLES LIKE 'socket'")
         socket_info = cursor.fetchone()['Value']
 
@@ -521,7 +515,7 @@ def db_check():
     except Exception as e:
         return {"db_status": "error", "message": str(e)}'''
 
-
+# Run the Flask app locally
 if __name__ == "__main__":
     app.run(debug=True, port=5001)
 

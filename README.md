@@ -53,6 +53,7 @@ It uses voice recognition to help users improve pronunciation and comprehension,
 ├── db/
 │   └── interactive_stories.sql # Initializate database
 ├── config.py
+├── config_test.py
 ├── auth/
 │   ├── __init__.py
 │   └── routes.py           # Routes for /signup, /login, /verify

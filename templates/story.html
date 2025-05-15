@@ -5,13 +5,19 @@
 
 {% block content %}
 <h1>{{ story.title }}</h1>
+
+{# Display the associated image for the story #}
 <img src="{{ url_for('static', filename=story.image) }}" class="small-image">
 
+{# Render the story content with highlighted keywords using a custom filter #}
 <div id="story-content">
     {{ story.content | highlight_keywords(story.words) | safe }}
 </div>
 
+{# Main interaction container: keyword list, pronunciation tracking, feedback #}
 <div class="interaction-container">
+
+    {# Display the list of keywords the user will pronounce #}
     <div class="keywords-box">
         <h2>Keywords:</h2>
         <ul id="keyword-list">
@@ -21,6 +27,7 @@
         </ul>
     </div>
 
+    {# Section to track user’s pronunciation progress #}
     <div class="progress-section">
         <h2>Word to Pronounce:</h2>
         <p id="current-word">
@@ -38,14 +45,17 @@
         <p>Correct words pronounced: <span id="correct-count">0</span></p>
         <p>Incorrect words pronounced: <span id="incorrect-count">0</span></p>
         <p>Words left: <span id="words-left">{{ story.words|length }}</span></p>
+        {# List to optionally display correctly pronounced words #}
         <ul id="correct-words-list"></ul>
     </div>
 
+    {# Button to trigger the speech recognition functionality #}
     <div class="button-container">
         <button id="start-recognition" onclick="startSpeechRecognition()">Speak</button>
     </div>
 </div>
 
+{# JavaScript for speech recognition, real-time feedback, and UI updates #}
 <script>
 // Store DOM references once for better performance
 const UI = {
@@ -57,7 +67,7 @@ const UI = {
     correctWordsList: document.getElementById("correct-words-list")
 };
 
-
+// Function to update the user interface with response data
 function updateUI(data) {
     
     // Remove ALL existing highlights
@@ -80,6 +90,8 @@ function updateUI(data) {
         document.querySelectorAll(`[data-word="${targetWord}"]`).forEach(span => {
             span.classList.add('highlight-word');
         });
+
+    // If all words were pronounced, save history and redirect to feedback
     } else if (data.words_left === 0) {
     UI.currentWord.innerText = "All words pronounced!";
     fetch('/save_history', {
@@ -106,16 +118,19 @@ function updateUI(data) {
 
 }
 
+// Function to initiate browser-based speech recognition
 function startSpeechRecognition() {
     const recognition = new (window.SpeechRecognition || window.webkitSpeechRecognition)();
     recognition.lang = "en-US";
     recognition.start();
 
+    // Event triggered when speech is recognized
     recognition.onresult = function(event) {
         const spokenWord = event.results[0][0].transcript.trim().toLowerCase();
         // Show what was recognized immediately for better UX
         UI.recognizedWord.innerText = spokenWord;
         
+        // Send recognized word to server for validation
         fetch('/update_progress', {
             method: 'POST',
             headers: {'Content-Type': 'application/json'},
@@ -130,6 +145,7 @@ function startSpeechRecognition() {
         });
     };
 
+    // Handle recognition errors
     recognition.onerror = function(event) {
         alert("Speech recognition error: " + event.error);
     };

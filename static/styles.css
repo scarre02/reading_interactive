@@ -1,13 +1,19 @@
 @import url('https://fonts.googleapis.com/css2?family=Lobster&display=swap');
+
 /* General Styles */
 body {
-    font-family: Arial, sans-serif;
+    font-family: 'Quicksand', sans-serif;
+    font-size: 18px;
+    line-height: 1.6;
+    color: #000000;
     margin: 0;
     padding: 0;
     display: flex;
     flex-direction: column;
     min-height: 100vh;
 }
+
+
 
 /* Add an overlay over the background */
 body::before {
@@ -25,18 +31,17 @@ body::before {
     z-index: -1; /* Ensure it stays behind the content */
 }
 
-header {
-    display: Lobster; /* Enable Flexbox */
-    justify-content: space-between; /* Space elements as far apart as possible */
-    align-items: center; /* Align elements vertically to the centre */
+.header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
     background-color: #D2B48C;
-    color: #654a02;
-    padding: 20px 40px; /*Adjust padding as needed */
-}
-
+    padding: 20px 40px;
+  }
+  
 .header h1 {
     
-    font-family: 'Almendra Display', cursive;
+    font-family: cursive;
     font-size: 4.5rem;
     font-weight: bold;
     text-transform: uppercase; 
@@ -44,6 +49,20 @@ header {
     padding: 0; /* Remove padding */
     text-shadow: 3px 3px 10px rgba(0, 0, 0, 0.3); /* Shadow effect to make it more eye-catching */
     color:#5a3600;
+}
+
+.logo-section {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.tagline {
+    font-size: 1.6rem;
+    margin-top: 12px;
+    color: #5a3600;
+    font-family: 'Quicksand', sans-serif;
+    font-weight: 500;
 }
 
 /* Specific styles for header buttons. */
@@ -88,7 +107,6 @@ header {
     justify-content: center; /* Centers the content horizontally within the container */
     align-items: center; /* Centers the child elements vertically within the container */
     height: calc(100vh - 100px); /* Sets the height of the container to fill the full viewport height */
-    height: calc(100vh - 100px); /* Repeats the height calculation for redundancy, but only one of these is necessary */
 }
 .story-content {
     font-size: 1rem;
@@ -116,14 +134,20 @@ header {
     width: 100%;
     max-width: 1200px;
     background-color: #fff6d0;
-    padding: 40px;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-    margin: 0 auto;
+    padding: 60px 40px;
+    margin: 40px auto; /* Agrega espacio entre el header y el contenido */
+    border-radius: 20px; /* Esquinas redondeadas */
+    box-shadow: 0 8px 16px rgba(0,0,0,0.1);
+
+
     display: flex;
     flex-direction: column; /* Stacks child elements vertically */
     align-items: center; /* Centers children horizontally */
-    gap: 20px; /* Space between child elements */
     justify-content: center;
+    gap: 30px; /* Space between child elements */
+    border-radius: 20px;
+
+    animation: fadeIn 0.8s ease-in-out; /* Sutil animación al aparecer */
 }
 .image-container {
     display: grid;
@@ -246,29 +270,6 @@ footer {
     height: auto; /* Maintains the natural proportion of the image */
 }
 
-
-/* Responsive Styles to make your website look good on mobile devices */
-
-@media (max-width: 768px) {
-    .image-container {
-        flex-direction: column; /* Places the images in a single column */
-        align-items: center;
-    }
-
-    .image-container img {
-        width: 80%; /* Increases the size of images on small screens */
-    }
-
-    .main-content {
-        padding: 10px; /* Reduces the padding on small screens */
-    }
-
-    .login-btn {
-        width: 100%; /* Makes the button take up 100% of the width on small screens */
-        padding: 12px 20px;
-        float: right;
-    }
-}
 
 .input-fields {
     display: block; /* Display the input fields by default. */
@@ -443,11 +444,6 @@ span {
 }
 
 
-
-
-
-
-
 .signup-page .input-group {
     display: none;
     margin-top: 20px;
@@ -464,7 +460,9 @@ span {
     width: 100%;
     max-width: 600px;
     height: 300px;
-    margin: 40px auto;
+    margin: 10px auto 10px auto;
+    padding-bottom: 0;
+    
   }
   
   .swiper-slide {
@@ -501,3 +499,46 @@ span {
       transform: translateY(0);
     }
   }
+
+.after-carousel {
+    margin-top: 5px;
+    text-align: center;
+    padding: 0;
+    background: none;
+    box-shadow: none;
+    border-radius: 0;
+
+}
+
+/* Style for the heading under the carousel */
+.after-carousel h2 {
+    font-size: 2em;
+    color: #5a0000;
+    margin-bottom: 8px;
+    font-family: 'Quicksand', sans-serif;
+}
+
+/* Style for the paragraph text under the heading */
+.after-carousel p {
+    font-size: 1.2em;
+    color: #333;
+    margin-bottom: 12px;
+    font-family: 'Quicksand', sans-serif;
+}
+
+/* Style for the button below the text */
+.after-carousel .btn {
+    background-color: #c0392b;
+    color: rgb(255, 255, 255);
+    font-size: 1.1em;
+    padding: 12px 24px;
+    border-radius: 10px;
+    text-decoration: none;
+    transition: background-color 0.3s ease;
+}
+
+/* Button hover effect */
+.after-carousel .btn:hover {
+    background-color: #a83224;
+}
+

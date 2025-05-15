@@ -4,11 +4,11 @@
 
 {% block content %}
     {% if session.user_name %}
-        <h1>✨ Welcome, {{ session.user_name }}! ✨</h1>
+  
+        <h1>✨Welcome,   {{ session.user_name }}! ✨</h1>
         <p>We're happy to have you here at Reading Interactive.</p>
     {% else %}
-        <h1>✨ Welcome! ✨</h1>
-        <p>Welcome to a universe of infinite imagination.</p>
+        <h1>✨Welcome to a universe of infinite imagination.✨</h1>
         <p>Stories await you to discover new worlds and learn through play.</p>
     {% endif %}
 
@@ -22,7 +22,14 @@
       </div>
       {% endfor %}
     </div>
-  </div>
+</div>  
+    <div class="after-carousel">
+        <h3>Start Your Reading Adventure</h3>
+        <p>Choose a story, click on the Speak button, and practice your pronunciation while you play and learn.</p>
+        <a href="{{ url_for('fairy_tales') }}" class="btn">Explore Stories</a>
+    </div>
+        
+
   {% endblock %}
 
   {% block scripts %}
@@ -37,12 +44,12 @@
 
     // 💡 Autoplay
     autoplay: {
-      delay: 2500, // tiempo entre slides (en ms)
-      disableOnInteraction: false, // sigue auto aunque el usuario interactúe
+      delay: 2500, // time between slides
+      disableOnInteraction: false, 
     },
 
-    // 💡 Transición suave
-    speed: 800, // duración de la animación (en ms)
+    // 💡 soft transition
+    speed: 800, // animation duration
 
     coverflowEffect: {
       rotate: 50,
@@ -53,6 +60,7 @@
     },
   });
 </script>
+
 
 {% endblock %}
 

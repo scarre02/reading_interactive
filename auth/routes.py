@@ -43,7 +43,7 @@ def login():
                     session['user_email'] = user['email']
                     session['user_name'] = user['name']
 
-                    return redirect(url_for("fairy_tales"))  # Asegurate de tener esta ruta
+                    return redirect(url_for("index"))  
                 else:
                     return render_template("login.html", error="Incorrect email or password.")
             else:
